@@ -1,0 +1,68 @@
+<ng-container *ngIf="currentModule == 'home' && isUserLoggedIn">
+
+<div class="top-cards-main">
+
+    <!-- Card B -->
+    <div class="card-b-main">
+        <div class="cb-left-box">
+            <div class="cb-lb-profile">
+                <scrm-image image="c2-profile"></scrm-image>
+            </div>
+            <div class="cb-lb-text">
+                <div class="cb-lb-name">Hello John!</div>
+                <div class="cb-lb-desc">Here's your overview this week</div>
+            </div>
+        </div>
+        <div class="cb-right-box">
+
+            <!-- Export button -->
+            <div class="rb-export-btn">
+                <div class="rb-export-icon">
+                    <scrm-image image="c2-export"></scrm-image>
+                </div>
+                <div class="rb-export-text">Export</div>
+            </div>
+
+            <!-- Print button -->
+            <div class="rb-print-btn">
+                <div class="rb-print-icon">
+                    <scrm-image image="c2-print"></scrm-image>
+                </div>
+                <div class="rb-print-text">Print</div>
+                <div class="rb-print-arrow">
+                    <scrm-image class="ln-icon-size" image="arrowd_t"></scrm-image>
+                </div>
+            </div>
+
+            <!-- Filter button -->
+            <div class="rb-filter-btn">
+                <div class="rb-filter-icon">
+                    <scrm-image image="c2-filter"></scrm-image>
+                </div>
+            </div>
+
+            <!-- Search Box -->
+            <div class="rb-search-box">
+                <scrm-image class="rb-search-icon" image="c2-search"></scrm-image>
+                <input class="rb-search-input" type="text" placeholder="Search">  <!-- [(ngModel)]="searchText"> -->
+            </div>
+        </div>  
+    </div>
+
+    <!-- Card A -->
+    <div class="card-a-main">
+        <div class="card-a-body">
+            <div class="abody-heading">
+                Welcome to ProARM
+            </div>
+            <div class="abody-text">
+                Say goodbye to complexity and embrace a streamlined approach to manage 
+                your dashboards, integrate CRM, create stunning websites, and take control 
+                of your business panels, All in one place!
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</ng-container>

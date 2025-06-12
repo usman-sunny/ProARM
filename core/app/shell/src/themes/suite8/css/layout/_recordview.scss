@@ -1,0 +1,594 @@
+/**
+ * SuiteCRM is a customer relationship management program developed by SalesAgility Ltd.
+ * Copyright (C) 2021 SalesAgility Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Affero General Public License version 3 as published by the
+ * Free Software Foundation with the addition of the following permission added
+ * to Section 15 as permitted in Section 7(a): FOR ANY PART OF THE COVERED WORK
+ * IN WHICH THE COPYRIGHT IS OWNED BY SALESAGILITY, SALESAGILITY DISCLAIMS THE
+ * WARRANTY OF NON INFRINGEMENT OF THIRD PARTY RIGHTS.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * In accordance with Section 7(b) of the GNU Affero General Public License
+ * version 3, these Appropriate Legal Notices must retain the display of the
+ * "Supercharged by SuiteCRM" logo. If the display of the logos is not reasonably
+ * feasible for technical reasons, the Appropriate Legal Notices must display
+ * the words "Supercharged by SuiteCRM".
+ */
+
+.record-view {
+  //padding-top: 3em;
+  width: 100%;
+  margin: 0;
+}
+
+.record-view-position-sticky {
+  position: sticky;
+  top: 3em;
+  z-index: 500;
+  min-height: 44px
+}
+
+.record-view-header {
+  background-color: #FBFBFA;
+  border-bottom: 0.03em solid transparent;
+  padding-top: 0.5em;
+  padding-bottom: 1.5em;
+}
+
+.record-view-header-scrolled {
+  padding-bottom: 0.3em;
+}
+
+.record-view-hr {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.record-view-hr-container {
+  font-size: 0.85em;
+  padding-top: 0.6em;
+  padding-left: 1.6em;
+  padding-right: 1.6em;
+}
+
+.record-widget-container {
+  padding-top: 0.2em;
+}
+
+@media all and (min-width: $breakpoint-large) {
+  .record-view-hr-container {
+    font-size: 0.85em;
+    padding: 0.2em 1.6em 0.3em;
+  }
+}
+
+@media all and (max-width: 765px) {
+
+  .record-view-name-header,
+  .record-view-back-button-container,
+  .record-view-action-header
+  {
+    justify-content: center;
+  }
+
+  .record-view-name,
+  .record-view-name-scrolled {
+    justify-content:center;
+    position: relative;
+    margin-right:10%;
+  }
+
+}
+
+@media all and (min-width: 766px) {
+  .record-view-action-header {
+    justify-content: end;
+  }
+
+  .record-view-back-button-container {
+    padding-left: 1rem;
+  }
+
+}
+
+.record-view-title {
+  color: $shell-grey;
+  font-size: 1em;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-left: 1.37rem;
+}
+
+.record-view-title.title-font {
+  font-size: 1.4em;
+}
+
+.record-view-name {
+  color: $median-grey;
+  font-size: 1.5em;
+  word-wrap: break-word;
+  word-break: break-all;
+  font-weight: 500;
+}
+
+.record-view-name-scrolled {
+  color: $median-grey;
+  font-size: 1.5em;
+  word-wrap: break-word;
+  word-break: break-all;
+
+}
+
+//.record-view-name-wrapper {
+  //margin-top: 0.5em
+//}
+
+//.record-view-name-wrapper-margin-left {
+  //margin-left: 2.7em;
+//}
+
+.record-view-name-label {
+  margin-right: 1.8rem;
+}
+
+.record-view-actions {
+  margin: 0;
+  text-align: end;
+}
+
+.record-view-actions-scrolled {
+  margin: 0;
+  text-align: end;
+}
+
+
+
+/*** Non Native Code ***/ 
+
+
+// Detail View Header
+.detail-head-container {
+  width: 100%;
+  height: 7em;
+  padding: 22px 15px 0px 15px;  
+
+  .list-head-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 5em;
+    background-color: #FFFFFF;
+    border: 1px solid #E0E6ED;
+    padding: 1em;
+
+    .lh-left-box {
+      display: flex;
+      flex-grow: 1;
+      align-items: center;
+      gap: 0.75em;
+
+      .lh-back-btn {
+        width: 2.5em;
+        height: 2.5em;
+        padding: 0.625em;
+        border: 1px solid #CFD1D3;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          border-color: #54A5A7;
+        }
+
+        .lh-back-icon {
+          width: 1.25em;
+          height: 1.25em;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      .lh-insights-btn {
+        width: 10em;
+        height: 2.5em;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        padding: 0.5em 0.75em;
+        border: 1px solid #CFD1D3;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+            border-color: #54A5A7;
+        }
+
+        .lh-insights-icon {
+          width: 1.25em;
+          height: 1.25em;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .lh-insights-text {
+          width: 7em;
+          height: 1.5em;
+          font-family: "Inter", sans-serif;
+          font-size: 1em;
+          font-weight: 400;
+          color: #3D3E5C;
+        }
+      }
+    }
+
+    .lh-right-box {
+      width: 35em;
+      height: 2.5em;
+      display: flex;
+      align-items: center;
+      gap: 0.75em;
+
+      .rb-export-btn {
+        width: 6.45em;
+        height: 2.5em;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        padding: 0.5em 0.75em;
+        border: 1px solid #CFD1D3;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+          border-color: #54A5A7;
+        }
+
+        .rb-export-icon {
+          width: 1.25em;
+          height: 1.25em;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .rb-export-text {
+          width: 3.188em;
+          height: 1.5em;
+          font-family: "Inter", sans-serif;
+          font-size: 1em;
+          font-weight: 400;
+          color: #3D3E5C;
+        }
+      }
+
+      .rb-print-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        padding: 0.5em 0.75em;
+        border: 1px solid #CFD1D3;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+          border-color: #54A5A7;
+        }
+
+        .rb-print-icon {
+          width: 1.25em;
+          height: 1.25em;
+          display: flex;
+          align-items: center;
+
+          svg {
+            width: 1.25em;
+            height: 1.25em;
+          }
+        }
+
+        .rb-print-text {
+          width: 2.25em;
+          height: 1.5em;
+          font-family: "Inter", sans-serif;
+          font-size: 1em;
+          font-weight: 400;
+          color: #3D3E5C;
+        }
+
+        .rb-print-arrow {
+          width: 1.25em;
+          height: 1.25em;
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      .rb-filter-btn {
+        display: flex;
+        align-items: center;
+        padding: 0.625em;
+        border: 1px solid #CFD1D3;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+            border-color: #54A5A7;
+        }
+
+        .rb-filter-icon {
+            width: 1.25em;
+            height: 1.25em;
+            display: flex;
+            align-items: center;
+        }
+      }
+
+      .rb-search-box {
+        width: 11.25em;
+        height: 2.5em;
+        position: relative;
+        display: inline-block;
+
+        .rb-search-icon {
+          position: absolute;
+          left: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        .rb-search-input {
+          width: 100%;
+          height: 100%;
+          padding: 0.5em 1.5em 0.5em 2.5em;
+          border: 1px solid #CFD1D3;
+          border-radius: 6px;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+// Action button and Dropdown
+.lh-action-btn {
+  display: inline-block;
+  position: relative;
+
+  &:hover .lh-drop-content {
+    display: block;
+  }
+
+  .lh-import {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.5rem;
+    width: 6.5rem;
+    border: 1px solid #CFD1D3;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+
+    &:hover {
+      border-color: #54A5A7;
+      background-color: #F4F7F6;
+    }
+
+    .lh-import-title {
+      color: #3D3E5C;
+    }
+  }
+
+  .lh-break-row {
+    width: 100%;
+    border: 1px solid #ECEDEE;
+  }
+
+  .lh-drop-content {
+    display: none;
+    position: absolute;
+    right: 0px;
+    width: 13.313em;
+    //height: 12em;
+    background-color: #FFFFFF;
+    padding: 0.25em;
+    border-radius: 6px;
+    box-shadow: 0px 4px 8px #1018280F;
+    z-index: 1200;
+
+    .lh-drop-body {
+      width: 100%;
+      //height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      .lh-bd-text {
+        width: 100%;
+        height: 2.5em;
+        padding: 0.625em 1em;
+
+        &:hover {
+          background-color: #F4F7F6;
+          cursor: pointer;
+        }
+
+        div {
+          width: 13em;
+          height: 1.25em;
+          font-family: "Inter", sans-serif;
+          font-size: 0.875em;
+          font-weight: 500;
+          color: #3D3E5C;
+        }
+      }  
+    }
+  } 
+}
+
+
+//.pd-rh-btns {
+  //border-right: unset !important;
+//}
+
+.record-padd-btm {
+  padding-bottom: 0.5em;
+}
+
+.pd-strong-tag-cstm {
+  font-weight: 400 !important;
+  font-family: 'Inter' !important;
+  color: #4E5671;
+  padding-left: 1rem;
+}
+
+.pd-cstm-list-value {
+  padding-left: 1rem;
+  font-family: 'Inter' !important;
+  font-weight: 400 !important;
+  font-size: 1.25rem !important;
+  color: #0E1726 !important;
+  padding-top: 0.375rem;
+  padding-bottom: 0.5rem;
+
+  a {
+    color: #0E1726 !important;
+  }
+
+  a.clickable {
+    color: #0E1726 !important;
+  }
+  
+  a.clickable:hover {
+    color: #0E1726 !important;
+  }
+}
+
+// edit view labels font
+.pd-font-weight-bold {
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: #060818;
+}
+
+.cstm-add-email-btn {
+  width: 87px;
+  height: 32px;
+  border: 1px solid #CFD1D3;
+  border-radius: 6px;
+  background-color: unset !important;
+  color: #3D3E5C;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: Inter;
+  margin-bottom: 1rem;
+  margin-left: unset !important;
+
+  &:hover {
+    border-color: #54A5A7;
+  }
+}
+
+.cstm-delete-email-btn {
+  background-color: unset !important;
+  border: 1px solid #FFE1E2;
+  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4.2rem !important;
+
+  &:hover {
+    border-color: #FF4D4F;
+  }
+}
+
+.cstm-edit-btn {
+  width: 5.25rem;
+  background-color: unset;
+  border: 1px solid #CFD1D3;
+  border-radius: 6px;
+  color: #3D3E5C;
+  padding: 6px 10px;
+
+  &:hover {
+    border-color: #54A5A7;
+    cursor: pointer;
+  }
+}
+
+.composite-field-wrapper.field-group .flex-fill span label{
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: #060818 !important;
+}
+
+.composite-field-wrapper.field-group .flex-fill span input {
+  width: 76rem !important;
+}
+
+.cstm-email-wrap {
+  flex-wrap: wrap !important;
+}
+
+.cstm-edit-view-btns {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  .cstm-edit-view-save-btn {
+    width: 8rem;
+    height: 2.5rem;
+    background-color: #449596;
+    color: #FFFFFF;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+    font-family: Inter;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .cstm-edit-view-cancel-btn {
+    width: 8rem;
+    height: 2.5rem;
+    color: #3D3E5C;
+    border: 1px solid #CFD1D3;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+    font-family: Inter;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

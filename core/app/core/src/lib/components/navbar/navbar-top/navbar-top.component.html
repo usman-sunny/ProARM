@@ -1,0 +1,171 @@
+<div *ngIf="isUserLoggedIn" class="navbar-top">
+
+    <div class="nav-top-title">
+        <div class="top-title">
+            <ng-container *ngIf="navbar?.current">
+                {{ navbar?.current?.link?.label }}
+            </ng-container>
+            <ng-container *ngIf="!navbar?.current">
+                Home
+            </ng-container>
+        </div>
+        <div class="top-subtitle">
+            ProARM
+        </div>
+    </div>
+    
+    <div class="navt-action-btns">
+
+        <div class="navt-btns">
+            <div class="navt-search icon-clr">
+                <scrm-image class="ln-icon-size" image="search_t"></scrm-image>
+            </div>
+            <div (click)="toggleRightPanel('notes')" class="navt-notes icon-clr">
+                <scrm-image class="ln-icon-size" image="notes_t"></scrm-image>
+            </div>
+            <div class="navt-message icon-clr">
+                <scrm-image class="ln-icon-size" image="message_t"></scrm-image>
+            </div>
+
+            <!-- Recent button and dropdown -->
+            <div class="navt-recent">
+                <div class="recent-drop-button">
+                    <scrm-image class="ln-icon-size" image="recent_t"></scrm-image>
+                </div>
+                <div class="recent-drop-content">
+                    <div class="recent-dcontent-1">
+                        <div class="rc-drop-head">
+                            Recently viewed
+                        </div>
+                        <div class="rc-break-row"></div>
+                        <div class="rc-drop-body">
+                            <div class="rc-body-1">
+                                <ng-container *ngFor="let item of recentlyViewed.source.source.source._value.globalRecentlyViewed | slice:0:4">
+                                    <a href="#/{{item.attributes.module_name | lowercase}}/record/{{item.attributes.item_id}}" class="rc-body-items">
+                                        <div class="rc-body-icon">
+                                            <scrm-image image="{{item.attributes.module_name}}"></scrm-image>
+                                        </div>
+                                        <div class="rc-body-text">{{item.attributes.module_name}}</div>
+                                    </a>
+                                </ng-container>
+                                <!-- <div class="rc-body-items">
+                                    <div class="rc-body-icon">
+                                        <scrm-image image="rc-home"></scrm-image>
+                                    </div>
+                                    <div class="rc-body-text">Home</div>
+                                </div>
+                                <div class="rc-body-items">
+                                    <div class="rc-body-icon">
+                                        <scrm-image image="rc-plus"></scrm-image>
+                                    </div>
+                                    <div class="rc-body-text">Create Accounnt</div>
+                                </div>
+                                <div class="rc-body-items">
+                                    <div class="rc-body-icon">
+                                        <scrm-image image="rc-documents"></scrm-image>
+                                    </div>
+                                    <div class="rc-body-text">Documents</div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create button and dropdown -->
+            <div class="navt-create">
+                <div class="crt-drop-btn">
+                    <scrm-image class="ln-icon-size" image="create_t"></scrm-image>
+                </div>
+                <div class="crt-dropdown-content">
+                    <div class="crt-dropdown-1">
+                        <div class="crt-head">
+                            <div class="crt-head-text">Quick actions</div>
+                            <div class="crt-head-icon">
+                                <scrm-image image="crt-pencil"></scrm-image>
+                            </div>
+                        </div>
+                        <div class="crt-break-row"></div>
+                        <div class="crt-body">
+                            <ng-container *ngIf="!navbar?.current">
+                                <a href="#/accounts/edit?return_module=Accounts&return_action=DetailView" class="crt-body-content">
+                                    <div class="crt-body-text">Create Account</div>
+                                </a>
+                                <div class="crt-body-br"></div>
+                                <a href="#/contacts/edit?return_module=Contacts&return_action=DetailView" class="crt-body-content">
+                                    <div class="crt-body-text">Create Contacts</div>
+                                </a>
+                                <div class="crt-body-br"></div>
+                                <a href="#/opportunities/edit?return_module=Opportunities&return_action=DetailView" class="crt-body-content">
+                                    <div class="crt-body-text">Create Opportunities</div>
+                                </a>
+                                <div class="crt-body-br"></div>
+                                <a href="#/leads/edit?return_module=Leads&return_action=DetailView" class="crt-body-content">
+                                    <div class="crt-body-text">Create Leads</div>
+                                </a>
+                                <div class="crt-body-br"></div>
+                                <a href="#/documents/edit?return_module=Documents&return_action=DetailView" class="crt-body-content">
+                                    <div class="crt-body-text">Create Documents</div>
+                                </a>
+                                <div class="crt-body-br"></div>
+                                <a href="#/calls/edit?return_module=Calls&return_action=DetailView" class="crt-body-content">
+                                    <div class="crt-body-text">Create Calls</div>
+                                </a>
+                                <div class="crt-body-br"></div>
+                                <a href="#/tasks/edit?return_module=Tasks&return_action=DetailView" class="crt-body-content">
+                                    <div class="crt-body-text">Create Tasks</div>
+                                </a>
+                                <div class="crt-body-br"></div>
+                            </ng-container>
+
+                            <ng-container *ngIf="navbar?.current">
+                                <ng-container *ngFor="let item of navbar?.current?.submenu; let i = index">
+                                    <a [routerLink]="item?.link?.route" [queryParams]="item?.link?.params" class="crt-body-content">
+                                        <div class="crt-body-text">{{item?.link?.label}}</div>
+                                    </a>
+                                    <div class="crt-body-br"></div>
+                                </ng-container>
+                            </ng-container>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div (click)="toggleRightPanel('notification')" class="navt-notification icon-clr">
+                <scrm-image class="ln-icon-size" image="notification_t"></scrm-image>
+            </div>
+            <div class="navt-help icon-clr">
+                <scrm-image class="ln-icon-size" image="help_t"></scrm-image>
+            </div>
+        </div>
+
+        <!-- admin button and dropdown -->
+        <div class="navt-admin-btn">
+            <div class="navt-admin">
+                <scrm-image image="admin_t"></scrm-image>
+                <div class="navt-admin-title">Admin</div>
+                <scrm-image class="ln-icon-size" image="arrowd_t"></scrm-image>
+            </div>
+            <div class="na-drop-content">
+                <div class="ad-body">
+                    <a href="{{navbar?.globalActions[0]?.link?.url}}" class="ad-bd-text"><div>Edit Profile</div></a>
+                    <a href="#/employees/index" class="ad-bd-text"><div>Employees</div></a>
+                    <a href="#/administration/index" class="ad-bd-text"><div>Admin</div></a>
+                    <a href="https://community.suitecrm.com/" target="_blank" class="ad-bd-text"><div>Support Forum</div></a>
+                    <a href="#/home/about" class="ad-bd-text"><div>About</div></a>
+                </div>
+                <scrm-logout-ui></scrm-logout-ui>
+                <!-- <div class="ad-bottom">
+                    <div class="ad-logout-icon">
+                        <scrm-image image="tn-log-out"></scrm-image>
+                    </div>
+                    <div class="ad-logout-text">Log Out</div>
+                </div> -->
+            </div>
+        </div>
+
+    </div>
+        
+</div>

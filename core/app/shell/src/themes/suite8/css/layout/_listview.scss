@@ -1,0 +1,693 @@
+/**
+ * SuiteCRM is a customer relationship management program developed by SalesAgility Ltd.
+ * Copyright (C) 2021 SalesAgility Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Affero General Public License version 3 as published by the
+ * Free Software Foundation with the addition of the following permission added
+ * to Section 15 as permitted in Section 7(a): FOR ANY PART OF THE COVERED WORK
+ * IN WHICH THE COPYRIGHT IS OWNED BY SALESAGILITY, SALESAGILITY DISCLAIMS THE
+ * WARRANTY OF NON INFRINGEMENT OF THIRD PARTY RIGHTS.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * In accordance with Section 7(b) of the GNU Affero General Public License
+ * version 3, these Appropriate Legal Notices must retain the display of the
+ * "Supercharged by SuiteCRM" logo. If the display of the logos is not reasonably
+ * feasible for technical reasons, the Appropriate Legal Notices must display
+ * the words "Supercharged by SuiteCRM".
+ */
+
+.list-view {
+  //padding-top: 3em;
+  width: 100%;
+  margin: 0;
+}
+
+.list-view-header {
+  border-bottom: 0.03em solid transparent;
+  padding-top: 0.5em;
+}
+
+.list-view-title {
+  color: $shell-grey;
+  font-size: 1.8em;
+  font-weight: 300;
+  margin: 0 0.7em;
+  letter-spacing: 0.1em;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.list-view-actions {
+  margin: 1em 0 0 0;
+  text-align: end;
+}
+
+.listview-actions {
+  .more-button {
+    display: none;
+  }
+}
+
+.list-view-settings {
+  text-align: end;
+}
+
+.scrm-settings-menu {
+  display: flex;
+  width: 100%;
+  justify-content: end;
+}
+
+.load-more-style {
+  align-content: center;
+}
+
+.list-view-container {
+  font-size: 0.85em;
+  margin-bottom: 4em;
+}
+
+.list-view-hr {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.list-view-widget {
+  margin-right: 1.5em;
+}
+
+.list-widget-container {
+  padding-left: 0.6em;
+}
+
+.list-view-table {
+  margin: 0;
+  table-layout: auto;
+}
+
+.striped-table {
+  tbody tr:nth-of-type(odd) {
+    background-color: white;
+  }
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.table-header {
+  -webkit-border-top-left-radius: 0.3em;
+  -webkit-border-top-right-radius: 0.3em;
+  -moz-border-radius-topleft: 0.3em;
+  -moz-border-radius-topright: 0.3em;
+  border-top-left-radius: 0.3em;
+  border-top-right-radius: 0.3em;
+}
+
+.table-footer {
+  -webkit-border-bottom-right-radius: 0.3em;
+  -webkit-border-bottom-left-radius: 0.3em;
+  -moz-border-radius-bottomright: 0.3em;
+  -moz-border-radius-bottomleft: 0.3em;
+  border-bottom-right-radius: 0.3em;
+  border-bottom-left-radius: 0.3em;
+}
+
+.table td {
+  vertical-align: middle;
+  padding: 0.45em;
+}
+
+.table th {
+  border-top: 0;
+  padding: 0.5rem 0.45em;
+}
+
+.table thead th {
+  border-bottom: 0;
+  background-color: unset;
+  color: #17263C;
+  font-size: 1em;
+  font-weight: 400;
+  font-family: 'Inter', sans-serif;
+}
+
+.table td, .table th {
+  font-size: 0.797rem;
+  max-width: 220px;
+}
+
+.table .show-more-column {
+  float: none !important;
+  width: 16px;
+  padding-left: 0rem;
+  padding-right: 0rem;
+
+  scrm-record-details-popup-button {
+    display: flex;
+    width: 100%;
+
+    scrm-popup-button {
+      display: flex;
+      width: 100%;
+
+      scrm-button {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.list-view-tableactions {
+  //background-color: $cool-blue;
+  padding: 0.2em;
+}
+
+.list-view-table thead {
+  background-color: #F3F3F7;
+  color: $white;
+}
+
+.list-view-table td {
+  color: #686B6F !important;
+  border: none;
+  font-family: "Inter" !important;
+  font-weight: 400 !important;
+  font-size: 1em !important;
+}
+
+.bulk-action {
+  color: $white;
+}
+
+.list-view-table a {
+  color: #686B6F !important;
+  font-family: Inter !important;
+  font-weight: 400 !important;
+  font-size: 1em !important;
+}
+
+.pipeline-chart,
+.donut-chart {
+  margin: 0 0.5em;
+}
+
+.pipeline-chart-content,
+.donut-chart-content {
+  margin: 1.5em 0;
+}
+
+.chart-create {
+  margin: 1em 0;
+}
+
+.primary-table-header {
+  background-color: $nepal-grey;
+  color: $white;
+  white-space: nowrap;
+}
+
+.primary-table-header span {
+  font-weight: bold;
+}
+
+.primary-table-header span:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+td.list-group-icon {
+  margin: 0;
+  padding: 0.75rem 0;
+}
+
+.cdk-column-checkbox {
+  width: 2rem;
+}
+
+.cdk-column-line-actions {
+  width: 6.6rem;
+}
+
+.responsive-table-row.display-block-table {
+  border-left: 0.1em solid #aa9dcc;
+  border-right: 0.1em solid #aa9dcc;
+  margin: 0 0 0.5em 0;
+  -webkit-border-bottom-right-radius: 0.25em;
+  -webkit-border-bottom-left-radius: 0.25em;
+  -moz-border-radius-bottomright: 0.25em;
+  -moz-border-radius-bottomleft: 0.25em;
+  border-bottom-right-radius: 0.25em;
+  border-bottom-left-radius: 0.25em;
+}
+
+.list-view-hr-container {
+  font-size: 0.85em;
+  padding-top: 0.4em;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+}
+
+.responsive-top-row .responsive-header-link {
+  background-image: linear-gradient(to right, $white 30%, rgba(255, 255, 255, 0) 0%);
+  background-position: bottom;
+  background-size: 5px 1px;
+  background-repeat: repeat-x;
+  text-decoration: none;
+}
+
+.display-block-table th:not(:first-child) {
+  background-image: linear-gradient(to right, $midnight-grey 10%, rgba(255, 255, 255, 0) 0%);
+  background-position: top;
+  background-size: 5px 1px;
+  background-repeat: repeat-x;
+}
+
+.display-block-table td,
+.display-block-table th {
+  border: none;
+}
+
+.primary-table-data {
+  width: 100%;
+}
+
+td {
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.select-action-group {
+  margin: 0 0 0 0.8em;
+  color: $white;
+}
+
+.list-view-tableactions .select-action-group {
+  margin: 0;
+}
+
+.load-more {
+  background-color: #76858f;
+  background-repeat: no-repeat;
+  border: 0.09em solid rgb(233, 233, 233);
+  border-image-source: initial;
+  border-image-slice: initial;
+  border-image-repeat: initial;
+  border-radius: 0.15em;
+  cursor: pointer;
+  overflow: hidden;
+  outline: initial none initial;
+  padding: 0.3em 0.5em;
+  font-weight: 700;
+  font-size: .9em;
+  color: #fff;
+  min-width: 11em;
+}
+
+.select-action-group .dropdown-toggle::after,
+.bulk-action-group,
+.bulk-action-group .dropdown-toggle::after {
+  color: #CFD1D3;
+}
+
+.pagination-count {
+  margin: 0 0.3em;
+  font-weight: bold;
+  position: relative;
+  bottom: 0.1em;
+  color: #3D3E5C;
+}
+
+.centre-pagination {
+  margin: 0 0.7em;
+  font-weight: bold;
+  position: relative;
+  top: initial;
+  bottom: initial;
+  line-height: 32px;
+}
+
+.list-view .col-lg-12, .list-view .col-lg-9, .list-view .col-lg-3 {
+  transition-timing-function: ease;
+  /* Quick on the way out */
+  transition: 0.5s;
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  -o-transition: all .5s ease;
+  transition: all .5s ease;
+}
+
+.quick-filter-border {
+  border-right: 1px solid rgb(108, 117, 125, 0.5)!important;
+  margin-right: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+td.cdk-column-checkbox {
+  min-width: 32px;
+}
+
+
+
+
+/*** Non Native Code ***/ 
+
+
+// List View Header
+.list-head-container {
+  width: 100%;
+  height: 7em;
+  padding: 22px 15px 0px 15px;  
+
+  .list-head-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 5em;
+    background-color: #FFFFFF;
+    border: 1px solid #E0E6ED;
+    padding: 1em;
+
+    .lh-left-box {
+      display: flex;
+      flex-grow: 1;
+      align-items: center;
+      gap: 0.75em;
+
+      .lh-insights-btn {
+        width: 10em;
+        height: 2.5em;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        padding: 0.5em 0.75em;
+        border: 1px solid #CFD1D3;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+            border-color: #54A5A7;
+        }
+
+        .lh-insights-icon {
+          width: 1.25em;
+          height: 1.25em;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .lh-insights-text {
+          width: 7em;
+          height: 1.5em;
+          font-family: "Inter", sans-serif;
+          font-size: 1em;
+          font-weight: 400;
+          color: #3D3E5C;
+        }
+      }
+    }
+
+    .lh-right-box {
+      width: 39em;
+      height: 2.5em;
+      display: flex;
+      align-items: center;
+      gap: 0.75em;
+
+      .rb-export-btn {
+        width: 6.45em;
+        height: 2.5em;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        padding: 0.5em 0.75em;
+        border: 1px solid #CFD1D3;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+          border-color: #54A5A7;
+        }
+
+        .rb-export-icon {
+          width: 1.25em;
+          height: 1.25em;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .rb-export-text {
+          width: 3.188em;
+          height: 1.5em;
+          font-family: "Inter", sans-serif;
+          font-size: 1em;
+          font-weight: 400;
+          color: #3D3E5C;
+        }
+      }
+
+      .rb-print-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        padding: 0.5em 0.75em;
+        border: 1px solid #CFD1D3;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+          border-color: #54A5A7;
+        }
+
+        .rb-print-icon {
+          width: 1.25em;
+          height: 1.25em;
+          display: flex;
+          align-items: center;
+
+          svg {
+            width: 1.25em;
+            height: 1.25em;
+          }
+        }
+
+        .rb-print-text {
+          width: 2.25em;
+          height: 1.5em;
+          font-family: "Inter", sans-serif;
+          font-size: 1em;
+          font-weight: 400;
+          color: #3D3E5C;
+        }
+
+        .rb-print-arrow {
+          width: 1.25em;
+          height: 1.25em;
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      .rb-filter-btn {
+        display: flex;
+        align-items: center;
+        padding: 0.625em;
+        border: 1px solid #CFD1D3;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+            border-color: #54A5A7;
+        }
+
+        .rb-filter-icon {
+            width: 1.25em;
+            height: 1.25em;
+            display: flex;
+            align-items: center;
+        }
+      }
+
+      .rb-search-box {
+        width: 11.25em;
+        height: 2.5em;
+        position: relative;
+        display: inline-block;
+
+        .rb-search-icon {
+          position: absolute;
+          left: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        .rb-search-input {
+          width: 100%;
+          height: 100%;
+          padding: 0.5em 1.5em 0.5em 2.5em;
+          border: 1px solid #CFD1D3;
+          border-radius: 6px;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+// Import button and Dropdown
+.lh-import-btn {
+  display: inline-block;
+  position: relative;
+
+  &:hover .lh-drop-content {
+    display: block;
+  }
+
+  .lh-import {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.5rem;
+    width: 8rem;
+    border: 1px solid #CFD1D3;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+
+    &:hover {
+      border-color: #54A5A7;
+      background-color: #F4F7F6;
+    }
+
+    .lh-import-title {
+      color: #3D3E5C;
+    }
+  }
+
+  .lh-break-row {
+    width: 100%;
+    border: 1px solid #ECEDEE;
+  }
+
+  .lh-drop-content {
+    display: none;
+    position: absolute;
+    right: 0px;
+    width: 13.313em;
+    height: 5.5em;
+    background-color: #FFFFFF;
+    padding: 0.25em;
+    border-radius: 6px;
+    box-shadow: 0px 4px 8px #1018280F;
+    z-index: 1200;
+
+    .lh-drop-body {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      .lh-bd-text {
+        width: 100%;
+        height: 2.5em;
+        padding: 0.625em 1em;
+
+        &:hover {
+          background-color: #F4F7F6;
+          text-decoration: none !important;
+        }
+
+        div {
+          width: 13em;
+          height: 1.25em;
+          font-family: "Inter", sans-serif;
+          font-size: 0.875em;
+          font-weight: 500;
+          color: #3D3E5C;
+        }
+      }  
+    }
+  } 
+}
+
+
+.ngx-cont-main {
+  width: 100%;
+  height: 100%;
+  padding: 1em;
+  background-color: #FFFFFF;
+  border: 1px solid #E0E6ED;
+  border-radius: 4px;
+}
+
+.table.cdk-table tr {
+  border-bottom: 1px solid #E0E6ED;
+}
+
+.filter-btn-list {
+  width: 1em;
+}
+
+.filter-btn-space {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-control-sm {
+  height: 2.5rem !important;
+  border-radius: 6px !important;
+  width: 34em !important;
+}
+
+.disable-export {
+  border-color: #cfd1d35e !important;
+  pointer-events: none;
+}
+
+
+// List view checkbox style
+.cstm-dropdown-btn.dropdown-toggle::after {
+  display: none; /* Hide default caret */
+}
+
+.cstm-checkbox {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.cstm-dropdown-btn {
+  padding: 0rem 0.5rem;
+}
+
+.cstm-dropdown-menu {
+  background-color: #FFFFFF !important;
+  border: 1px solid #ECEDEE !important;
+}
+
+.cstm-dropdown-hr-row {
+  width: 100%;
+  border: 1px solid #ECEDEE;
+}
+
+.cstm-dropdown-item {
+  
+  &:hover {
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,250 @@
+<ng-container *ngIf="this.isUserLoggedIn">
+
+<div *ngIf="isVisible" class="right-panel-main">
+
+    <!-- Notes -->
+    <ng-container *ngIf="$name === 'notes'">
+        <div class="rp-head">
+            <div class="rp-head-top">
+                <div (click)="closePanel()" class="rp-close-btn">
+                    <scrm-image image="darrows"></scrm-image>
+                </div>
+        
+                <div class="rp-search-bar">
+                    <scrm-image class="rp-search-icon" image="c2-search"></scrm-image>
+                    <input class="rp-search-input" type="text" placeholder="Search">
+                </div>
+        
+                <div class="rp-filter-btn">
+                    <scrm-image image="tlines"></scrm-image>
+                </div>
+            </div>
+
+            <div class="rp-head-bottom">
+                <div class="rp-hb-text">My notes</div>
+                <div class="rp-hb-icon" (click)="openModal()">
+                    <scrm-image class="" image="cstm-add-notes"></scrm-image>
+                </div>
+            </div>
+        </div>
+
+        <div class="rp-body">
+            <ng-container *ngIf="displayNotes$ | async as allNotes">
+                <ng-container *ngFor="let note of allNotes">
+                    <div class="card2-main">
+                        <div class="c2-head">
+                            <div class="c2-head-1">
+                                <div (click)="editNote(note, true)" class="c2-head-title">{{note.name}}</div>
+                                <div ngbDropdown class="c2-head-dropdown">
+                                    <div ngbDropdownToggle class="c2-head-icon">
+                                        <scrm-image image="three_dots"></scrm-image>
+                                    </div>
+                                    <div class="c2-head-dropdown-menu" ngbDropdownMenu>
+                                        <div ngbDropdownItem (click)="editNote(note)" class="c2-head-dropdown-item">
+                                            <scrm-image image="cstm-edit-icon"></scrm-image>
+                                            Edit
+                                        </div>
+                                        <div class="c2-dropdown-hr-row"></div>
+                                        <div ngbDropdownItem (click)="deleteNote(note?.id)" class="c2-head-dropdown-item clr-red">
+                                            <scrm-image image="cstm-delete-icon"></scrm-image>
+                                            Delete
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="c2-break-row"></div>
+                        <div class="c2-body">
+                            <div class="c2-bd-desc">
+                                {{note.description}}
+                            </div>
+                            <div class="c2-bd-bottom">
+                                <div class="c2-bottom-full-badge">
+                                    <div class="c2-bottom-badge"
+                                         [ngClass]="{
+                                             'c2-badge-color-blue': note?.label_c[0] === 'Personal',
+                                             'c2-badge-color-green': note?.label_c[0] === 'Farming',
+                                             'c2-badge-color-purple': note?.label_c[0] === 'Management',}">
+                                        <div class="c2-badge-text">{{note?.label_c[0]}}</div>
+                                    </div>
+                                    <div *ngIf="note.label_c.length > 1" class="c2-badge-text-plus">+{{note?.label_c?.length - 1}}</div>
+                                </div>
+                                <div class="c2-bottom-date">{{ formatDate(note?.date_entered, navbar?.preferences?.userPreferences$?.source?.source?.source?._value?.userPreferences?.date_format) }}</div> <!-- Today, 18:40 -->
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <!-- <div *ngIf="displayNotes && !displayNotes.length">
+                No notes found.
+            </div>
+            <div *ngIf="!displayNotes">
+                Loading...
+            </div> -->
+            <!-- <ng-container *ngTemplateOutlet="card2; context: { $implicit: note }"></ng-container> -->
+            <!-- <ng-container *ngTemplateOutlet="card2"></ng-container>
+            <ng-container *ngTemplateOutlet="card2"></ng-container> -->
+        </div>
+    </ng-container>
+    <!-- Notes End -->
+
+    <!-- Notifications -->
+    <ng-container *ngIf="$name === 'notification'">
+        <div class="rp-head">
+            <div class="rp-head-top">
+                <div (click)="closePanel()" class="rp-close-btn">
+                    <scrm-image image="darrows"></scrm-image>
+                </div>
+        
+                <div class="rp-search-bar">
+                    <scrm-image class="rp-search-icon" image="c2-search"></scrm-image>
+                    <input class="rp-search-input" type="text" placeholder="Search">
+                </div>
+        
+                <div class="rp-filter-btn">
+                    <scrm-image image="tlines"></scrm-image>
+                </div>
+            </div>
+
+            <div class="rp-head-bottom">
+                <div class="rp-hb-text">Notifications</div>
+            </div>
+        </div>
+
+        <div class="rp-body">
+            <ng-container *ngTemplateOutlet="card1"></ng-container>
+            <ng-container *ngTemplateOutlet="card1"></ng-container>
+        </div>
+
+    </ng-container>
+    <!-- Notifications End -->
+
+</div>
+
+<!-- Custom Modal For Notes -->
+<div *ngIf="openNotesModal" class="notes-modal-backdrop">
+    <div class="notes-modal-main"> <!-- (click)="$event.stopPropagation()" -->
+        <div class="notes-modal-close-btn" (click)="closeModal()">
+            <scrm-image image="cstm-notes-modal-close"></scrm-image>
+        </div>
+
+        <div class="notes-modal-body">
+            <input
+                class="notes-modal-title-input"
+                [(ngModel)]="title"
+                placeholder="Untitled"
+                [readonly]="isReadonly"
+            />
+            <textarea
+                class="notes-modal-desc-input"
+                [(ngModel)]="description"
+                placeholder="Add your note here..."
+                rows="1"
+                [readonly]="isReadonly"
+            ></textarea>
+        </div>
+
+        <div class="notes-modal-label-body" ngbDropdown>
+            <label class="notes-modal-label">
+                Label
+                <span class="notes-modal-required">*</span>
+                <div *ngIf="isLabelMissing" class="notes-modal-labels-required">(Please select a label)</div>
+            </label>
+            <input *ngIf="!isReadonly" ngbDropdownToggle type="text" placeholder="Enter label" class="notes-modal-label-input" />
+            <div ngbDropdownMenu class="notes-modal-dropdown-menu">
+                <ng-container *ngFor="let label of labels">
+                    <ng-container *ngIf="selected_labels.indexOf(label) === -1">
+                        <div class="notes-modal-dropdown-items" (click)="addLabel(label)" ngbDropdownItem>{{label}}</div>
+                    </ng-container>
+                </ng-container>
+            </div>
+
+            <div class="notes-modal-label-selected-body">
+                <ng-container *ngFor="let sLabel of selected_labels; let i = index">
+                    <div class="notes-modal-label-selected">
+                        <div *ngIf="!isReadonly" (click)="removeLabel(sLabel, i)" class="notes-modal-label-selected-close-icon">
+                            <scrm-image image="cstm-modal-body-close-label"></scrm-image>
+                        </div>
+                        <div class="notes-modal-label-selected-title">{{sLabel}}</div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="notes-modal-buttons">
+            <div class="notes-modal-cancel-btn" (click)="closeModal()">Cancel</div>
+            <div *ngIf="!isReadonly" class="notes-modal-save-btn" (click)="createNote()">Save</div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Ticket Card - Notification -->
+<ng-template #card1>
+    <div class="card1-main">
+        <div class="c1-head">
+            <div class="c1-head-top">
+                <div class="c1-ht-text">
+                    Ticket
+                </div>
+                <div class="ht-icon">
+                    <scrm-image image="three_dots"></scrm-image>
+                </div>
+            </div>
+            <div class="c1-head-bottom">
+                <div class="c1-hb-date">
+                    13.03.2023, 14:30
+                </div>
+                <div class="c1-hb-badge">
+                    New ticket
+                </div>
+            </div>
+        </div>
+        <div class="c1-body">
+            <div class="c1-body-text">
+                The touch sensors are not working.
+            </div>
+            <div class="c1-body-btn">
+                <div class="c1-bb-icon">
+                    <scrm-image image="send-rp"></scrm-image>
+                </div>
+                <div class="c1-bb-text">
+                    Go to ticket
+                </div>
+            </div>
+        </div>
+    </div> 
+</ng-template>
+
+
+<!-- Talk to farmers Card - Notes -->
+<ng-template #card2 let-item>
+    <div class="card2-main">
+        <div class="c2-head">
+            <div class="c2-head-1">
+                <div class="c2-head-title">{{item.name}}</div>
+                <div class="c2-head-icon">
+                    <scrm-image image="three_dots"></scrm-image>
+                </div>
+            </div>
+        </div>
+        <div class="c2-break-row"></div>
+        <div class="c2-body">
+            <div class="c2-bd-desc">
+                {{item.description}}
+                <!-- Message to John Wick about irrigation. Ask about 
+                current harvest schedule (integrate with market 
+                data?) Also show water management tools for 
+                low-flow conditions -->
+            </div>
+            <div class="c2-bd-bottom">
+                <div class="c2-bottom-badge">
+                    <div class="c2-badge-text">Personal</div>
+                </div>
+                <div class="c2-bottom-date">{{item.date_entered}}</div> <!-- Today, 18:40 -->
+            </div>
+        </div>
+    </div> 
+</ng-template>
+
+</ng-container>

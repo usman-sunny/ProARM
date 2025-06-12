@@ -1,0 +1,35 @@
+/node_modules/
+
+/dist/
+
+/public/dist/
+
+/.angular/cache/
+
+/cache/
+
+/public/cache
+
+suitecrm.log
+
+/log/
+
+
+
+# SuiteCRM Specific
+#/cache/
+#/config_override.php
+#/suitecrm.log
+#/log/
+
+# Vendor & Composer
+#/vendor/
+#/composer.lock
+
+# Node.js & Frontend
+#/node_modules/
+
+# Environment-specific
+#.env
+#.idea/
+#/.vscode/
