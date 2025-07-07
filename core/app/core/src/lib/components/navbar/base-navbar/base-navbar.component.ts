@@ -83,7 +83,7 @@ import {StupidDataService} from '../../../services/stupid-data/stupid-data.servi
 })
 export class BaseNavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     // Alien Code Block 6754 - Start
-    ln_open = true;
+    ln_open = false;
     ln_all_clicked = false;
     submenu_items: any[] = [];
     current_submenu_items: any[] = [];
@@ -327,6 +327,7 @@ export class BaseNavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     retrievedArray: any; // Alien code 6754
+    menuFilters$ = this.stupidData.menuFilters$;
 
     ngOnInit(): void {
         const navbar = new NavbarAbstract(
@@ -378,7 +379,9 @@ export class BaseNavbarComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
             this.retrievedArray = [];  // or some default value
         }
-
+        
+        this.stupidData.readMenuFilters().subscribe();
+        
         //console.log('retrievedArray is listed below code 6754:');
         //console.log(this.retrievedArray);
         //this.sendData();
@@ -387,7 +390,7 @@ export class BaseNavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.submenu_items = ['2refresh2'];
 
-        //console.log('currentQuickActions in actionnnnnnnnnnnnnnnn', this.currentQuickActions);
+        //console.log('currentQuickActions in action', this.currentQuickActions);
         // Alien Code Block 6754 - end
     }
 

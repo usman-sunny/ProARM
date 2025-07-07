@@ -42,20 +42,24 @@
             <div class="lh-right-box">
 
                 <!-- Import button and dropdown -->
-                <div class="lh-import-btn">
-                    <div class="lh-import">
-                        <scrm-image image="lvh-import"></scrm-image>
-                        <div class="lh-import-title">Import</div>
-                        <scrm-image class="ln-icon-size" image="lvh-darrow"></scrm-image>
-                    </div>
-                    <div class="lh-drop-content">
-                        <div class="lh-drop-body">
-                            <a href="#" class="lh-bd-text"><div>Files</div></a>
-                            <div class="lh-break-row"></div>
-                            <a href="#" class="lh-bd-text"><div>Synthetic Data Generator</div></a>
-                        </div>  
-                    </div>
-                </div>
+                <ng-container *ngFor="let item of navbar?.current?.submenu">
+                    <ng-container *ngIf="item.icon == 'download'">
+                        <div class="lh-import-btn">
+                            <div class="lh-import">
+                                <scrm-image image="lvh-import"></scrm-image>
+                                <div class="lh-import-title">Import</div>
+                                <scrm-image class="ln-icon-size" image="lvh-darrow"></scrm-image>
+                            </div>
+                            <div class="lh-drop-content">
+                                <div class="lh-drop-body">
+                                    <a [routerLink]="item?.link?.route" [queryParams]="item?.link?.params" class="lh-bd-text"><div>Files</div></a>
+                                    <div class="lh-break-row"></div>
+                                    <a href="#" class="lh-bd-text"><div>Synthetic Data Generator</div></a>
+                                </div>  
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
 
                 <!-- Export button -->
                 <div 

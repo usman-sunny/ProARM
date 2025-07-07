@@ -14,14 +14,60 @@ export interface Note {
 })
 export class StupidDataService {
 
+    constructor(private http: HttpClient) {}
+
+    // ================================
+    /*** Menu Filters API - start ***/
+
+    private readMenuFiltersUrl = 'legacy/index.php?module=Studio&action=readMenuFilters&sugar_body_only=true';
+
+    private menuFiltersObject = new BehaviorSubject<any[]>([]);
+    public menuFilters$ = this.menuFiltersObject.asObservable();
+
+    readMenuFilters(): Observable<any[]> {
+        return this.http.get<any[]>(this.readMenuFiltersUrl).pipe(
+            tap(n => this.menuFiltersObject.next(n))
+        );
+    }
+
+    /*** Menu Filters API - end ***/
+    // ==============================
+
+    
+    // ================================
+    /*** Notifications API - start ***/
+
+    private readNotificationsUrl = 'legacy/index.php?module=Alerts&action=readNotifications&sugar_body_only=true';
+
+    private notificationsSubject = new BehaviorSubject<any[]>([]);
+    public notifications$ = this.notificationsSubject.asObservable();
+
+    readNotifications(off_set: number): Observable<any[]> {
+        return this.http.get<any[]>(`${this.readNotificationsUrl}&offset=${off_set}`).pipe(
+            tap(n => this.notificationsSubject.next(n))
+        );
+    }
+
+    // readNotifications(userId: any): Observable<any[]> {
+    //     return this.http.get<any[]>(`${this.readNotificationsUrl}&userId=${userId}`).pipe(
+    //         tap(n => this.notificationsSubject.next(n))
+    //     );
+    // }
+
+
+    /*** Notifications API - end ***/
+    // ==============================
+
+
+    // ========================
+    /*** Notes API - start ***/
+    
     private createNoteUrl = 'legacy/index.php?module=Notes&action=AddCustomNotes&sugar_body_only=true';
     private readNotesUrl = 'legacy/index.php?module=Notes&action=GetCustomNotes&sugar_body_only=true';
     private deleteNoteUrl = 'legacy/index.php?module=Notes&action=DeleteCustomNotes&sugar_body_only=true';
     
     private notesSubject = new BehaviorSubject<any[]>([]);
     public notes$ = this.notesSubject.asObservable();
-    
-    constructor(private http: HttpClient) {}
 
     // fetch updated notes list
     readNotes(): Observable<any[]> {
@@ -50,9 +96,13 @@ export class StupidDataService {
     // getNotes(): Observable<any> {
     //   return this.http.get(this.readNotesUrl);
     // }
-    // ===========================================================================================
 
-    // navbar object from base-navbae to navbar-top - start
+    /*** Notes API - end ***/
+    // ======================
+
+
+    // ===========================================================
+    /*** navbar object from base-navbae to navbar-top - start ***/
     private objectSource = new BehaviorSubject<any>(null);  // Holds the object
     public object$: Observable<any> = this.objectSource.asObservable(); // Stream
 
@@ -63,10 +113,12 @@ export class StupidDataService {
     getObject(): any {
         return this.objectSource.getValue();
     }
-    // navbar object from base-navbae to navbar-top - end
-    // ===========================================================================================
+    /*** navbar object from base-navbae to navbar-top - end ***/
+    // =========================================================
 
-    // recently viewed Object from base-navbar to navbar-top - start
+
+    // =====================================================================
+    /***  recently viewed Object from base-navbar to navbar-top - start ***/
     private recentlyViewedObjectSource = new BehaviorSubject<any>(null);
     public recentlyViewedObject$: Observable<any> = this.recentlyViewedObjectSource.asObservable();
 
@@ -77,10 +129,12 @@ export class StupidDataService {
     getRecentlyViewedObject(): any {
         return this.recentlyViewedObjectSource.getValue();
     }
-    // recently viewed Object from base-navbar to navbar-top - end
-    // ===========================================================================================
+    /***  recently viewed Object from base-navbar to navbar-top - end ***/
+    // ===================================================================
 
-    // insights Object from list-header to list-container - start
+
+    // =================================================================
+    /*** insights Object from list-header to list-container - start ***/
     private insightsObjectSource = new BehaviorSubject<any>(null);
     public insightsObject$: Observable<any> = this.insightsObjectSource.asObservable();
 
@@ -91,10 +145,12 @@ export class StupidDataService {
     getInsightsObject(): any {
         return this.insightsObjectSource.getValue();
     }
-    // insights Object from list-header to list-container - end
-    // ===========================================================================================
+    /*** insights Object from list-header to list-container - end ***/
+    // ===============================================================
 
-    // action buttons data from button-group.component to record.component - start
+
+    // ================================================================================= 
+    /*** action buttons data from button-group.component to record.component - start ***/
     private actionButtonsObjectSource = new BehaviorSubject<any>(null);
     public actionButtonsObject$: Observable<any> = this.actionButtonsObjectSource.asObservable();
 
@@ -105,20 +161,24 @@ export class StupidDataService {
     getActionButtonsObject(): any {
         return this.actionButtonsObjectSource.getValue();
     }
-    // action buttons data from button-group.component to record.component - end
-    // ===========================================================================================
+    /*** action buttons data from button-group.component to record.component - end ***/
+    // ================================================================================
 
-    // save and cancel buttons data from button-group.component to record.component - start
+
+    // ===========================================================================================
+    /*** save and cancel buttons data from button-group.component to record.component - start ***/
     private saveCancelButtonsObjectSource = new BehaviorSubject<any>(null);
     public saveCancelButtonsObject$: Observable<any> = this.saveCancelButtonsObjectSource.asObservable();
 
     setSaveCancelButtonsObject(newObject: any) {
         this.saveCancelButtonsObjectSource.next(newObject);
     }
-    // save and cancel buttons data from button-group.component to record.component - end
-    // ===========================================================================================
+    /*** save and cancel buttons data from button-group.component to record.component - end ***/
+    // =========================================================================================
 
-    // Create a BehaviorSubject to store and stream the count value - start
+
+    // ===========================================================================
+    /*** Create a BehaviorSubject to store and stream the count value - start ***/
     private countSubject = new BehaviorSubject<number>(0);
 
     // Observable that components can subscribe to
@@ -128,10 +188,12 @@ export class StupidDataService {
     updateCount(newCount: number): void {
         this.countSubject.next(newCount);
     }
-    // Create a BehaviorSubject to store and stream the count value - end
-    // ===========================================================================================
+    /*** Create a BehaviorSubject to store and stream the count value - end ***/
+    // =========================================================================
 
-    // bulk action button data from bulk-action-menu.component to list-header.component - start
+
+    // ===============================================================================================
+    /*** bulk action button data from bulk-action-menu.component to list-header.component - start ***/
     private bulkActionButtonsObjectSource = new BehaviorSubject<any>(null);
     public bulkActionButtonsObject$: Observable<any> = this.bulkActionButtonsObjectSource.asObservable();
 
@@ -142,18 +204,19 @@ export class StupidDataService {
     getBulkActionsObject(): any {
         return this.bulkActionButtonsObjectSource.getValue();
     }
-    // bulk action button data from bulk-action-menu.component to list-header.component - end
+    /*** bulk action button data from bulk-action-menu.component to list-header.component - end ***/
+    // =============================================================================================
+
+
     // ===========================================================================================
-
-
-    // save and cancel buttons data from button-group.component to record.component - start
+    /*** save and cancel buttons data from button-group.component to record.component - start ***/
     private saveButtonObjectSource = new BehaviorSubject<any>(null);
     public saveButtonObject$: Observable<any> = this.saveButtonObjectSource.asObservable();
 
     setSaveButtonObject(newObject: any) {
         this.saveButtonObjectSource.next(newObject);
     }
-    // save and cancel buttons data from button-group.component to record.component - end
-    // ===========================================================================================
-  
+    /*** save and cancel buttons data from button-group.component to record.component - end ***/
+    // =========================================================================================
+
 }

@@ -49,7 +49,7 @@
 <script type="text/javascript" src="{sugar_getjspath file='modules/Studio/studio.js'}" ></script>
 {literal}
 {/literal}
-<div class='configure-module-menu'>
+<div class='configure-module-menu cstm-overflow-auto'>
 <h2 >{$title}</h2>
 <p style='margin-bottom:1em;'>{$MOD.LBL_GROUP_TAB_WELCOME}</p>
 
@@ -61,7 +61,7 @@
 </button>
 </table>
 
-<form name='edittabs' id='edittabs' method='POST' action='index.php'>
+<form name='edittabs' id='edittabs' method='POST' action='index.php' enctype="multipart/form-data">
 <input type="hidden" name="slot_count" id="slot_count" value="" />
 <table  cellpadding="0" cellspacing="0" border="0" width="100%" style='margin-bottom:1em;'>
 <tr>
@@ -108,11 +108,27 @@ subtabModules['modSlot{$modCounter}'] = '{$value.label}'</script>
 </tr><tr>
 {/if}
 <td valign='top' class='tdContainer'>
-<div id='slot{$tabCounter}' class='noBullet'><h2 id='handle{$tabCounter}' ><span id='tabname_{$tabCounter}' class='slotB'>{$tab.labelValue}</span><span id='tabother_{$tabCounter}'><span onclick='studiotabs.editTabGroupLabel({$tabCounter}, false)'>{$editImage}</span>&nbsp;
-{if $tab.label != $otherLabel }
-	<span onclick='studiotabs.deleteTabGroup({$tabCounter})'>{$deleteImage}</span>
-{/if}
-</span></h2><input type='hidden' name='tablabelid_{$tabCounter}' id='tablabelid_{$tabCounter}'  value='{$tab.label}'><input type='text' name='tablabel_{$tabCounter}' id='tablabel_{$tabCounter}' style='display:none' value='{$tab.labelValue}' onblur='studiotabs.editTabGroupLabel({$tabCounter}, true)'>
+<div id='slot{$tabCounter}' class='noBullet'>
+    {if $tab.icon == ''}
+        <input class="cstm_choose_file_input" type="file" name="tabicon_{$tabCounter}" id="tabicon_{$tabCounter}" accept="image/*">
+    {else}
+    <div class="tab-icon-group">
+        <img id="modulefiltericon" src="../dist/themes/suite8/images/tabimages/{$tab.iconwext}" alt="{$tab.iconwext}" class='' width="20" height="20" />
+        <img id='remove_icon_image' onclick="hideModuleIcon(this)" src="themes/suite8/images/cstm_close.svg" alt="{$tab.icon}" class='' width="10" height="10" style="float:right;"/>
+        <input class="cstm_choose_file_input choosefileicon" type="file" name="tabicon_{$tabCounter}" style="display:none;" id="tabicon_{$tabCounter}" accept="image/*">
+    </div>
+    {/if}
+    <h2 id='handle{$tabCounter}' >
+        
+        <span id='tabname_{$tabCounter}' class='slotB'>{$tab.labelValue}</span>
+        <span id='tabother_{$tabCounter}'>
+            <span onclick='studiotabs.editTabGroupLabel({$tabCounter}, false)'>{$editImage}</span>&nbsp;
+            {if $tab.label != $otherLabel }
+                <span onclick='studiotabs.deleteTabGroup({$tabCounter})'>{$deleteImage}</span>
+            {/if}
+        </span>
+    </h2>
+<input type='hidden' name='tablabelid_{$tabCounter}' id='tablabelid_{$tabCounter}'  value='{$tab.label}'><input type='text' name='tablabel_{$tabCounter}' id='tablabel_{$tabCounter}' style='display:none' value='{$tab.labelValue}' onblur='studiotabs.editTabGroupLabel({$tabCounter}, true)'>
 <ul id='ul{$tabCounter}' class='listContainer'>
 {counter start=0 name="subtabCounter" print=false assign="subtabCounter"}
 {foreach from=$tab.modules key='list' item='name'}
@@ -149,6 +165,22 @@ subtabModules['modSlot{$modCounter}'] = '{$value.label}'</script>
 {literal}
 
 		<script>
+        function hideModuleIcon(el) {
+            // Find the closest container
+            var group = el.closest('.tab-icon-group');
+            if (!group) return;
+
+            // Hide both images
+            group.querySelectorAll('img').forEach(function(img) {
+                img.style.display = 'none';
+            });
+
+            // Show the file input
+            var input = group.querySelector('.choosefileicon');
+            if (input) {
+                input.style.display = 'block';
+            }
+        }
 		function tabLanguageChange(sel){
 			var partURL = window.location.href;
 			if(partURL.search(/&lang=\w*&/i) != -1){

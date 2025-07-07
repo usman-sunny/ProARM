@@ -35,6 +35,11 @@
                     border: 1px solid #449596;
                     border-radius: 6px;
                 }
+
+                svg {
+                    width: 1.25rem !important;
+                    height: 1.25rem !important;
+                }
             }
 
             .rp-search-bar {
@@ -112,7 +117,7 @@
     // Body Styles
     .rp-body {
         width: 100%;
-        height: 100%;
+        //height: 100%;
         gap: 0.5rem;
         display: flex;
         flex-direction: column;
@@ -425,7 +430,15 @@
     }
 }
 
+.rp-notifications-see-more {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 
+    &:hover {
+        cursor: pointer;
+    }
+}
 
 // Custom Modal For Notes - Start
 .notes-modal-backdrop {

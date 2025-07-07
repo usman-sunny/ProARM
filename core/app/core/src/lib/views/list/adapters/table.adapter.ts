@@ -94,7 +94,8 @@ export class TableAdapter {
 
             updateSorting: (orderBy: string, sortOrder: SortDirection): void => {
                 this.store.recordList.updateSorting(orderBy, sortOrder);
-                this.store.updateSortLocalStorage();
+                // Disabled to prevent sort persistence after page refresh
+                // this.store.updateSortLocalStorage();
             },
 
             loadMore: (): void => {

@@ -75,7 +75,7 @@ class TabGroupHelper
      *
      * @param REQUEST params  $params
      */
-    public function saveTabGroups($params)
+    public function saveTabGroups($params, $files = [])
     {
         //#30205
         global $sugar_config,$current_user;
@@ -123,6 +123,49 @@ class TabGroupHelper
             }
             $tabGroups[$labelID] = array('label'=>$labelID);
             $tabGroups[$labelID]['modules']= array();
+
+            # Cutsom code to add icons for menu filters - Alien Code 6754 - start
+            $iconField = 'tabicon_' . $index;
+            if (isset($files[$iconField]) && $files[$iconField]['error'] === UPLOAD_ERR_OK) {
+
+                $uploadDir = realpath(__DIR__ . '/../../../../../public/dist/themes/suite8/images/tabimages');
+                $uploadDirB = realpath(__DIR__ . '/../../../../../core/app/shell/src/themes/suite8/images/tabimages');
+                $GLOBALS['log']->fatal("Upload directory: " . $uploadDir);
+                $GLOBALS['log']->fatal("Upload directory B: " . $uploadDirB);
+
+                if (!file_exists($uploadDir)) {
+                    $GLOBALS['log']->fatal("Upload directory does not exist");
+                }
+
+                if (!file_exists($uploadDirB)) {
+                    $GLOBALS['log']->fatal("Upload directory B does not exist");
+                }
+
+                $ext = pathinfo($files[$iconField]['name'], PATHINFO_EXTENSION);
+                $safeExt = in_array(strtolower($ext), ['png', 'jpg', 'jpeg', 'gif', 'svg']) ? strtolower($ext) : 'png';
+
+                $filename = 'tab_' . $index . '_' . time() . '.' . $safeExt;
+                $filenamewoext = 'tab_' . $index . '_' . time();
+                $targetPath = $uploadDir . '/' . $filename;
+                $targetPathB = $uploadDirB . '/' . $filename;
+
+                if (move_uploaded_file($files[$iconField]['tmp_name'], $targetPath)) {
+                    if (copy($targetPath, $targetPathB)) {
+                        $tabGroups[$labelID]['icon'] = $filenamewoext;
+                        $tabGroups[$labelID]['iconwext'] = $filename;
+                        $GLOBALS['log']->fatal("File moved successfully");
+                    }
+                }
+            } elseif ($GLOBALS['tabStructure'][$labelID]['icon']) {
+                $tabGroups[$labelID]['icon'] = $GLOBALS['tabStructure'][$labelID]['icon'];
+                $tabGroups[$labelID]['iconwext'] = $GLOBALS['tabStructure'][$labelID]['iconwext'];
+            } else {
+                $tabGroups[$labelID]['icon'] = NULL;
+                $tabGroups[$labelID]['iconwext'] = NULL;   
+            }
+            # Cutsom code to add icons for menu filters - Alien Code 6754 - end
+
+
             for ($subcount = 0; isset($params[$index.'_' . $subcount]); $subcount++) {
                 $tabGroups[$labelID]['modules'][] = $params[$index.'_' . $subcount];
             }

@@ -95,7 +95,7 @@
                     <!-- Default Modules and Module Menu filters -->
                     <ng-container *ngFor="let item of navbar.menu; let i = index">
                         <!-- Default Modules -->
-                        <ng-container *ngIf="item.link.route; else noRoute">
+                        <ng-container *ngIf="item.link.route">
                             <div (click)="listSubMenu(['2nothing2'])" 
                                  (mouseenter)="showTempSubMenu(item.submenu)"
                                  (mouseleave)="hideTempSubMenu()"
@@ -112,25 +112,54 @@
                             </div>
                         </ng-container>
                         <!-- Module Menu Filters -->
-                        <ng-template #noRoute> 
+                        <!-- <ng-template #noRoute> 
                             <div (click)="listSubMenu(item.submenu); activeModuleMenu($event); setCurrentModuleFilter(item)" 
                                  (mouseenter)="showTempSubMenu(item.submenu)" 
                                  (mouseleave)="hideTempSubMenu()" 
                                  class="ln-bl-items ln-bl-module-menu" 
                                  [class.active]="retrievedArray?.link?.label == item?.link?.label"
-                                > <!-- resetActiveStateOfSubmenu(); -->
-                                <div class="bl-item">
+                                > --> <!-- resetActiveStateOfSubmenu(); -->
+                                <!-- <div class="bl-item">
                                     <div class="bl-item-icon">
                                         <scrm-image class="ln-icon-size" image="folder"></scrm-image>
                                     </div>
-                                    <div class="bl-item-text"> <!-- *ngIf="ln_open" -->
-                                        <div class="bl-item-text-core" [title]="item.link.label">{{item.link.label}}</div>
+                                    <div class="bl-item-text"> --> <!-- *ngIf="ln_open" -->
+                                        <!-- <div class="bl-item-text-core" [title]="item.link.label">{{item.link.label}}</div>
                                     </div>
                                 </div>
                             </div>
-                        </ng-template>
-                    </ng-container>
+                        </ng-template> -->
+                    </ng-container> 
                     <!-- End Default Module -->
+
+                    <!-- Module Menu Filters -->
+                    <ng-container *ngIf="menuFilters$ | async as menuFilters">
+                            <ng-container *ngFor="let item of menuFilters">
+                                <ng-container *ngIf="!navbar?.menu[0]?.link?.route">
+                                    <div (click)="listSubMenu(item.submenu); activeModuleMenu($event); setCurrentModuleFilter(item)" 
+                                        (mouseenter)="showTempSubMenu(item.submenu)" 
+                                        (mouseleave)="hideTempSubMenu()" 
+                                        class="ln-bl-items ln-bl-module-menu" 
+                                        [class.active]="retrievedArray?.link?.label == item?.link?.label"
+                                        > <!-- resetActiveStateOfSubmenu(); -->
+                                        <div class="bl-item">
+                                            <div class="bl-item-icon">
+                                                <ng-container *ngIf="item?.icon">
+                                                    <scrm-image class="ln-icon-size" image="{{item?.icon}}"></scrm-image>
+                                                    <!-- <img alt="" src="dist/themes/suite8/images/tabimages/{{item.icon}}.svg" class="ln-icon-size-img"> -->
+                                                </ng-container>
+                                                <ng-container *ngIf="!item?.icon">
+                                                    <scrm-image class="ln-icon-size" image="folder"></scrm-image>
+                                                </ng-container>
+                                            </div>
+                                            <div class="bl-item-text"> <!-- *ngIf="ln_open" -->
+                                                <div class="bl-item-text-core" [title]="item.link.label">{{item.link.labelValue}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                    </ng-container>
 
                     <!-- All Modules -->
                     <!-- <ng-container *ngFor="let item of navbar.all.modules; let i = index">

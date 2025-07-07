@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { StupidDataService } from '../../../services/stupid-data/stupid-data.service';
 import { AuthService } from '../../../services/auth/auth.service';
 import { DatePipe } from '@angular/common';
+//import { offset } from '@popperjs/core';
 
 @Component({
     selector: 'right-panel',
@@ -22,6 +23,7 @@ export class RightPanelComponent implements OnInit, OnDestroy {
     isLabelMissing: boolean = false;
     isReadonly: boolean = false;
     navbar: any = null;
+    off_set: number = 0;
     
     labels: string[] = [
         'Personal',
@@ -35,6 +37,7 @@ export class RightPanelComponent implements OnInit, OnDestroy {
     notes: any = {};
 
     displayNotes$ = this.stupidService.notes$;
+    displayNotifications$ = this.stupidService.notifications$;
 
     constructor(
         private stupidService: StupidDataService,
@@ -46,6 +49,34 @@ export class RightPanelComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
 
+        this.stupidService.object$.subscribe(value => {
+            this.navbar = value;
+        });
+        
+        // this.stupidService.object$.pipe(
+        //     filter(v => !!v?.currentUser?.id),
+        //     tap(v => {
+        //         this.navbar = v;
+        //         console.log('User ID from filtered stream:', v.currentUser.id);
+        //     }),
+        //     switchMap(v => this.stupidService.readNotifications(v.currentUser.id))
+        // ).subscribe();
+
+        // setTimeout(() => {
+        //     this.stupidService.readNotifications(this.navbar?.currentUser?.id).subscribe(value => {
+        //         console.log('Notifications from right-panel - api call response:', value);
+        //     });
+        // }, 1000);
+
+        // this.stupidService.readNotifications().subscribe(value => {
+        //     console.log('Notifications from right-panel - api call response:', value);
+        // });
+
+        this.readNotifications();
+
+        console.log('navbar from right-panel:', this.navbar);
+        
+
         this.stupidService.readNotes().subscribe();
 
         this.authService.isUserLoggedIn.subscribe(value => {
@@ -55,12 +86,8 @@ export class RightPanelComponent implements OnInit, OnDestroy {
         this.stupidService.notes$.subscribe(value => {
             //console.log('subscription value from notes$ :', value);
         });
-
-        this.stupidService.object$.subscribe(value => {
-            this.navbar = value;
-        });
-
     }
+
 
     ngOnDestroy(): void {
         this.authService.isUserLoggedIn.unsubscribe();
@@ -117,6 +144,13 @@ export class RightPanelComponent implements OnInit, OnDestroy {
         this.selected_labels = [];
         this.isLabelMissing = false;
         this.isReadonly = false;
+    }
+
+    readNotifications(): void {
+        this.off_set += 1;
+        this.stupidService.readNotifications(this.off_set).subscribe(value => {
+            console.log('Notifications from right-panel - api call response:', value);
+        });
     }
 
     openModal(): void {

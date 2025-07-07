@@ -38,10 +38,18 @@
 
                     <div ngbDropdown>
                         <div class="d-flex justify-content-center align-items-center">
-                            <input type="checkbox" 
+                            <!-- <input type="checkbox" 
                                    [checked]="status === 'ALL'" 
                                    (change)="toggleSelectionB(status)" 
-                                   class="cstm-checkbox">
+                                   class="cstm-checkbox"> -->
+                            <label class="checkbox-container">
+                                <input type="checkbox"
+                                        [checked]="status === 'ALL'"
+                                        (change)="toggleSelectionB(status)"
+                                        aria-hidden="true">
+                                <span class="checkmark"></span>
+                            </label>
+
                             <div ngbDropdownToggle class="cstm-dropdown-btn">
                                 <scrm-image image="cstm-arrow-down"></scrm-image>
                             </div>

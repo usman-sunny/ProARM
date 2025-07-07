@@ -56,7 +56,7 @@ import {SubMenuFavoritesComponent} from './sub-menu-favorites/sub-menu-favorites
 import {MenuFavoritesComponent} from './menu-favorites/menu-favorites.component';
 import {BaseMenuFavoritesComponent} from './menu-favorites/base-menu-favorites.component';
 import {BaseFavoritesComponent} from './menu-favorites/base-favorites.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NotificationsModule} from '../../containers/notifications/notifications.module';
 import {SearchBarModule} from '../search-bar/search-bar.module';
 import {DropdownButtonModule} from "../dropdown-button/dropdown-button.module";
@@ -138,6 +138,7 @@ import {RightPanelComponent} from './right-panel/right-panel.component';
         DynamicModule,
         LabelModule,
         FormsModule,
+        ReactiveFormsModule,
         NotificationsModule,
         SearchBarModule,
         TruncatePipe,

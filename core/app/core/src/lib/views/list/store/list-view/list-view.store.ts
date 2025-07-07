@@ -371,8 +371,9 @@ export class ListViewStore extends ViewStore implements StateStore {
                 this.loadQueryFilter(module, queryParams);
                 break
             default:
-                this.loadCurrentFilter(module);
-                this.loadCurrentSort(module);
+                // Disabled to prevent filter persistence after page refresh
+                // this.loadCurrentFilter(module);
+                // this.loadCurrentSort(module);
         }
         this.loadCurrentDisplayedColumns();
 
@@ -542,15 +543,15 @@ export class ListViewStore extends ViewStore implements StateStore {
     }
 
     public updateFilterLocalStorage(): void {
-        const module = this.internalState.module;
+        //const module = this.internalState.module;
 
-        this.savePreference(module, 'current-filters', this.internalState.activeFilters);
+        //this.savePreference(module, 'current-filters', this.internalState.activeFilters);
     }
 
     public updateSortLocalStorage(): void {
-        const module = this.internalState.module;
+        //const module = this.internalState.module;
 
-        this.savePreference(module, 'current-sort', this.recordList.sort);
+        //this.savePreference(module, 'current-sort', this.recordList.sort);
     }
 
     public updatePaginationLocalStorage(): void {

@@ -1,0 +1,94 @@
+.cstm-login-main {
+    padding: 0.75rem 15.875rem;
+}
+
+.cstm-login-card-bkgrnd {
+    background-color: #FFFFFF;
+    height: 55rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-top: unset !important;
+    border: 1px solid #ECEDEE;
+}
+
+.cstm-login-card {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.cstm-login-card-1 {
+    padding: unset !important;
+
+    input {
+        width: 80rem;
+        height: 3.625rem;
+        border-radius: 6px;
+        padding-left: 1.5rem;
+
+        &::placeholder {
+            font-size: 14px;
+            font-weight: 500;
+            color: #888EA8;
+            font-family: 'Inter';
+        }
+    }
+
+    button {
+        width: 80rem;
+        height: 3rem;
+        border-radius: 6px;
+        background-color: #D3EAFD !important;
+        margin-top: 4rem;
+        color: #FAFBFA;
+        font-weight: 500;
+        font-size: 1rem;
+
+        &:hover {
+            background-color: #B8D4F1 !important;
+            cursor: pointer;
+        }
+
+        &:focus,
+        &:active,
+        &:focus-visible {
+            outline: none !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+    }
+
+    .cstm-login-input-label {
+        display: flex;
+        font-size: 14px;
+        font-weight: 400;
+        font-family: 'Inter';
+        color: #060818;
+        margin-top: 1rem;
+
+        span {
+            color: red;
+        }
+    }
+}
+
+.cstm-login-header {
+    margin-bottom: 2rem;
+
+    .cstm-ti-text {
+        color: #0E1726;
+        font-size: 32px;
+        font-weight: 600;
+        font-family: 'Inter';
+        display: flex;
+    }
+
+    .cstm-st-text {
+        color: #0E1726;
+        font-size: 16px;
+        font-weight: 400;
+        font-family: 'Inter';
+    }
+}

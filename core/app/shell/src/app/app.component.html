@@ -35,7 +35,7 @@
     <div #mainOutlet></div>
 
     <div class="outer-container">
-        <scrm-navbar-ui></scrm-navbar-ui>   
+        <scrm-navbar-ui *ngIf="authService.isUserLoggedIn | async"></scrm-navbar-ui>   
         <div class="main-body-1">
             <scrm-navbar-top (togglePanel)="rightPanel?.togglePanel($event)"></scrm-navbar-top>
             <scrm-top-cards></scrm-top-cards>

@@ -69,6 +69,17 @@ $groupedTabStructure = $groupedTabsClass->get_tab_structure($modList, '', true, 
 foreach ($groupedTabStructure as $mainTab => $subModules) {
     $groupedTabStructure[$mainTab]['label'] = $mainTab;
     $groupedTabStructure[$mainTab]['labelValue'] = $selectedAppLanguages[$mainTab];
+
+    // ✅ Add icon from $tabStructure if available - Alien Code 6754
+    if ($GLOBALS['tabStructure'][$mainTab]['icon']) {
+         $groupedTabStructure[$mainTab]['icon'] = $GLOBALS['tabStructure'][$mainTab]['icon'];
+         $groupedTabStructure[$mainTab]['iconwext'] = $GLOBALS['tabStructure'][$mainTab]['iconwext'];
+
+    } else {
+         $groupedTabStructure[$mainTab]['icon'] = '';
+         $groupedTabStructure[$mainTab]['iconwext'] = '';
+
+    }
 }
 
 $smarty->assign('tabs', $groupedTabStructure);

@@ -40,6 +40,8 @@ import {LabelModule} from "../../../../components/label/label.module";
 
 import {ImageModule} from '../../../../components/image/image.module';
 
+import {RouterModule} from '@angular/router';
+
 @NgModule({
     declarations: [ListHeaderComponent],
     exports: [ListHeaderComponent],
@@ -53,7 +55,8 @@ import {ImageModule} from '../../../../components/image/image.module';
         RecordPanelModule,
         ButtonGroupModule,
         LabelModule,
-        ImageModule
+        ImageModule,
+        RouterModule,
     ]
 })
 export class ListHeaderModule {

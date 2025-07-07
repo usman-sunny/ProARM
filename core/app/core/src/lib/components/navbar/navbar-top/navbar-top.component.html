@@ -1,4 +1,4 @@
-<div *ngIf="isUserLoggedIn" class="navbar-top">
+<div *ngIf="isUserLoggedIn" (click)="collapseSearchBox()" class="navbar-top">
 
     <div class="nav-top-title">
         <div class="top-title">
@@ -17,12 +17,47 @@
     <div class="navt-action-btns">
 
         <div class="navt-btns">
-            <div class="navt-search icon-clr">
+
+            <!-- Search Box Button-->
+            <!-- <div *ngIf="!searchBoxExpanded" (click)="expandSearchBox($event)" class="navt-search icon-clr">
                 <scrm-image class="ln-icon-size" image="search_t"></scrm-image>
+            </div> -->
+            <!-- Search Box Expanded -->
+            <!-- <ng-container *ngIf="searchBoxExpanded">
+                <form [formGroup]="searchForm" (ngSubmit)="search()">
+                    <div (click)="stopClick($event)" class="tn-search-box">
+                        <button [disabled]="!searchForm.valid" type="submit" class="tn-search-icon">
+                            <scrm-image image="c2-search"></scrm-image>
+                        </button>
+                        <input formControlName="searchTerm" class="tn-search-input" type="text" placeholder="Search">
+                    </div>
+                </form>
+            </ng-container> -->
+
+            <!-- Search Box Wrapper -->
+            <div class="tn-search-wrapper" [class.expanded]="searchBoxExpanded">
+                <!-- Search Icon (collapsed) -->
+                <div class="navt-search icon-clr search-icon" (click)="expandSearchBox($event)">
+                    <scrm-image class="ln-icon-size" image="search_t"></scrm-image>
+                </div>
+
+                <!-- Expanded Search Box -->
+                <form [formGroup]="searchForm" (ngSubmit)="search()" class="search-form" (click)="stopClick($event)">
+                    <div class="tn-search-box">
+                        <button [disabled]="!searchForm.valid" type="submit" class="tn-search-icon">
+                            <scrm-image image="c2-search"></scrm-image>
+                        </button>
+                        <input formControlName="searchTerm" class="tn-search-input" type="text" placeholder="Search">
+                    </div>
+                </form>
             </div>
+
+            <!-- Notes Button -->
             <div (click)="toggleRightPanel('notes')" class="navt-notes icon-clr">
                 <scrm-image class="ln-icon-size" image="notes_t"></scrm-image>
             </div>
+
+            <!-- Message Button -->
             <div class="navt-message icon-clr">
                 <scrm-image class="ln-icon-size" image="message_t"></scrm-image>
             </div>
@@ -153,8 +188,8 @@
                     <a href="{{navbar?.globalActions[0]?.link?.url}}" class="ad-bd-text"><div>Edit Profile</div></a>
                     <a href="#/employees/index" class="ad-bd-text"><div>Employees</div></a>
                     <a href="#/administration/index" class="ad-bd-text"><div>Admin</div></a>
-                    <a href="https://community.suitecrm.com/" target="_blank" class="ad-bd-text"><div>Support Forum</div></a>
-                    <a href="#/home/about" class="ad-bd-text"><div>About</div></a>
+                    <!-- <a href="https://community.suitecrm.com/" target="_blank" class="ad-bd-text"><div>Support Forum</div></a>
+                    <a href="#/home/about" class="ad-bd-text"><div>About</div></a> -->
                 </div>
                 <scrm-logout-ui></scrm-logout-ui>
                 <!-- <div class="ad-bottom">

@@ -112,8 +112,12 @@
         </div>
 
         <div class="rp-body">
-            <ng-container *ngTemplateOutlet="card1"></ng-container>
-            <ng-container *ngTemplateOutlet="card1"></ng-container>
+            <ng-container *ngIf="displayNotifications$ | async as allNotifications">
+                <ng-container *ngFor="let notification of allNotifications">
+                    <ng-container *ngTemplateOutlet="card1"></ng-container>
+                </ng-container>
+            </ng-container>
+            <div class="rp-notifications-see-more" (click)="readNotifications()">See More</div>
         </div>
 
     </ng-container>

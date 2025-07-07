@@ -50,6 +50,7 @@ export class ListHeaderComponent implements OnInit, OnDestroy {
     enableQuickFilters = false;
     protected subs: Subscription[] = [];
     filterBtn = false;
+    navbar: any;
 
     insightsBtn: { [key: string]: any } = {
         isEnabled: false,
@@ -106,6 +107,10 @@ export class ListHeaderComponent implements OnInit, OnDestroy {
         this.stupidDataService.bulkActionButtonsObject$.subscribe(value => {
             this.bulkActions = value;
         });
+
+        this.stupidDataService.object$.subscribe(navbar => {
+            this.navbar = navbar;
+        });
   
         //console.log('bulkActions from stupid service:', this.bulkActions);
 
@@ -113,6 +118,9 @@ export class ListHeaderComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.subs.forEach(sub => sub.unsubscribe());
+        if (this.countSubscription) {
+            this.countSubscription.unsubscribe();
+        }
         this.recordPanelConfig = null;
     }
 

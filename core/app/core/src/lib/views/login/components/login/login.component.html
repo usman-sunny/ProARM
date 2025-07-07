@@ -25,16 +25,16 @@
 * the words "Supercharged by SuiteCRM".
 */
 -->
-<div *ngIf="(vm$ | async) as vm" class="login-view full-height-view d-flex align-items-center">
+<div *ngIf="(vm$ | async) as vm" class="login-view full-height-view d-flex align-items-center cstm-login-main">
 
     <!-- Start of login form section -->
 
-    <form name="login" class="login-form" #loginForm="ngForm">
-        <div class="form-row form-group">
+    <form name="login" class="login-form cstm-login-card-bkgrnd" #loginForm="ngForm">
+        <!-- <div class="form-row form-group">
             <div class="col">
                 <scrm-logo-ui></scrm-logo-ui>
             </div>
-        </div>
+        </div> -->
         <div class="form-row" *ngIf="vm.showLanguages && cardState() !== '2fa'">
             <div class="col">
                 <label class="" for="languages">{{vm.appStrings['LBL_LANGUAGE']}}</label>
@@ -54,49 +54,57 @@
             </div>
         </div>
 
+        
 
-        <div class="form-row fade-card">
+        <div class="form-row fade-card cstm-login-card">
+
+            <div class="cstm-login-header">
+                <div class="cstm-ti-text">Welcome Back!</div>
+                <div class="cstm-st-text">Empower Your Workflow. Simplify Your Management</div>
+            </div>
 
             <!-- Card front -->
-            <div class="fade-card-front col"
+            <div class="fade-card-front col cstm-login-card-1"
                  *ngIf="cardState() === 'front'"
                  [@fade]>
 
+                <div class="cstm-login-input-label">Email or Username<span>*</span></div>
                 <div class="inner-addon left-addon">
-                    <scrm-image image="login_user"></scrm-image>
+                    <!-- <scrm-image image="login_user"></scrm-image> {{vm.appStrings['LBL_USER_NAME']}} -->
                     <input [(ngModel)]="uname"
                            type="text"
                            name="username"
                            [class.is-invalid]="username.invalid && username.touched"
                            #username="ngModel"
-                           placeholder="{{vm.appStrings['LBL_USER_NAME']}}"
+                           placeholder="Enter your email or username"
                            aria-label="Username"
                            required>
-                    <div *ngIf="username.invalid && username.touched" class="invalid-feedback">
+                    <!-- <div *ngIf="username.invalid && username.touched" class="invalid-feedback">
                         {{vm.appStrings['ERR_MISSING_REQUIRED_FIELDS']}}
-                    </div>
+                    </div> -->
                 </div>
 
+                <div class="cstm-login-input-label">Password<span>*</span></div>
                 <div class="inner-addon left-addon">
-                    <scrm-image image="login_password"></scrm-image>
+                    <!-- <scrm-image image="login_password"></scrm-image> {{vm.appStrings['LBL_PASSWORD']}} -->
                     <input [(ngModel)]="passw"
                            type="password"
                            name="password"
                            [class.is-invalid]="password.invalid && password.touched"
                            #password="ngModel"
-                           placeholder="{{vm.appStrings['LBL_PASSWORD']}}"
+                           placeholder="Enter you password"
                            aria-label="Password"
                            required>
-                    <div *ngIf="password.invalid && password.touched" class="invalid-feedback">
+                    <!-- <div *ngIf="password.invalid && password.touched" class="invalid-feedback">
                         {{vm.appStrings['ERR_MISSING_REQUIRED_FIELDS']}}
-                    </div>
+                    </div> -->
                 </div>
 
 
                 <button id="login-button" class="login-button"
                         [scrm-button-loading]="loading"
                         (click)="loginForm.control.markAllAsTouched(); loginForm.valid && doLogin()">
-                    {{vm.appStrings['LBL_LOGIN_BUTTON_LABEL']}}
+                    Sign in
                 </button>
                 <div class="forgotten-password" *ngIf="vm.showForgotPassword">
                     <a class="forgotten-password-link" (click)="flipCard()">

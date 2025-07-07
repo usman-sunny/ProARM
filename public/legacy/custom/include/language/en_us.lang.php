@@ -32,4 +32,12 @@ $app_strings['LBL_GROUPTAB19_1747238478'] = 'New Group';
 $app_strings['LBL_GROUPTAB20_1747238478'] = 'New Group';
 
 $app_strings['LBL_GROUPTAB21_1747238478'] = 'New Group';
+
+$app_strings['LBL_GROUPTAB22_1750924801'] = 'New Group';
+
+$app_strings['LBL_GROUPTAB23_1750924801'] = 'New Group';
+
+$app_strings['LBL_GROUPTAB24_1750924801'] = 'abcdefgh';
+
+$app_strings['LBL_GROUPTAB21_1751266500'] = 'aaaaaaaa';
 ?>

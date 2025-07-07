@@ -132,16 +132,16 @@
 						<!-- <img src="../public/legacy/themes/default/images/dots_pd.svg" alt="dots Icon"> -->
 					</div>
 					<div class="pd-dash-content">
-						{if $pageData.rowAccess[$id].edit}
+						{if $pageData.access.view}
+							{capture assign='viewUrl'}index.php?action=DetailView&module={$pageData.bean.moduleDir}&record={$rowData[$params.parent_id]|default:$rowData.ID}&offset={$pageData.offsets.current+$smarty.foreach.rowIteration.iteration}&stamp={$pageData.stamp}&return_module=Home&return_action=index{/capture}
+						<a title='{$viewLinkString}' class="pd-dash-row list-view-data-icon" href='{convert_link link=$viewUrl}' title="{sugar_translate label="LBL_VIEW_INLINE"}"> {sugar_getimage name="view_pd"}<span>View</span></a> <!-- <span class="suitepicon suitepicon-action-view-record"></span> -->
+						{/if}
+						<div class="pd-break-row"></div>
+                        {if $pageData.rowAccess[$id].edit}
 							{capture name='tmp1' assign='alt_edit'}{sugar_translate label="LNK_EDIT"}{/capture}
 							{capture name='tmp1' assign='alt_view'}{sugar_translate label="LBL_VIEWINLINE"}{/capture}
 							{capture assign='editUrl'}index.php?action=EditView&module={$pageData.bean.moduleDir}&record={$rowData.ID}&offset={$pageData.offsets.current+$smarty.foreach.rowIteration.iteration}&stamp={$pageData.stamp}&return_module=Home&return_action=index{/capture}
-							<a title='{$editLinkString}' class="pd-dash-row list-view-data-icon" href='{convert_link link=$editUrl}'> <span class="suitepicon suitepicon-action-edit"></span><span>Edit</span></a>
-						{/if}
-						<div class="pd-break-row"></div>
-						{if $pageData.access.view}
-							{capture assign='viewUrl'}index.php?action=DetailView&module={$pageData.bean.moduleDir}&record={$rowData[$params.parent_id]|default:$rowData.ID}&offset={$pageData.offsets.current+$smarty.foreach.rowIteration.iteration}&stamp={$pageData.stamp}&return_module=Home&return_action=index{/capture}
-						<a title='{$viewLinkString}' class="pd-dash-row list-view-data-icon" href='{convert_link link=$viewUrl}' title="{sugar_translate label="LBL_VIEW_INLINE"}"> <span class="suitepicon suitepicon-action-view-record"></span><span>View</span></a>
+							<a title='{$editLinkString}' class="pd-dash-row list-view-data-icon" href='{convert_link link=$editUrl}'> {sugar_getimage name="edit_pd"}<span>Edit</span></a> <!-- <span class="suitepicon suitepicon-action-edit"></span> -->
 						{/if}
 						<div class="pd-break-row"></div>
 						<a class="pd-dash-row list-view-data-icon" href="#">
