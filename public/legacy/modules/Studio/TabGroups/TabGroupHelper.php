@@ -128,8 +128,8 @@ class TabGroupHelper
             $iconField = 'tabicon_' . $index;
             if (isset($files[$iconField]) && $files[$iconField]['error'] === UPLOAD_ERR_OK) {
 
-                $uploadDir = realpath(__DIR__ . '/../../../../../public/dist/themes/suite8/images/tabimages');
-                $uploadDirB = realpath(__DIR__ . '/../../../../../core/app/shell/src/themes/suite8/images/tabimages');
+                $uploadDir = realpath(__DIR__ . '/../../../../../public/dist/themes/suite8/images');
+                $uploadDirB = realpath(__DIR__ . '/../../../../../core/app/shell/src/themes/suite8/images');
                 $GLOBALS['log']->fatal("Upload directory: " . $uploadDir);
                 $GLOBALS['log']->fatal("Upload directory B: " . $uploadDirB);
 

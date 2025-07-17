@@ -54,7 +54,7 @@
                                 <div class="lh-drop-body">
                                     <a [routerLink]="item?.link?.route" [queryParams]="item?.link?.params" class="lh-bd-text"><div>Files</div></a>
                                     <div class="lh-break-row"></div>
-                                    <a href="#" class="lh-bd-text"><div>Synthetic Data Generator</div></a>
+                                    <a [routerLink]="'/ai_generate/synthetic_data'" [queryParams]="{module_name: navbar?.current?.module}" class="lh-bd-text"><div>Synthetic Data Generator</div></a>
                                 </div>  
                             </div>
                         </div>

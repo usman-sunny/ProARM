@@ -113,7 +113,7 @@ subtabModules['modSlot{$modCounter}'] = '{$value.label}'</script>
         <input class="cstm_choose_file_input" type="file" name="tabicon_{$tabCounter}" id="tabicon_{$tabCounter}" accept="image/*">
     {else}
     <div class="tab-icon-group">
-        <img id="modulefiltericon" src="../dist/themes/suite8/images/tabimages/{$tab.iconwext}" alt="{$tab.iconwext}" class='' width="20" height="20" />
+        <img id="modulefiltericon" src="../dist/themes/suite8/images/{$tab.iconwext}" alt="{$tab.iconwext}" class='' width="20" height="20" />
         <img id='remove_icon_image' onclick="hideModuleIcon(this)" src="themes/suite8/images/cstm_close.svg" alt="{$tab.icon}" class='' width="10" height="10" style="float:right;"/>
         <input class="cstm_choose_file_input choosefileicon" type="file" name="tabicon_{$tabCounter}" style="display:none;" id="tabicon_{$tabCounter}" accept="image/*">
     </div>

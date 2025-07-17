@@ -1,5 +1,5 @@
 <?php
-// created: 2025-07-02 10:05:40
+// created: 2025-07-17 06:51:10
 $GLOBALS['tabStructure'] = array (
   'LBL_TABGROUP_SALES' => 
   array (
@@ -50,8 +50,8 @@ $GLOBALS['tabStructure'] = array (
       41 => 'Tasks',
       42 => 'Calls',
     ),
-    'icon' => 'tab_0_1751445939',
-    'iconwext' => 'tab_0_1751445939.svg',
+    'icon' => 'tab_0_1752732318',
+    'iconwext' => 'tab_0_1752732318.svg',
   ),
   'LBL_TABGROUP_MARKETING' => 
   array (
@@ -65,21 +65,26 @@ $GLOBALS['tabStructure'] = array (
       4 => 'Campaigns',
       5 => 'Prospects',
     ),
-    'icon' => 'tab_1_1751373557',
-    'iconwext' => 'tab_1_1751373557.svg',
+    'icon' => 'tab_1_1752734459',
+    'iconwext' => 'tab_1_1752734459.png',
   ),
   'LBL_TABGROUP_SUPPORT' => 
   array (
     'label' => 'LBL_TABGROUP_SUPPORT',
     'modules' => 
     array (
-      0 => 'Home',
-      1 => 'Accounts',
-      2 => 'Contacts',
-      3 => 'Cases',
+      0 => 'Accounts',
+      1 => 'Contacts',
+      2 => 'Cases',
+      3 => 'tst3_sand',
+      4 => 'tst_banana',
+      5 => 'tst_car',
+      6 => 'tst_bike',
+      7 => 'tst_sky',
+      8 => 'tst_ocean',
     ),
-    'icon' => 'tab_2_1751373962',
-    'iconwext' => 'tab_2_1751373962.svg',
+    'icon' => 'tab_2_1752735070',
+    'iconwext' => 'tab_2_1752735070.png',
   ),
   'LBL_TABGROUP_ACTIVITIES' => 
   array (
@@ -93,8 +98,8 @@ $GLOBALS['tabStructure'] = array (
       4 => 'Tasks',
       5 => 'Notes',
     ),
-    'icon' => 'tab_3_1751373925',
-    'iconwext' => 'tab_3_1751373925.svg',
+    'icon' => 'tab_3_1752732746',
+    'iconwext' => 'tab_3_1752732746.svg',
   ),
   'LBL_TABGROUP_COLLABORATION' => 
   array (
@@ -106,8 +111,8 @@ $GLOBALS['tabStructure'] = array (
       2 => 'Documents',
       3 => 'Project',
     ),
-    'icon' => 'tab_4_1751437172',
-    'iconwext' => 'tab_4_1751437172.svg',
+    'icon' => 'tab_4_1752732746',
+    'iconwext' => 'tab_4_1752732746.svg',
   ),
   'LBL_GROUPTAB5_1746090455' => 
   array (
@@ -119,8 +124,8 @@ $GLOBALS['tabStructure'] = array (
       2 => 'Accounts',
       3 => 'EmailTemplates',
     ),
-    'icon' => 'tab_5_1751437483',
-    'iconwext' => 'tab_5_1751437483.svg',
+    'icon' => 'tab_5_1752732746',
+    'iconwext' => 'tab_5_1752732746.svg',
   ),
   'LBL_GROUPTAB8_1747235846' => 
   array (
@@ -130,8 +135,8 @@ $GLOBALS['tabStructure'] = array (
       0 => 'Notes',
       1 => 'Contacts',
     ),
-    'icon' => 'tab_6_1751359916',
-    'iconwext' => 'tab_6_1751359916.svg',
+    'icon' => 'tab_6_1752732746',
+    'iconwext' => 'tab_6_1752732746.svg',
   ),
   'LBL_GROUPTAB9_1747235846' => 
   array (
@@ -141,8 +146,8 @@ $GLOBALS['tabStructure'] = array (
       0 => 'Notes',
       1 => 'Calendar',
     ),
-    'icon' => 'tab_7_1751359938',
-    'iconwext' => 'tab_7_1751359938.svg',
+    'icon' => 'tab_7_1752732746',
+    'iconwext' => 'tab_7_1752732746.svg',
   ),
   'LBL_GROUPTAB10_1747235846' => 
   array (
@@ -152,8 +157,8 @@ $GLOBALS['tabStructure'] = array (
       0 => 'Calendar',
       1 => 'Leads',
     ),
-    'icon' => 'tab_8_1751360033',
-    'iconwext' => 'tab_8_1751360033.svg',
+    'icon' => 'tab_8_1752732746',
+    'iconwext' => 'tab_8_1752732746.svg',
   ),
   'LBL_GROUPTAB11_1747235846' => 
   array (
@@ -163,8 +168,8 @@ $GLOBALS['tabStructure'] = array (
       0 => 'Cases',
       1 => 'Accounts',
     ),
-    'icon' => 'tab_9_1751437620',
-    'iconwext' => 'tab_9_1751437620.svg',
+    'icon' => 'tab_9_1752732746',
+    'iconwext' => 'tab_9_1752732746.svg',
   ),
   'LBL_GROUPTAB12_1747236446' => 
   array (
@@ -174,8 +179,8 @@ $GLOBALS['tabStructure'] = array (
       0 => 'AOK_KnowledgeBase',
       1 => 'FP_events',
     ),
-    'icon' => 'tab_10_1751446028',
-    'iconwext' => 'tab_10_1751446028.svg',
+    'icon' => 'tab_10_1752732746',
+    'iconwext' => 'tab_10_1752732746.svg',
   ),
   'LBL_GROUPTAB13_1747236446' => 
   array (
@@ -185,8 +190,8 @@ $GLOBALS['tabStructure'] = array (
       0 => 'AOS_PDF_Templates',
       1 => 'AOS_Contracts',
     ),
-    'icon' => 'tab_11_1751450740',
-    'iconwext' => 'tab_11_1751450740.svg',
+    'icon' => 'tab_11_1752733432',
+    'iconwext' => 'tab_11_1752733432.png',
   ),
   'LBL_GROUPTAB14_1747238478' => 
   array (
