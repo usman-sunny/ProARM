@@ -1,32 +1,42 @@
 .cstm-login-main {
-    padding: 0.75rem 15.875rem;
+    padding: 0.75rem 13rem;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center;
+    gap: 40px;
+    background-color: #FBFBFA !important;
 }
 
 .cstm-login-card-bkgrnd {
-    background-color: #FFFFFF;
-    height: 55rem;
+    //background-color: #FFFFFF;
+    height: 900px !important;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    padding-top: unset !important;
-    border: 1px solid #ECEDEE;
+    width: 686px;
+    padding: 48px 32px !important;
+    //border: 1px solid #ECEDEE;
+    margin: unset !important;
 }
 
 .cstm-login-card {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
 }
 
 .cstm-login-card-1 {
     padding: unset !important;
 
     input {
-        width: 80rem;
+        width: 100%;
         height: 3.625rem;
         border-radius: 6px;
         padding-left: 1.5rem;
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+        color: #0E1726 !important;
 
         &::placeholder {
             font-size: 14px;
@@ -37,17 +47,17 @@
     }
 
     button {
-        width: 80rem;
+        width: 100%;
         height: 3rem;
         border-radius: 6px;
-        background-color: #D3EAFD !important;
-        margin-top: 4rem;
+        background-color: #449596 !important;
+        margin-top: 2rem;
         color: #FAFBFA;
         font-weight: 500;
         font-size: 1rem;
 
         &:hover {
-            background-color: #B8D4F1 !important;
+            //background-color: #449596 !important;
             cursor: pointer;
         }
 
@@ -77,6 +87,15 @@
 .cstm-login-header {
     margin-bottom: 2rem;
 
+    .cstm-pa-text {
+        color: #0E1726;
+        font-size: 24px;
+        font-weight: 500;
+        font-family: 'Inter';
+        text-align: start;
+        margin-bottom: 50px;
+    }
+
     .cstm-ti-text {
         color: #0E1726;
         font-size: 32px;
@@ -89,6 +108,134 @@
         color: #0E1726;
         font-size: 16px;
         font-weight: 400;
+        font-family: 'Inter';
+        text-align: start;
+    }
+}
+
+.cstm-login-card-image-container {
+
+    svg {
+        width: 686px;
+        height: 900px;
+    }
+}
+
+.cstm-password-field-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    input {
+        padding-right: 40px;
+    }
+}
+
+.cstm-password-toggle-icon {
+    position: absolute;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+
+    svg {
+        margin: unset !important;
+        width: 24px;
+        height: 24px;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.cstm-sin-up-txt {
+    color: #0E1726;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Inter';
+    margin-top: 1rem;
+
+    .cstm-sin-up-link {
+        color: #4361EE;
+        font-size: 14px;
+        font-weight: 600;
+        font-family: 'Inter';
+        //text-align: start;
+        //margin-top: 1rem;
+    }
+}
+
+.cstm-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+  
+.divider hr {
+    flex: 1;
+    border: none;
+    height: 1px;
+    background-color: #ccc;
+}
+  
+.divider span {
+    padding: 0 10px;
+    color: #999;
+    font-size: 14px;
+}
+
+.cstm-sign-up-btns {
+    width: 100%;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 1rem;
+    border: 1px solid #1E24323B;
+    border-radius: 8px;
+
+    svg {
+        width: 24px;
+        height: 24px;
+        margin: unset !important;
+    }
+
+    .cstm-txt-continue {
+        color: #000000;
+        font-size: 16px;
+        font-weight: 400;
+        font-family: 'Inter';
+    }
+
+}
+
+.cstm-remember-me-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+
+    .cstm-remember-me-txt {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #686B6F;
+        font-size: 14px;
+        font-weight: 500;
+        font-family: 'Inter';
+
+        input {
+            width: 1rem;
+            height: 1rem;
+        }
+    }
+
+    .cstm-forgot-password-txt {
+        color: #4361EE;
+        font-size: 14px;
+        font-weight: 500;
         font-family: 'Inter';
     }
 }

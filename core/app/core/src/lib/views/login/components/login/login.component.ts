@@ -61,6 +61,8 @@ export class LoginUiComponent implements OnInit {
     passw = '';
     email = '';
 
+    hidePassword: boolean = true;
+
     cardState: WritableSignal<string> = signal('front');
 
     systemConfigs$: Observable<SystemConfigMap> = this.configs.configs$;
@@ -264,5 +266,9 @@ export class LoginUiComponent implements OnInit {
 
         this.language = currentLanguage;
         this.changeLanguage(currentLanguage);
+    }
+
+    togglePasswordVisibility(): void {
+        this.hidePassword = !this.hidePassword;
     }
 }

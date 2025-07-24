@@ -59,6 +59,7 @@
         <div class="form-row fade-card cstm-login-card">
 
             <div class="cstm-login-header">
+                <div class="cstm-pa-text">ProArm</div>
                 <div class="cstm-ti-text">Welcome Back!</div>
                 <div class="cstm-st-text">Empower Your Workflow. Simplify Your Management</div>
             </div>
@@ -87,29 +88,65 @@
                 <div class="cstm-login-input-label">Password<span>*</span></div>
                 <div class="inner-addon left-addon">
                     <!-- <scrm-image image="login_password"></scrm-image> {{vm.appStrings['LBL_PASSWORD']}} -->
-                    <input [(ngModel)]="passw"
-                           type="password"
-                           name="password"
-                           [class.is-invalid]="password.invalid && password.touched"
-                           #password="ngModel"
-                           placeholder="Enter you password"
-                           aria-label="Password"
-                           required>
-                    <!-- <div *ngIf="password.invalid && password.touched" class="invalid-feedback">
-                        {{vm.appStrings['ERR_MISSING_REQUIRED_FIELDS']}}
-                    </div> -->
+                    <div class="cstm-password-field-container">
+                        <input [(ngModel)]="passw"
+                            [type]="hidePassword ? 'password' : 'text'"
+                            name="password"
+                            [class.is-invalid]="password.invalid && password.touched"
+                            #password="ngModel"
+                            placeholder="Enter you password"
+                            aria-label="Password"
+                            required>
+                        <!-- <div *ngIf="password.invalid && password.touched" class="invalid-feedback">
+                            {{vm.appStrings['ERR_MISSING_REQUIRED_FIELDS']}}
+                        </div> -->
+                        <div class="cstm-password-toggle-icon" (click)="togglePasswordVisibility()">
+                            <scrm-image image="eye-off"></scrm-image>
+                        </div>
+                    </div>
                 </div>
 
+                <div class="cstm-remember-me-container">
+                    <div class="cstm-remember-me-txt">
+                        <input type="checkbox" class="cstm-remember-me-checkbox">
+                        Remember me
+                    </div>
+                    <div class="cstm-forgot-password-txt">Forgot you password?</div>
+                </div>
 
                 <button id="login-button" class="login-button"
                         [scrm-button-loading]="loading"
                         (click)="loginForm.control.markAllAsTouched(); loginForm.valid && doLogin()">
                     Sign in
                 </button>
+
+                <div class="cstm-sin-up-txt">Don't have an account? <a class="cstm-sin-up-link">Sign up</a></div>
+
+                <div class="cstm-divider">
+                    <hr>
+                    <span>or</span>
+                    <hr>
+                </div>
+
                 <div class="forgotten-password" *ngIf="vm.showForgotPassword">
                     <a class="forgotten-password-link" (click)="flipCard()">
                         {{vm.appStrings['LBL_LOGIN_FORGOT_PASSWORD']}}
                     </a>
+                </div>
+
+                <div class="cstm-sign-up-btns">
+                    <scrm-image image="cstm-google"></scrm-image>
+                    <div class="cstm-txt-continue">Continue with Google</div>
+                </div>
+
+                <div class="cstm-sign-up-btns">
+                    <scrm-image image="cstm-microsoft"></scrm-image>
+                    <div class="cstm-txt-continue">Continue with Microsoft</div>
+                </div>
+
+                <div class="cstm-sign-up-btns">
+                    <scrm-image image="cstm-github"></scrm-image>
+                    <div class="cstm-txt-continue">Continue with Github</div>
                 </div>
 
             </div>
@@ -177,6 +214,10 @@
     </form>
 
     <!-- End of login form section -->
+
+    <div class="cstm-login-card-image-container">
+        <scrm-image image="login-cover"></scrm-image>
+    </div>
 
 </div>
 
