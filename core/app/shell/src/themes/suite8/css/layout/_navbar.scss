@@ -575,20 +575,22 @@ a.nav-link-nongrouped.dropdown-toggle::after {
 }
 
 .ln-bl-module-menu-submenu.active {
-  background-color: #449596;
-  border-radius: 6px;
+  //background-color: #449596;
+  //border-radius: 6px;
 
   .br-item {
-    color: #FFFFFF !important;
+    //color: #FFFFFF !important;
+    color: #449596 !important;
   }
 }
 
 .br-item-active-state.active {
-  background-color: #449596;
-  border-radius: 6px; 
+  //background-color: #449596;
+  //border-radius: 6px; 
 
   .br-item {
-    color: #FFFFFF !important;
+    //color: #FFFFFF !important;
+    color: #449596 !important;
   }
 }
 

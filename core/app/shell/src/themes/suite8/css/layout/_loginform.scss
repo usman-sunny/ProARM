@@ -1,10 +1,15 @@
 .cstm-login-main {
+    height: 100vh;
     padding: 0.75rem 13rem;
     display: flex !important;
     align-items: center !important;
     justify-content: center;
     gap: 40px;
     background-color: #FBFBFA !important;
+
+    @media screen and (max-width: 1440px) {
+        padding: 0.75rem 0rem;
+    }
 }
 
 .cstm-login-card-bkgrnd {
@@ -15,15 +20,35 @@
     align-items: center;
     justify-content: center;
     width: 686px;
-    padding: 48px 32px !important;
+    padding: 12px 32px !important;
     //border: 1px solid #ECEDEE;
     margin: unset !important;
+
+    @media screen and (max-width: 1440px) {
+        width: 686px;
+        height: 988px;
+    }
+
+    @media screen and (max-width: 1024px) {
+        width: 456px;
+        height: unset !important;
+    }
 }
 
 .cstm-login-card {
     width: 100%;
     height: 100%;
     flex-direction: column;
+    flex-wrap: nowrap !important;
+
+    @media screen and (max-width: 1440px) {
+        width: 553px;
+        height: 800px;
+    }
+
+    @media screen and (max-width: 1024px) {
+        height: 740px;
+    }
 }
 
 .cstm-login-card-1 {
@@ -31,7 +56,7 @@
 
     input {
         width: 100%;
-        height: 3.625rem;
+        height: 48px;
         border-radius: 6px;
         padding-left: 1.5rem;
         margin-left: 0px !important;
@@ -48,7 +73,7 @@
 
     button {
         width: 100%;
-        height: 3rem;
+        height: 2.5rem;
         border-radius: 6px;
         background-color: #449596 !important;
         margin-top: 2rem;
@@ -85,7 +110,7 @@
 }
 
 .cstm-login-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 
     .cstm-pa-text {
         color: #0E1726;
@@ -102,14 +127,7 @@
         font-weight: 600;
         font-family: 'Inter';
         display: flex;
-    }
-
-    .cstm-st-text {
-        color: #0E1726;
-        font-size: 16px;
-        font-weight: 400;
-        font-family: 'Inter';
-        text-align: start;
+        text-align: start !important;
     }
 }
 
@@ -118,6 +136,15 @@
     svg {
         width: 686px;
         height: 900px;
+
+        @media (max-width: 1440px) {
+            height: 990px;
+        }
+
+        @media (max-width: 1024px) {
+            height: 742px;
+            width: 509px;
+        }
     }
 }
 
@@ -139,8 +166,8 @@
 
     svg {
         margin: unset !important;
-        width: 24px;
-        height: 24px;
+        width: 24px !important;
+        height: 24px !important;
     }
 
     &:hover {
@@ -148,7 +175,7 @@
     }
 }
 
-.cstm-sin-up-txt {
+/* .cstm-sin-up-txt {
     color: #0E1726;
     font-size: 14px;
     font-weight: 400;
@@ -163,26 +190,26 @@
         //text-align: start;
         //margin-top: 1rem;
     }
-}
+} */
 
 .cstm-divider {
     display: flex;
     align-items: center;
     text-align: center;
     margin: 20px 0;
-}
-  
-.divider hr {
-    flex: 1;
-    border: none;
-    height: 1px;
-    background-color: #ccc;
-}
-  
-.divider span {
-    padding: 0 10px;
-    color: #999;
-    font-size: 14px;
+
+    hr {
+        flex: 1;
+        border: none;
+        height: 1px;
+        background-color: #ccc;
+    }
+    
+    span {
+        padding: 0 10px;
+        color: #999;
+        font-size: 14px;
+    }
 }
 
 .cstm-sign-up-btns {
