@@ -1,3 +1,4 @@
+
 /**
  * SuiteCRM is a customer relationship management program developed by SalesAgility Ltd.
  * Copyright (C) 2021 SalesAgility Ltd.
@@ -33,6 +34,9 @@ import {Subscription} from 'rxjs';
 import {RecordPanelAdapter} from '../../adapters/record-panel.adapter';
 import {QuickFiltersService} from "../../services/quick-filters.service";
 import {isTrue} from '../../../../common/utils/value-utils';
+import {debounceTime, distinctUntilChanged, Subject} from 'rxjs';
+import {SearchCriteria} from '../../../../common/views/list/search-criteria.model';
+import {SavedFilter} from '../../../../store/saved-filters/saved-filter.model';
 
 import {StupidDataService} from '../../../../services/stupid-data/stupid-data.service';
 import {boolean} from 'mathjs';
@@ -52,6 +56,11 @@ export class ListHeaderComponent implements OnInit, OnDestroy {
     filterBtn = false;
     navbar: any;
 
+    // Global search properties
+    searchText: string = '';
+    private searchSubject = new Subject<string>();
+    private searchDebounceTime = 500; // milliseconds
+
     insightsBtn: { [key: string]: any } = {
         isEnabled: false,
     };
@@ -66,7 +75,7 @@ export class ListHeaderComponent implements OnInit, OnDestroy {
         protected moduleNavigation: ModuleNavigation,
         protected recordPanelAdapter: RecordPanelAdapter,
         public quickFilters: QuickFiltersService,
-        protected stupidDataService: StupidDataService
+        protected stupidDataService: StupidDataService,
     ) {
     }
 
@@ -111,8 +120,16 @@ export class ListHeaderComponent implements OnInit, OnDestroy {
         this.stupidDataService.object$.subscribe(navbar => {
             this.navbar = navbar;
         });
-  
-        //console.log('bulkActions from stupid service:', this.bulkActions);
+
+        // Initialize global search with debouncing
+        this.subs.push(
+            this.searchSubject.pipe(
+                debounceTime(this.searchDebounceTime),
+                distinctUntilChanged()
+            ).subscribe(searchTerm => {
+                this.performGlobalSearch(searchTerm);
+            })
+        );
 
     }
 
@@ -135,6 +152,116 @@ export class ListHeaderComponent implements OnInit, OnDestroy {
     click(click: Function): void {
         if (click) {
             click();
+        }
+    }
+
+    /**
+     * Handle search input changes with debouncing
+     */
+    onSearchInputChange(event: Event): void {
+        const target = event.target as HTMLInputElement;
+        const searchTerm = target.value?.trim() || '';
+        
+        // Update the searchText property
+        this.searchText = searchTerm;
+        
+        this.searchSubject.next(searchTerm);
+    }
+
+    /**
+     * Perform global search across common fields
+     */
+    performGlobalSearch(searchTerm?: string): void {
+        // Use the parameter directly since it comes from the debounced subject
+        const term = searchTerm || '';
+        
+        if (!term) {
+            this.clearGlobalSearch();
+            return;
+        }
+
+        this.applyFilterAdapterSearch(term);
+    }
+
+    /**
+     * Apply search filter using the filter adapter
+     */
+    private applyFilterAdapterSearch(searchTerm: string): void {
+        const searchCriteria: SearchCriteria = {
+            name: 'global_search',
+            filters: {
+                'name': {
+                    field: 'name',
+                    operator: '=',
+                    values: [searchTerm]
+                }
+            },
+            // ADD FLAG TO INDICATE THIS IS FROM SEARCH BOX
+            searchType: 'global_search_box'
+        };
+
+        const filterSearchFilter: SavedFilter = {
+            key: 'global_search',
+            module: 'saved-search',
+            attributes: {
+                id: 'global_search',
+                name: 'Global Search',
+                contents: {
+                    searchTerm: searchTerm,
+                    searchType: 'global_search_box'
+                },
+                search_module: this.listStore.getModuleName()
+            },
+            fields: {
+                name: {
+                    name: 'name',
+                    type: 'varchar'
+                }
+            },
+            criteria: searchCriteria,
+            criteriaFields: {
+                'name': {
+                    name: 'name',
+                    type: 'varchar',
+                    value: searchTerm,
+                    label: 'Name',
+                    labelKey: 'LBL_NAME'
+                }
+            }
+        };
+
+        try {
+            this.filterAdapter.getConfig().updateFilter(filterSearchFilter, true);
+        } catch (error) {
+
+            try {
+                // Create a simple filter map
+                const fallbackFilters = {
+                    'global_search': {
+                        key: 'global_search',
+                        module: 'saved-search',
+                        criteria: searchCriteria,
+                        attributes: { contents: searchTerm }
+                    }
+                };
+                this.listStore.setFilters(fallbackFilters, true);
+            } catch (fallbackError) {
+                console.error('Fallback approach also failed:', fallbackError);
+            }
+        }
+    }
+
+    /**
+     * Clear global search and reset to default filters
+     */
+    private clearGlobalSearch(): void {
+        this.searchText = '';
+        
+        try {
+            this.filterAdapter.getConfig().resetFilter(true);
+        } catch (error) {
+            console.error('Error resetting filters:', error);
+            this.listStore.resetFilters(true);
         }
     }
 

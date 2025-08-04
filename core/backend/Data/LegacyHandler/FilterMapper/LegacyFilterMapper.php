@@ -54,6 +54,18 @@ class LegacyFilterMapper extends LegacyHandler
         $this->init();
         $this->startLegacyApp();
 
+        // Alien code 6754 - start
+        // Check if this is a global search box call and handle differently
+        if (isset($criteria['globalSearchMode']) && $criteria['globalSearchMode'] === true) {
+            
+            // Transform global search criteria for OR conditions
+            $mapped = $this->mapGlobalSearchCriteria($criteria, $type);
+            
+            $this->close();
+            return $mapped;
+        }
+        // Alien code 6754 - end
+
         /* @noinspection PhpIncludeInspection */
         require_once 'include/portability/FilterMapper/FilterMapper.php';
         $filterMapper = new FilterMapper();
@@ -64,6 +76,82 @@ class LegacyFilterMapper extends LegacyHandler
 
         return $mapped;
     }
+
+    // Alien code block 6754 - start
+
+    /**
+     * 
+     * * * Alien function 6754 that needs to be checked (9) * * *
+     * 
+     * Map global search criteria to legacy format with OR conditions
+     * 
+     * @param array $criteria
+     * @param string $type
+     * @return array
+     */
+    protected function mapGlobalSearchCriteria(array $criteria, string $type): array
+    {
+        $mapped = [
+            'searchFormTab' => "{$type}_search",
+            'query' => 'true',
+        ];
+        
+        $searchTerm = '';
+        $searchFields = [];
+        
+        // Extract search term and fields from criteria
+        if (isset($criteria['filters']) && is_array($criteria['filters'])) {
+            foreach ($criteria['filters'] as $fieldName => $fieldConfig) {
+                if (isset($fieldConfig['values'][0])) {
+                    $searchTerm = $fieldConfig['values'][0];
+                    $searchFields[] = $fieldName;
+                }
+            }
+        }
+        
+        // Build OR conditions for legacy search
+        if (!empty($searchTerm) && !empty($searchFields)) {
+            // For global search, we use a special approach
+            // We'll set each field with the search term using LIKE operator
+            foreach ($searchFields as $fieldName) {
+                // Map to legacy field names and operators
+                $legacyFieldName = $this->mapFieldNameToLegacy($fieldName);
+                $mapped[$legacyFieldName] = $searchTerm;
+                $mapped[$legacyFieldName . '_operator'] = 'like';
+            }
+            
+            // Set a flag to indicate this should use OR logic in the query builder
+            $mapped['global_search_mode'] = true;
+            $mapped['search_term'] = $searchTerm;
+            $mapped['search_fields'] = $searchFields;
+        }
+        
+        return $mapped;
+    }
+    
+    /**
+     * 
+     * * * Alien function 6754 that needs to be checked (10) * * *
+     * 
+     * Map field names to legacy format
+     * 
+     * @param string $fieldName
+     * @return string
+     */
+    protected function mapFieldNameToLegacy(string $fieldName): string
+    {
+        // Handle special field mappings
+        $fieldMappings = [
+            'address_street' => 'billing_address_street',
+            'address_city' => 'billing_address_city',
+            'address_state' => 'billing_address_state',
+            'phone' => 'phone_office',
+            'email' => 'email1',
+        ];
+        
+        return $fieldMappings[$fieldName] ?? $fieldName;
+    }
+    // Alien code block 6754 - end
 
     /**
      * Get order by

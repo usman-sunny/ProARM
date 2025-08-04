@@ -136,7 +136,7 @@
                     <ng-container *ngIf="menuFilters$ | async as menuFilters">
                             <ng-container *ngFor="let item of menuFilters">
                                 <ng-container *ngIf="!navbar?.menu[0]?.link?.route">
-                                    <div (click)="listSubMenu(item.submenu); activeModuleMenu($event); setCurrentModuleFilter(item)" 
+                                    <div (click)="listSubMenu(item.submenu); setCurrentMenuName(item?.link?.labelValue); activeModuleMenu($event); setCurrentModuleFilter(item)" 
                                         (mouseenter)="showTempSubMenu(item.submenu)" 
                                         (mouseleave)="hideTempSubMenu()"
                                         [routerLink]="item?.submenu[0]?.link?.route"

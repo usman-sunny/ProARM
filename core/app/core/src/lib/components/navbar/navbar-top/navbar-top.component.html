@@ -10,7 +10,7 @@
             </ng-container>
         </div>
         <div class="top-subtitle">
-            ProARM
+            {{ currentMenuName }}
         </div>
     </div>
     
@@ -57,8 +57,8 @@
                 <scrm-image class="ln-icon-size" image="notes_t"></scrm-image>
             </div>
 
-            <!-- Message Button -->
-            <div class="navt-message icon-clr">
+            <!-- Email Button -->
+            <div [routerLink]="['/emails']" class="navt-message icon-clr">
                 <scrm-image class="ln-icon-size" image="message_t"></scrm-image>
             </div>
 

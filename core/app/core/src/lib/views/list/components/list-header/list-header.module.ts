@@ -26,6 +26,7 @@
 
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 import {ListHeaderComponent} from './list-header.component';
 
@@ -47,6 +48,7 @@ import {RouterModule} from '@angular/router';
     exports: [ListHeaderComponent],
     imports: [
         CommonModule,
+        FormsModule,
         ModuleTitleModule,
         ActionMenuModule,
         SettingsMenuModule,

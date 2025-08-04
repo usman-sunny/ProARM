@@ -1,5 +1,5 @@
 <?php
-// created: 2025-07-17 06:51:10
+// created: 2025-08-01 10:55:45
 $GLOBALS['tabStructure'] = array (
   'LBL_TABGROUP_SALES' => 
   array (
@@ -50,8 +50,8 @@ $GLOBALS['tabStructure'] = array (
       41 => 'Tasks',
       42 => 'Calls',
     ),
-    'icon' => 'tab_0_1752732318',
-    'iconwext' => 'tab_0_1752732318.svg',
+    'icon' => 'tab_0_1754045745',
+    'iconwext' => 'tab_0_1754045745.svg',
   ),
   'LBL_TABGROUP_MARKETING' => 
   array (

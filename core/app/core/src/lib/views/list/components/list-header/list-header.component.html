@@ -98,7 +98,11 @@
                 <!-- Search Box -->
                 <div class="rb-search-box">
                     <scrm-image class="rb-search-icon" image="c2-search"></scrm-image>
-                    <input class="rb-search-input" type="text" placeholder="Search">  <!-- [(ngModel)]="searchText"> -->
+                    <input class="rb-search-input" 
+                           type="text" 
+                           placeholder="Search"
+                           [(ngModel)]="searchText"
+                           (input)="onSearchInputChange($event)">
                 </div>
 
             </div>  

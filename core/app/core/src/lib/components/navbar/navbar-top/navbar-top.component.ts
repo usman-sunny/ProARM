@@ -18,6 +18,8 @@ export class NavbarTopComponent implements OnInit {
     searchBoxExpanded: boolean;
     searchForm: FormGroup;
 
+    currentMenuName: string;
+
     @Output() togglePanel = new EventEmitter<string>();
   
     constructor(
@@ -48,6 +50,10 @@ export class NavbarTopComponent implements OnInit {
 
         this.searchForm = new FormGroup({
             searchTerm: new FormControl('', Validators.required),
+        });
+
+        this.stupidData.CurrentMenuNameobject$.subscribe(currentMenuName => {
+            this.currentMenuName = currentMenuName;
         });
 
         this.searchBoxExpanded = false;

@@ -89,6 +89,8 @@ export class BaseNavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     current_submenu_items: any[] = [];
     @ViewChild('lnBody') lnBody!: ElementRef;
 
+    currentMenuNameStorage: any;
+
     // listSubMenu(arr: any[] = []): void {
     //     this.submenu_items = arr;
     //     //console.log('Array set:', this.submenu_items);
@@ -117,6 +119,21 @@ export class BaseNavbarComponent implements OnInit, OnDestroy, AfterViewInit {
         // Scroll to Top
         if (this.lnBody) {
             this.lnBody.nativeElement.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    setCurrentMenuName(label?: string) {
+        const savedData = localStorage.getItem('myArrayData');
+        if (savedData) {
+            this.currentMenuNameStorage =  JSON.parse(savedData);
+        }
+
+        //console.log('buz currentMenuNameStorage:', this.currentMenuNameStorage);
+
+        if (label) {
+            this.stupidData.setCurrentMenuFilterName(label);
+        } else {
+            this.stupidData.setCurrentMenuFilterName(this.currentMenuNameStorage?.link?.labelValue);
         }
     }
 
@@ -381,6 +398,8 @@ export class BaseNavbarComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         
         this.stupidData.readMenuFilters().subscribe();
+
+        this.setCurrentMenuName();
         
         //console.log('retrievedArray is listed below code 6754:');
         //console.log(this.retrievedArray);

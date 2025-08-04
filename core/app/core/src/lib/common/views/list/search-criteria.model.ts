@@ -54,4 +54,5 @@ export interface SearchCriteria {
     orderBy?: string;
     sortOrder?: string;
     searchModule?: string;
+    searchType?: string; // Flag to indicate if this is from search box or filters
 }

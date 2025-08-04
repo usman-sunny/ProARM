@@ -16,6 +16,19 @@ export class StupidDataService {
 
     constructor(private http: HttpClient) {}
 
+
+    // ===========================================================
+    /*** Current Module Menu Filter Name from base-navbae - start ***/
+    private CurrentMenuNameSource = new BehaviorSubject<any>(null);  // Holds the object
+    public CurrentMenuNameobject$: Observable<any> = this.CurrentMenuNameSource.asObservable(); // Stream
+
+    setCurrentMenuFilterName(newObject: any) {
+        this.CurrentMenuNameSource.next(newObject);
+    }
+    /*** Current Module Menu Filter Name from base-navbae - end ***/
+    // =========================================================
+
+
     // ================================
     /*** Menu Filters API - start ***/
 
