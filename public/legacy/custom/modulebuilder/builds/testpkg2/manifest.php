@@ -61,9 +61,9 @@ $manifest = array (
   'icon' => '',
   'is_uninstallable' => true,
   'name' => 'testpkg2',
-  'published_date' => '2025-07-14 11:21:23',
+  'published_date' => '2025-08-28 12:49:02',
   'type' => 'module',
-  'version' => 1752492083,
+  'version' => 1756385342,
   'remove_tables' => 'prompt',
 );
 
@@ -107,6 +107,13 @@ $installdefs = array (
       'path' => 'modules/tst_bike/tst_bike.php',
       'tab' => true,
     ),
+    5 => 
+    array (
+      'module' => 'tst_abc_graps',
+      'class' => 'tst_abc_graps',
+      'path' => 'modules/tst_abc_graps/tst_abc_graps.php',
+      'tab' => true,
+    ),
   ),
   'layoutdefs' => 
   array (
@@ -141,6 +148,11 @@ $installdefs = array (
     array (
       'from' => '<basepath>/SugarModules/modules/tst_bike',
       'to' => 'modules/tst_bike',
+    ),
+    5 => 
+    array (
+      'from' => '<basepath>/SugarModules/modules/tst_abc_graps',
+      'to' => 'modules/tst_abc_graps',
     ),
   ),
   'language' => 

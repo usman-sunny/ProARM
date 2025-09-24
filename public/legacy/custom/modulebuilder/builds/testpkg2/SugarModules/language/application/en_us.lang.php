@@ -89,3 +89,4 @@ $app_list_strings['moduleList']['tst_banana'] = 'Banana';
 $app_list_strings['moduleList']['tst_sky'] = 'Sky';
 $app_list_strings['moduleList']['tst_car'] = 'Car';
 $app_list_strings['moduleList']['tst_bike'] = 'Bike';
+$app_list_strings['moduleList']['tst_abc_graps'] = 'Graps';

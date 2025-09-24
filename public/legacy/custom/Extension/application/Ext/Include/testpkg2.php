@@ -15,5 +15,8 @@ $moduleList[] = 'tst_car';
 $beanList['tst_bike'] = 'tst_bike';
 $beanFiles['tst_bike'] = 'modules/tst_bike/tst_bike.php';
 $moduleList[] = 'tst_bike';
+$beanList['tst_abc_graps'] = 'tst_abc_graps';
+$beanFiles['tst_abc_graps'] = 'modules/tst_abc_graps/tst_abc_graps.php';
+$moduleList[] = 'tst_abc_graps';
 
 ?>
