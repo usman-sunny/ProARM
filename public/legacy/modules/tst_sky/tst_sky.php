@@ -46,7 +46,7 @@ class tst_sky extends Issue
     public $module_dir = 'tst_sky';
     public $object_name = 'tst_sky';
     public $table_name = 'tst_sky';
-    public $importable = true;
+    public $importable = false;
 
     public $id;
     public $name;

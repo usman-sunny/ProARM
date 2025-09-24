@@ -1,0 +1,117 @@
+.main-div {
+    font-family: "Trebuchet MS", sans-serif;
+    margin: 0;
+    display: flex;
+    height: 73.5rem;
+    gap:8px;
+  }
+
+  .left-panel {
+    width: 17%;
+    background: #eee;
+    padding: 20px;
+    overflow-y: auto;
+    border-right: 2px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-height: 100%;
+  }
+
+  .left-panel h2 {
+    text-align: center;
+    font-size: 20px !important;
+  }
+
+  .report-item {
+    background: #fff;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+  }
+
+  .right-panel {
+    width: 85%;
+    background: #eee;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    overflow-x: auto; /* Allow horizontal scroll if width overflows */
+    max-height: 100%;
+  }
+
+  .right-panel::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  .left-panel::-webkit-scrollbar {
+    width: 2px;
+  }
+
+
+  .canvas {
+    background: #fff;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    resize: both;
+    overflow: auto;
+    min-width: 420px;
+    min-height: 470px;
+    position: relative;
+    flex-grow: 1; /* Allow box to grow and adjust */
+  }
+
+  .canvas .canvas-header {
+    background: #ddd;
+    padding: 5px;
+    text-align: center;
+    cursor: grab;
+    user-select: none;
+  }
+
+  .canvas .canvas-content {
+    padding: 10px;
+    height: 100%;
+    align-content: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  .invisible {
+    display: none;
+  }
+  
+  .create-dashboard-design-button {
+    background-color: #4285F4; /* Bright blue color */
+    color: white; /* Text color */
+    font-family: 'Arial', sans-serif; /* Clean and modern sans-serif font */
+    font-size: 16px;
+    font-weight: bold;
+    border: none; /* Remove border */
+    border-radius: 8px; /* Rounded edges */
+    padding: 10px 20px; /* Spacing inside the button */
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for 3D effect */
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+    margin-top: 3%;
+    float: right;
+}
+
+.create-dashboard-design-button:hover {
+    background-color: #357ae8; /* Slightly darker blue on hover */
+}
+
+.row-margin-bottom{
+  margin-bottom: 1% !important;
+}
+
+.new-canvas-btn{
+  width: 100%;
+  font-weight: bold;
+  background-color: #357ae8;
+}

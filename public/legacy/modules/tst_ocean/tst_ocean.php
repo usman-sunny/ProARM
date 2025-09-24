@@ -46,7 +46,7 @@ class tst_ocean extends Sale
     public $module_dir = 'tst_ocean';
     public $object_name = 'tst_ocean';
     public $table_name = 'tst_ocean';
-    public $importable = true;
+    public $importable = false;
 
     public $id;
     public $name;

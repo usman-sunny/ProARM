@@ -46,7 +46,7 @@ class tst_bike extends File
     public $module_dir = 'tst_bike';
     public $object_name = 'tst_bike';
     public $table_name = 'tst_bike';
-    public $importable = true;
+    public $importable = false;
 
     public $id;
     public $date_entered;

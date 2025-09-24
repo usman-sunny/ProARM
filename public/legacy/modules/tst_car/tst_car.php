@@ -46,7 +46,7 @@ class tst_car extends Company
     public $module_dir = 'tst_car';
     public $object_name = 'tst_car';
     public $table_name = 'tst_car';
-    public $importable = true;
+    public $importable = false;
 
     public $id;
     public $name;

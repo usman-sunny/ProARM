@@ -46,7 +46,7 @@ class tst_banana extends Person
     public $module_dir = 'tst_banana';
     public $object_name = 'tst_banana';
     public $table_name = 'tst_banana';
-    public $importable = true;
+    public $importable = false;
 
     public $id;
     public $name;

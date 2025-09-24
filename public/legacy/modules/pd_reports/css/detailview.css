@@ -1,0 +1,19 @@
+.edit-design-button {
+    background-color: #4285F4; /* Bright blue color */
+    color: white; /* Text color */
+    font-family: 'Arial', sans-serif; /* Clean and modern sans-serif font */
+    font-size: 16px;
+    font-weight: bold;
+    border: none; /* Remove border */
+    border-radius: 8px; /* Rounded edges */
+    padding: 10px 20px; /* Spacing inside the button */
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for 3D effect */
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+    margin-top: 3%;
+    float: right;
+}
+
+.edit-design-button:hover {
+    background-color: #357ae8; /* Slightly darker blue on hover */
+}
