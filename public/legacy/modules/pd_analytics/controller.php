@@ -905,32 +905,14 @@ class pd_analyticsController extends SugarController {
     }
 
 
+    /***
+     * api endpoint for 
+     * analytics part to 
+     * create a report/graph
+     ***/
     public function action_createReport() {
-        // Read raw JSON body
         $raw = file_get_contents('php://input');
-        //$GLOBALS['log']->fatal("Raw body: " . $raw);
-
-        $values = json_decode($raw, true);
-        //$GLOBALS['log']->fatal("log 6754 data: " . print_r($values, 1));
-
-        // $module = $data['moduleName'];    // Module name
-        // $bean->name = $data['graphName'];
-        // $xAxisField = $data['x-axis']; // Field to group by
-        // $xAxisAggregate = $data['x-axis-aggregate']; // Not processed for grouping
-        // $yAxisField = $data['y-axis']; // Field to count
-        // $yAxisAggregate = $data['y-axis-aggregate']; // Aggregate option
-        // $title = $data['graphName'];
-
-        // $data = array(
-        //     'moduleName' => 'Leads',
-        //     'x-axis' => 'lead_source',
-        //     'x-axis-aggregate' => 'actual',
-        //     'y-axis' => 'lead_source',
-        //     'y-axis-aggregate' => 'count',
-        //     'graphName' => 'Leads',
-        // );
-
-        $data = $values;
+        $data = json_decode($raw, true);
         
         $module = $data['moduleName'];
         $xAxisField = $data['x-axis'];
@@ -942,7 +924,6 @@ class pd_analyticsController extends SugarController {
 
         $query = "";
 
-        
         $whereFilters = $this->buildFiltersWhere($module, $filters);
         //$GLOBALS['log']->fatal("log 6754 whereFilters: " . print_r($whereFilters, 1));
         
@@ -963,6 +944,11 @@ class pd_analyticsController extends SugarController {
     }
 
 
+    /***
+     * api endpoint for 
+     * analytics part to 
+     * save a report/graph
+     ***/
     public function action_saveReport() {
         $data = json_decode(file_get_contents('php://input'), true);
         //$GLOBALS['log']->fatal("log 6754 In data: " . print_r($data, 1));
@@ -1005,6 +991,11 @@ class pd_analyticsController extends SugarController {
     }
 
 
+    /***
+     * api endpoint for 
+     * analytics part to 
+     * view a report/graph
+     ***/
     public function action_viewReport() {
 
         $data = json_decode(file_get_contents('php://input'), true);
@@ -1036,9 +1027,12 @@ class pd_analyticsController extends SugarController {
     }
 
 
+    /***
+     * api endpoint for 
+     * analytics part to 
+     * get all reports/graphs
+     ***/
     public function action_nltGetAllReports() {
-        //$GLOBALS['log']->fatal("In action_nltGetAllReports");
-
         $data = json_decode(file_get_contents('php://input'), true);
         //$GLOBALS['log']->fatal("log 6754 In data: " . print_r($data, 1));
 
@@ -1095,11 +1089,8 @@ class pd_analyticsController extends SugarController {
             'success' => true
         ];
 
-        //$GLOBALS['log']->fatal("In response: " . print_r($response, 1));
-
         echo json_encode($response);
         exit();
-
     }
 
 
