@@ -1,0 +1,91 @@
+<div class="analytics-component">
+
+    <!-- Analytics Top Navbar -->
+    <div class="analytics-header">
+        <div class="header-content">
+            <div class="header-left">
+
+                <!-- Back/Home Button -->
+                <div class="back-button" (click)="navigateToHome()">
+                    <scrm-image image="cstm_back_to_crm"></scrm-image>
+                </div>
+
+                <div class="analytics-icon">
+                    <scrm-image image="cstm_analytics"></scrm-image>
+                </div>
+
+                <h1 class="analytics-title">Analytics</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="tabs-navigation">
+        <ul class="navigation-tabs">
+            <li class="navigation-item" [class.active]="activeTab === 'workspaces'">
+                <a class="navigation-link" (click)="setActiveTab('workspaces')">Workspaces</a>
+            </li>
+            <li class="navigation-item" [class.active]="activeTab === 'dashboards'">
+                <a class="navigation-link" (click)="setActiveTab('dashboards')">Dashboards</a>
+            </li>
+            <li class="navigation-item" [class.active]="activeTab === 'recent'">
+                <a class="navigation-link" (click)="setActiveTab('recent')">Recent Items</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Analytics Content Body -->
+    <div class="analytics-content-body">
+
+        <!-- Search Bar Section and favourite button-->
+        <div class="search-section">
+
+            <!-- Favourites Button -->
+            <div class="nltcs-favourites-btn">
+                <scrm-image image="cstm_fvrt_star"></scrm-image>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search" [(ngModel)]="searchQuery">
+                <button class="search-button">
+                    <scrm-image image="search_t"></scrm-image>
+                </button>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="nltcs-hp-body">
+
+            <!-- Card 1 -->
+            <div class="nltcs-card" (click)="navigateToWorkspace()">
+                <div class="nltcs-card-header">
+                    <div class="nltcs-header-left">
+                        <div class="nltcs-header-title">Workspace - 1</div>
+                        <div class="nltcs-header-time">Created: 14 days ago</div>
+                    </div>
+                    <div class="nltcs-header-right">
+                        <div class="nltcs-header-favourite">
+                            <scrm-image image="cstm_fvrt_star"></scrm-image>
+                        </div>
+                        <div class="nltcs-header-edit">
+                            <scrm-image image="three_dots"></scrm-image>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nltcs-card-body-image">
+                    <div class="nltcs-cb-image-container">
+                        <scrm-image image="cstm_placehoolder"></scrm-image>
+                    </div>
+                </div>
+
+                <div class="nltcs-card-footer">
+                    <div class="nltcs-footer-text">Owned</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

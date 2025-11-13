@@ -1,0 +1,41 @@
+<div class="nlt-report-modal-freeze-layer">
+    <div class="nlt-report-modal-main">
+
+        <div class="nlt-report-modal-header">
+            <div class="nlt-report-modal-title">Select Base Table</div>
+            <div (click)="closeModalWindow()" class="nlt-report-modal-close-btn">
+                <scrm-image image="cross"></scrm-image>
+            </div>
+        </div>
+
+        <div class="nlt-report-modal-body">
+            <div class="nlt-report-modal-dropdown-label">Select Table</div>
+            
+            <div class="nlt-report-modal-dropdown">
+                <div class="nlt-report-modal-dropdown-select">
+                    {{ selectedModuleLabel || 'Select Module' }}
+                    <scrm-image image="chevron-down"></scrm-image>
+                </div>
+                <div *ngIf="modules$ | async as modules" class="nlt-report-modal-dropdown-menu">
+                    <div *ngFor="let module of modules" 
+                        class="nlt-rm-dropdown-menu-item"
+                        (click)="selectModule(module.name, module.label)"
+                    >
+                        {{ module.label }}
+                    </div>                      
+                </div>
+            </div>
+
+        </div>
+
+        <div class="nlt-report-modal-footer">
+            <div (click)="closeModalWindow()" class="nlt-report-modal-cancel-btn">Cancel</div>
+
+            <div routerLink="/pd_collections/createreport" 
+                (click)="createNewReport()"
+                class="nlt-report-modal-ok-btn"
+            >OK</div>
+        </div>
+
+    </div>
+</div>

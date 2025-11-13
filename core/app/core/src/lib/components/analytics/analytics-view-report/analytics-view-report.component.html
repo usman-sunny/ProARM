@@ -1,0 +1,14 @@
+<div class="view-report-container">
+
+    <div class="nlt-report-dview-head">
+        <div class="nlt-report-dview-title">{{ reportName }}</div>
+        <div class="nlt-report-dview-btn-group">
+            <div class="nlt-report-dview-delete-btn">Delete</div>
+            <div class="nlt-report-dview-edit-btn" [routerLink]="['/pd_collections', id, 'edit']">Edit</div>
+        </div>
+    </div>
+    
+    <div class="nlt-reports-view-chart-area">
+        <div echarts [options]="chartOptions" (chartInit)="onChartInit($event)" class="nlt-reports-dview-chart"></div>
+    </div>
+</div>

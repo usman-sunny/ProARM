@@ -1,0 +1,60 @@
+<!-- Main Workspace Body -->
+<div class="analytics-workspace-content">
+
+    <div class="nlt-workspace-header">
+
+        <div class="nlt-workspace-header-top">
+            <div class="nlt-ws-header-title">WorkspaceA</div>
+        </div>
+
+        <div class="nlt-workspace-header-bottom">
+
+            <!-- Search Bar Section and favourite button -->
+            <div class="nlt-workspace-search-section">
+
+                <!-- Search Bar -->
+                <div class="ntl-ws-search-container">
+                    <input type="text" class="ntl-ws-search-input" placeholder="Search"> <!--[(ngModel)]="searchQuery" -->
+                    <button class="ntl-ws-search-button">
+                        <scrm-image image="search_t"></scrm-image>
+                    </button>
+                </div>
+
+                <!-- Favourites Button -->
+                <div class="ntl-ws-favourites-btn">
+                    <scrm-image image="cstm_fvrt_star"></scrm-image>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="nlt-ws-body-1">
+        <!-- Card 1 -->
+        <div *ngFor="let wspace of wspaces" class="nlt-ws-card">
+
+            <div class="nlt-ws-card-header">
+                <div class="nlt-ws-header-left">
+                    <div class="nlt-ws-header-title">{{wspace.name}}</div>
+                    <div class="nlt-ws-header-time">Last Modified yesterday</div>
+                </div>
+                <div class="nlt-ws-header-right">
+                    <div class="nlt-ws-header-favourite">
+                        <scrm-image image="cstm_fvrt_star"></scrm-image>
+                    </div>
+                    <div class="nlt-ws-header-edit">
+                        <scrm-image image="three_dots"></scrm-image>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nlt-ws-card-body-image">
+                <div class="nlt-ws-cb-image-container">
+                    <scrm-image image="cstm-nlt-ph1"></scrm-image>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

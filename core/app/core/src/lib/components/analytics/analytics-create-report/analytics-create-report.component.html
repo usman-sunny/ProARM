@@ -1,0 +1,587 @@
+<div class="nlt-reports-main">
+
+    <!-- fields selection area - left side -->
+    <div class="nlt-reports-left">
+        <div class="nlt-top-text">Select/Drag and Drop the Columns</div>
+
+        <div class="nlt-reports-left-content">
+            <div class="nlt-reports-content-title">{{moduleName}}</div>
+
+            <div class="nlt-reports-content-items">
+                <ng-container *ngIf="fields$ | async as fields">
+                    <div 
+                        *ngFor="let field of fields" 
+                        class="nlt-reports-content-item"
+                        draggable="true"
+                        (dragstart)="onDragStart($event, field.label, field.name, field.type)"
+                    >
+                        <div>
+                            <scrm-image image="plus_thin"></scrm-image>
+                        </div>
+                        <div class="nlt-reports-content-item-text">{{field.label}}</div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <div class="nlt-reports-right">
+
+        <!-- report header - top area -->
+        <div class="nlt-reports-right-header">
+
+            <!-- report name input, save button, and more button -->
+            <div class="nlt-reports-head-top">
+                <input class="nlt-custom-input" type="text" placeholder="" [(ngModel)]="reportName">
+
+                <div (click)="saveReport()" class="nlt-reports-save-btn">
+                    <scrm-image image="cstm-nlt-save"></scrm-image>
+                    <div class="nlt-reports-save-btn-text">Save</div>
+                </div>
+
+                <div class="nlt-reports-more-btn">
+                    <scrm-image image="three_dots"></scrm-image>
+                </div>
+            </div>
+
+            <div class="nlt-reports-head-bottom">
+
+                <!-- sort button -->
+                <div class="nlt-sort-btn">Sort</div>
+
+                <!-- underlying data button -->
+                <div class="nlt-underlying-data-btn">Underlying Data</div>
+
+                <!-- chart types buttons -->
+                <div class="nlt-chart-types">
+                    <div (click)="changeChartType('bar')" class="nlt-chart-type">
+                        <scrm-image image="cstm-nlt-bar"></scrm-image>
+                    </div>
+                    <div (click)="changeChartType('pie')" class="nlt-chart-type">
+                        <scrm-image image="cstm-nlt-pie"></scrm-image>
+                    </div>
+                    <div (click)="changeChartType('line')" class="nlt-chart-type">
+                        <scrm-image image="cstm-nlt-line"></scrm-image>
+                    </div>
+                    <div (click)="changeChartType('scatter')" class="nlt-chart-type">
+                        <scrm-image image="cstm-nlt-scatter"></scrm-image>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nlt-reports-chart-body-1">
+
+            <div class="nlt-reports-inputs-area">
+
+                <!-- Graph, Filters, and User-filters buttons -->
+                <div class="nlt-reports-graph-btns">
+                    <div class="nlt-reports-graph-btn"
+                        [ngClass]="{'nlt-reports-graph-btn-active': tab === 'graph'}"
+                        (click)="changeTab('graph')"
+                    >
+                        Graph
+                    </div>
+                    <div class="nlt-reports-graph-btn"
+                        [ngClass]="{'nlt-reports-graph-btn-active': tab === 'filters'}"
+                        (click)="changeTab('filters')"
+                    >
+                        Filters (0)
+                    </div>
+                    <div class="nlt-reports-graph-btn"
+                        [ngClass]="{'nlt-reports-graph-btn-active': tab === 'user-filters'}"
+                        (click)="changeTab('user-filters')"
+                    >
+                        User Filters
+                    </div>
+                </div>
+
+                <!-- Graph Tab - Drop Areas -->
+                <div *ngIf="tab === 'graph'" class="nlt-reports-inputs-area-graph-tab">
+                    <div class="nlt-input-col-1">
+
+                        <!-- x-Axis Drop Area -->
+                        <div class="nlt-input-col-item">
+                            <div class="nlt-reports-input-label">X-Axis:</div>
+                            <div
+                                class="nlt-reports-drop-area"
+                                role="textbox"
+                                tabindex="0"
+                                (dragover)="onDragOver($event)"
+                                (dragenter)="onDragEnter($event)"
+                                (dragleave)="onDragLeave($event)"
+                                (drop)="onDropToSlot($event, 'xAxis', 'xAxisFieldName')"
+                            >
+                                <div *ngIf="xAxis" class="nlt-reports-drop-area-ground">
+                                    <div class="nlt-drop-ground-text">
+                                        {{ xAxis }}
+                                    </div>
+                                    
+                                    <div class="nlt-drop-ground-mini-dropdown">
+                                        <div class="nlt-drop-ground-select">
+                                            {{xAxisAggregate}}
+                                            <scrm-image image="chevron-down"></scrm-image>
+                                        </div>
+                                        <div class="nlt-drop-ground-menu">
+                                            <div class="nlt-drop-ground-menu-item" (click)="xAxisAggregate = 'count'">Count</div>
+                                            <div class="nlt-drop-ground-menu-item" (click)="xAxisAggregate = 'actual'">Actual Values</div>
+                                        </div>
+                                    </div>
+
+                                    <div (click)="removeItem('xAxis')" class="nlt-drop-ground-cross-btn">
+                                        <scrm-image image="cross_bold"></scrm-image>
+                                    </div>
+                                </div>
+                                <div *ngIf="!xAxis" class="nlt-reports-drop-area-placeholder">Drop your column here</div>
+                            </div>
+                        </div>
+
+                        <!-- y-Axis Drop Area -->
+                        <div class="nlt-input-col-item">
+                            <div class="nlt-reports-input-label">Y-Axis:</div>
+                            <div
+                                class="nlt-reports-drop-area"
+                                role="textbox"
+                                tabindex="0"
+                                (dragover)="onDragOver($event)"
+                                (dragenter)="onDragEnter($event)"
+                                (dragleave)="onDragLeave($event)"
+                                (drop)="onDropToSlot($event, 'yAxis', 'yAxisFieldName')"
+                            >
+                                <div *ngIf="yAxis" class="nlt-reports-drop-area-ground">
+                                    <div class="nlt-drop-ground-text">
+                                        {{ yAxis }}
+                                    </div>
+                                    
+                                    <div class="nlt-drop-ground-mini-dropdown">
+                                        <div class="nlt-drop-ground-select">
+                                            {{yAxisAggregate}}
+                                            <scrm-image image="chevron-down"></scrm-image>
+                                        </div>
+                                        <div class="nlt-drop-ground-menu">
+                                            <div class="nlt-drop-ground-menu-item" (click)="yAxisAggregate = 'count'">Count</div>
+                                            <div class="nlt-drop-ground-menu-item" (click)="yAxisAggregate = 'actual'">Actual Values</div>
+                                        </div>
+                                    </div>
+
+                                    <div (click)="removeItem('yAxis')" class="nlt-drop-ground-cross-btn">
+                                        <scrm-image image="cross_bold"></scrm-image>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="!yAxis" class="nlt-reports-drop-area-placeholder">Drop your column here</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nlt-input-col-2">
+
+                        <!-- Color Drop Area -->
+                        <!-- (dragover)="onDragOver($event)"
+                        (dragenter)="onDragEnter($event)"
+                        (dragleave)="onDragLeave($event)"
+                        (drop)="onDropToSlot($event, 'color', 'colorFieldName')" -->
+                        <div class="nlt-input-col-item">
+                            <div class="nlt-reports-input-label">Color:</div>
+                            <div
+                                class="nlt-reports-drop-area"
+                                role="textbox"
+                                tabindex="0"
+                            >
+                                <div *ngIf="color" class="nlt-reports-drop-area-ground">
+                                    <div class="nlt-drop-ground-text">
+                                        {{ color }}
+                                    </div>
+                                    
+                                    <div class="nlt-drop-ground-mini-dropdown">
+                                        <div class="nlt-drop-ground-select">
+                                            Actual
+                                            <scrm-image image="chevron-down"></scrm-image>
+                                        </div>
+                                        <div class="nlt-drop-ground-menu">
+                                            <div class="nlt-drop-ground-menu-item">Count</div>
+                                            <div class="nlt-drop-ground-menu-item">Actual Values</div>
+                                        </div>
+                                    </div>
+
+                                    <div (click)="removeItem('color')" class="nlt-drop-ground-cross-btn">
+                                        <scrm-image image="cross_bold"></scrm-image>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="!color" class="nlt-reports-drop-area-placeholder">Drop your column here</div>
+
+                            </div>
+                        </div>
+
+                        <!-- Text Drop Area -->
+                        <!-- (dragover)="onDragOver($event)"
+                        (dragenter)="onDragEnter($event)"
+                        (dragleave)="onDragLeave($event)"
+                        (drop)="onDropToSlot($event, 'text', 'textFieldName')" -->
+                        <div class="nlt-input-col-item">
+                            <div class="nlt-reports-input-label">Text:</div>
+                            <div
+                                class="nlt-reports-drop-area"
+                                role="textbox"
+                                tabindex="0"
+                            >
+                                <div *ngIf="text" class="nlt-reports-drop-area-ground">
+                                    <div class="nlt-drop-ground-text">
+                                        {{ text }}
+                                    </div>
+                                    
+                                    <div class="nlt-drop-ground-mini-dropdown">
+                                        <div class="nlt-drop-ground-select">
+                                            Actual
+                                            <scrm-image image="chevron-down"></scrm-image>
+                                        </div>
+                                        <div class="nlt-drop-ground-menu">
+                                            <div class="nlt-drop-ground-menu-item">Count</div>
+                                            <div class="nlt-drop-ground-menu-item">Actual Values</div>
+                                        </div>
+                                    </div>
+
+                                    <div (click)="removeItem('text')" class="nlt-drop-ground-cross-btn">
+                                        <scrm-image image="cross_bold"></scrm-image>
+                                    </div>
+                                </div>
+                                <div *ngIf="!text" class="nlt-reports-drop-area-placeholder">Drop your column here</div>
+                            </div>
+                        </div>
+
+                        <!-- Size Drop Area -->
+                        <!-- (dragover)="onDragOver($event)"
+                        (dragenter)="onDragEnter($event)"
+                        (dragleave)="onDragLeave($event)"
+                        (drop)="onDropToSlot($event, 'size', 'sizeFieldName')" -->
+                        <div class="nlt-input-col-item">
+                            <div class="nlt-reports-input-label">Size:</div>
+                            <div
+                                class="nlt-reports-drop-area"
+                                role="textbox"
+                                tabindex="0"
+                            >
+                                <div *ngIf="size" class="nlt-reports-drop-area-ground">
+                                    <div class="nlt-drop-ground-text">
+                                        {{ size }}
+                                    </div>
+                                    
+                                    <div class="nlt-drop-ground-mini-dropdown">
+                                        <div class="nlt-drop-ground-select">
+                                            Actual
+                                            <scrm-image image="chevron-down"></scrm-image>
+                                        </div>
+                                        <div class="nlt-drop-ground-menu">
+                                            <div class="nlt-drop-ground-menu-item">Count</div>
+                                            <div class="nlt-drop-ground-menu-item">Actual Values</div>
+                                        </div>
+                                    </div>
+
+                                    <div (click)="removeItem('size')" class="nlt-drop-ground-cross-btn">
+                                        <scrm-image image="cross_bold"></scrm-image>
+                                    </div>
+                                </div>
+                                <div *ngIf="!size" class="nlt-reports-drop-area-placeholder">Drop your column here</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tooltip Drop Area -->
+                    <!-- (dragover)="onDragOver($event)"
+                    (dragenter)="onDragEnter($event)"
+                    (dragleave)="onDragLeave($event)"
+                    (drop)="onDropToSlotMulti($event, 'tooltip', 'tooltipFieldName')" -->
+                    <div class="nlt-input-col-3">
+                        <div>
+                            <div class="nlt-reports-input-label">Include Columns for Tooltip:</div>
+                            <div
+                                class="nlt-reports-drop-area nlt-reports-drop-area-tooltip"
+                                role="textbox"
+                                tabindex="0"
+                            >
+                                <ng-container *ngIf="tooltip.length > 0">
+                                    <div *ngFor="let t of tooltip" class="nlt-reports-drop-area-ground">
+                                        <div class="nlt-drop-ground-text">
+                                            {{ t }}
+                                        </div>
+                                        
+                                        <div class="nlt-drop-ground-mini-dropdown">
+                                            <div class="nlt-drop-ground-select">
+                                                Actual
+                                                <scrm-image image="chevron-down"></scrm-image>
+                                            </div>
+                                            <div class="nlt-drop-ground-menu">
+                                                <div class="nlt-drop-ground-menu-item">Count</div>
+                                                <div class="nlt-drop-ground-menu-item">Actual Values</div>
+                                            </div>
+                                        </div>
+
+                                        <div  class="nlt-drop-ground-cross-btn">
+                                            <scrm-image image="cross_bold"></scrm-image>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <div *ngIf="tooltip.length == 0" class="nlt-reports-drop-area-placeholder">Drop your column here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters Tab -->
+                <div *ngIf="tab === 'filters'" class="nlt-reports-filters-main">
+                    <div class="nlt-filters-header">
+                        <div class="nlt-filters-header-title">Filters:</div>
+                        <div class="nlt-filters-header-clear">Clear All Filters</div>
+                    </div>
+
+                    <div class="nlt-filters-body">
+
+                        <!-- Drop Fileds Area -->
+                        <div class="nlt-filters-drop-area"
+                            (dragover)="onDragOver($event)"
+                            (dragenter)="onDragEnter($event)"
+                            (dragleave)="onDragLeave($event)"
+                            (drop)="onDropToFilter($event)"
+                        >
+                            <ng-container *ngIf="filters.length > 0">
+                                <div *ngFor="let filter of filters" 
+                                    (click)="showFilter(filter)" 
+                                    class="nlt-filters-drop-area-ground" 
+                                    [ngClass]="{'active': filter === currentFilterView}"
+                                >
+                                    <div class="nlt-filters-drop-ground-text" [ngClass]="{'active': filter === currentFilterView}">
+                                        {{ filter.fieldLabel }}
+                                    </div>
+                                    
+                                    <!-- <div class="nlt-filters-dg-mini-dropdown">
+                                        <div class="nlt-filters-drop-ground-select">
+                                            {{yAxisAggregate}}
+                                            <scrm-image image="chevron-down"></scrm-image>
+                                        </div>
+                                        <div class="nlt-filters-drop-ground-menu">
+                                            <div class="nlt-filters-drop-ground-menu-item" (click)="yAxisAggregate = 'count'">Count</div>
+                                            <div class="nlt-filters-drop-ground-menu-item" (click)="yAxisAggregate = 'actual'">Actual Values</div>
+                                        </div>
+                                    </div> -->
+
+                                    <div (click)="removeFilter($event, filter)" 
+                                        class="nlt-filters-drop-ground-cross-btn" 
+                                        [ngClass]="{'active': filter === currentFilterView}"
+                                    >
+                                        <scrm-image image="cross_bold"></scrm-image>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <div *ngIf="filters.length == 0" class="nlt-filters-drop-area-placeholder">Drop your column here</div>
+
+                        </div>
+                        
+                        <!-- Wildcard/Range Area -->
+                        <div class="nlt-filters-wildcard">
+                            <div class="nlt-filters-wildcard-title">
+                                @if (currentFilterView.fieldType == 'text') {
+                                    Wildcard
+                                }
+                                @if (currentFilterView.fieldType == 'number' || currentFilterView.fieldType == 'date') {
+                                    Range
+                                }
+                            </div>
+                            <div class="nlt-filters-wildcard-area">
+
+                                @if (currentFilterView.fieldType == 'text') {
+                                    @for (v of currentFilterView.criteria; track $index; let i = $index) {
+                                        <div class="nlt-filters-wildcard-item">
+                                            <div class="nlt-wildcard-count">{{i+1}}</div>
+
+                                            <div ngbDropdown class="nlt-filters-wildcard-dropdown">
+                                                <div ngbDropdownToggle class="nlt-wildcard-dropdown-toggle">{{v.dvalue}}</div>
+                                                <div ngbDropdownMenu class="nlt-wildcard-dropdown-menu"> 
+                                                    <div ngbDropdownItem (click)="v.dvalue = 'Exactly Matches'" class="nlt-wildcard-dropdown-item">Exactly Matches</div>
+                                                    <div ngbDropdownItem (click)="v.dvalue = 'Does not Match'" class="nlt-wildcard-dropdown-item">Does not Match</div>
+                                                    <div ngbDropdownItem (click)="v.dvalue = 'Contains'" class="nlt-wildcard-dropdown-item">Contains</div>
+                                                    <div ngbDropdownItem (click)="v.dvalue = 'Does not Contain'" class="nlt-wildcard-dropdown-item">Does not Contain</div>
+                                                    <div ngbDropdownItem (click)="v.dvalue = 'Starts With'" class="nlt-wildcard-dropdown-item">Starts With</div>
+                                                    <div ngbDropdownItem (click)="v.dvalue = 'Does not Start With'" class="nlt-wildcard-dropdown-item">Does not Start With</div>
+                                                    <div ngbDropdownItem (click)="v.dvalue = 'Ends With'" class="nlt-wildcard-dropdown-item">Ends With</div>
+                                                    <div ngbDropdownItem (click)="v.dvalue = 'Does not End With'" class="nlt-wildcard-dropdown-item">Does not End With</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <input [(ngModel)]="currentFilterView.criteria[i].ivalue" placeholder="Enter value here">
+
+                                            <div (click)="toggleCondition(i)" class="nlt-wildcard-condition">{{v.condition}}</div>
+                                            <div class="nlt-wildcard-add-btn" (click)="addValue()">＋</div>
+                                            <div class="nlt-wildcard-remove-btn" (click)="removeValue(i)">-</div>
+                                        </div>
+                                    }
+                                }
+
+                                @if (currentFilterView.fieldType == 'number') {
+                                    <div (click)="openRangeModal()" class="nlt-wildcard-add-range-btn">+Add New Range</div>
+                                }
+
+                                @if (currentFilterView.fieldType == 'date') {
+                                    <div (click)="openRangeModal()" class="nlt-wildcard-add-range-btn">+Add New Range</div>
+                                }
+
+                            </div>
+                        </div>
+                        
+                        <!-- Criteria Expression / include items Area -->
+                        <div class="nlt-filters-criteria">
+                            <div class="nlt-filters-criteria-title">
+                                @if (currentFilterView.fieldType == 'text') {
+                                    Criteria Expression:
+                                }
+                                @if (currentFilterView.fieldType == 'number' || currentFilterView.fieldType == 'date') {
+                                    Include Items
+                                }
+                            </div>
+                            <div class="nlt-filters-criteria-area">
+
+                                @if (currentFilterView.fieldType == 'text') {
+                                    <!-- (
+                                        @for (w of wildcardValues; track $index; let i = $index; let last = $last) {
+                                            {{i+1}}
+                                            
+                                            @if (!last) {
+                                                {{w.condition}}
+                                            }
+
+                                            @if (w.condition != wildcardValues[i+1].condition && i+2 < wildcardValues.length && !last) {
+                                                (
+                                            }
+                                        }
+                                    ) -->
+                                }
+
+                                @if (currentFilterView.fieldType == 'number') {
+
+                                    @for (f of currentFilterView.criteria; track $index; let i = $index) {
+                                        <div (click)="removeFilterRange(i)" class="nlt-filters-number-criteria-item">
+                                            <span><scrm-image image="cstm-cross-red"></scrm-image></span>
+                                            @if (f.condition == 'Above') {
+                                                {{f.rangeFrom}} and above
+                                            }
+                                            @if (f.condition == 'Below') {
+                                                Below {{f.rangeFrom}}
+                                            }
+                                            @if (f.condition == 'Between') {
+                                                {{f.rangeFrom}} to {{f.rangeTo}}
+                                            }
+                                        </div>
+                                    }
+                                }
+
+                                @if (currentFilterView.fieldType == 'date') {
+                                    @for (f of currentFilterView.criteria; track $index; let i = $index) {
+                                        <div (click)="removeFilterRange(i)" class="nlt-filters-number-criteria-item">
+                                            <span><scrm-image image="cstm-cross-red"></scrm-image></span>
+                                            @if (f.condition == 'From') {
+                                                From {{f.rangeFrom}}
+                                            }
+                                            @if (f.condition == 'To') {
+                                                To {{f.rangeFrom}}
+                                            }
+                                            @if (f.condition == 'Between') {
+                                                {{f.rangeFrom}} to {{f.rangeTo}}
+                                            }
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- create chart button -->
+                <div (click)="createChart()" class="nlt-reports-create-chart-btn">Click Here to Generate Graph</div>
+
+            </div>
+        </div>
+
+        <!-- chart area - center area where chart renders -->
+        <div class="nlt-reports-chart-area">
+            <div echarts [options]="{}" (chartInit)="onChartInit($event)" class="nlt-reports-chart-actual"></div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Range Modal -->
+<div *ngIf="isRangeModalVisible" class="nlt-range-modal-freeze-layer">
+
+    <div class="nlt-range-modal-main">
+
+        <div class="nlt-range-modal-header">
+            <div class="nlt-range-modal-title">Add New Range</div>
+            <div (click)="closeRangeModal()" class="nlt-range-modal-close-btn">
+                <scrm-image image="cross"></scrm-image>
+            </div>
+        </div>
+
+        <div class="nlt-range-modal-body">
+            <div class="nlt-range-modal-body-title">Add your own range to filter the view.</div>
+            <div class="nlt-range-modal-body-subtitle">
+                @if (currentFilterView.fieldType == 'number') {
+                    (E.g.: Sales Above 1000000)
+                }
+                @if (currentFilterView.fieldType == 'date') {
+                    (E.g,: 01/10/2012 -to- 01/11/2012)
+                }
+            </div>
+
+            <div class="nlt-range-modal-input-box">
+
+                @if (currentFilterView.fieldType == 'number') {
+                    <div ngbDropdown class="nlt-range-modal-body-dropdown">
+                        <div ngbDropdownToggle class="nlt-range-modal-body-dropdown-toggle">{{rmDropdownValue}}</div>
+                        <div ngbDropdownMenu class="nlt-range-modal-body-dropdown-menu"> 
+                            <div ngbDropdownItem (click)="rmDropdownValue = 'Above'" class="nlt-range-modal-body-dropdown-item">Above</div>
+                            <div ngbDropdownItem (click)="rmDropdownValue = 'Below'" class="nlt-range-modal-body-dropdown-item">Below</div>
+                            <div ngbDropdownItem (click)="rmDropdownValue = 'Between'" class="nlt-range-modal-body-dropdown-item">Between</div>
+                        </div>
+                    </div>
+                    
+                    <input [(ngModel)]="rmInputOne" type="text" class="nlt-range-modal-input-field">
+
+                    @if (rmDropdownValue == 'Between') {
+                        &
+                        <input [(ngModel)]="rmInputTwo" type="text" class="nlt-range-modal-input-field">
+                    }
+                }
+
+                @if (currentFilterView.fieldType == 'date') {
+                    <div ngbDropdown class="nlt-range-modal-body-dropdown">
+                        <div ngbDropdownToggle class="nlt-range-modal-body-dropdown-toggle">{{rmDateDropdownValue}}</div>
+                        <div ngbDropdownMenu class="nlt-range-modal-body-dropdown-menu"> 
+                            <div ngbDropdownItem (click)="rmDateDropdownValue = 'From'" class="nlt-range-modal-body-dropdown-item">From</div>
+                            <div ngbDropdownItem (click)="rmDateDropdownValue = 'To'" class="nlt-range-modal-body-dropdown-item">To</div>
+                            <div ngbDropdownItem (click)="rmDateDropdownValue = 'Between'" class="nlt-range-modal-body-dropdown-item">Between</div>
+                        </div>
+                    </div>
+
+                    <input [(ngModel)]="rmDateInputOne" type="date" class="nlt-range-modal-input-field">
+
+                    @if (rmDateDropdownValue == 'Between') {
+                        to
+                        <input [(ngModel)]="rmDateInputTwo" type="date" class="nlt-range-modal-input-field">
+                    }
+                }
+
+            </div>
+        </div>
+
+        <div class="nlt-range-modal-footer">
+            <div (click)="closeRangeModal()" class="nlt-range-modal-cancel-btn">Cancel</div>
+            <div (click)="addFilterRange()" class="nlt-range-modal-ok-btn">Add</div>
+        </div>
+
+    </div>
+
+    
+</div>

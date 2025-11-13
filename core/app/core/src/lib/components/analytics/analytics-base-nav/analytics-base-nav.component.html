@@ -1,0 +1,84 @@
+<div class="analytics-base-nav-main">
+
+    <div class="nlt-base-nav-items">
+
+        <div class="nlt-base-nav-item">
+            <div class="nlt-nav-plus-btn">
+                <scrm-image image="cstm-nlt-plus"></scrm-image>
+            </div>
+        </div>
+
+        <div routerLink="/pd_collections" class="nlt-base-nav-item">
+            <div>
+                <scrm-image image="cstm-nlt-explorer"></scrm-image>
+            </div>
+            <div class="nlt-nav-item-text">Explorer</div>
+        </div>
+
+        <!-- Create New Dashboards Button -->
+        <div class="nlt-base-nav-item" (click)="togglePopup('dashboards')">
+            <div>
+                <scrm-image image="cstm-nlt-dashboards"></scrm-image>
+            </div>
+            <div class="nlt-nav-item-text">Dashboards</div>
+        </div>
+
+        <!-- Create New Reports Button -->
+        <div class="nlt-base-nav-item" (click)="togglePopup('reports')">
+            <div>
+                <scrm-image image="cstm-nlt-reports"></scrm-image>
+            </div>
+            <div class="nlt-nav-item-text">Reports</div>
+        </div>
+
+        <!-- Create New Tables Button -->
+        <div class="nlt-base-nav-item" (click)="togglePopup('tables')">
+            <div>
+                <scrm-image image="cstm-nlt-data"></scrm-image>
+            </div>
+            <div class="nlt-nav-item-text">Data</div>
+        </div>
+
+        <!-- ProArm Ai Button -->
+        <div class="nlt-base-nav-item">
+            <div>
+                <scrm-image image="cstm-nlt-ai"></scrm-image>
+            </div>
+            <div class="nlt-nav-item-text">ProArm Ai</div>
+        </div>
+
+        <!-- Data Sources Button -->
+        <div class="nlt-base-nav-item">
+            <div>
+                <scrm-image image="cstm-nlt-data-sources"></scrm-image>
+            </div>
+            <div class="nlt-nav-item-text">Data Sources</div>
+        </div>
+
+        <!-- Settings Button -->
+        <div class="nlt-base-nav-item">
+            <div>
+                <scrm-image image="cstm-nlt-settings"></scrm-image>
+            </div>
+            <div class="nlt-nav-item-text">Settings</div>
+        </div>
+
+        <!-- More Button -->
+        <div class="nlt-base-nav-item">
+            <div>
+                <scrm-image image="cstm-nlt-more"></scrm-image>
+            </div>
+            <div class="nlt-nav-item-text">More</div>
+        </div>
+
+    </div>
+
+    <ng-container *ngIf="isPopupVisible">
+        <scrm-analytics-right-popup 
+            [popupType]="popupType" 
+            [listItems]="listItems" 
+            (closeRightPopup)="closeRightPopup()">
+        </scrm-analytics-right-popup>
+    </ng-container>
+    
+</div>
