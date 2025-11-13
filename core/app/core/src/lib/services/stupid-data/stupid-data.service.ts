@@ -1,37 +1,203 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { tap, switchMap } from 'rxjs/operators';
 
 export interface Note {
-  title: string | null;
-  description: string | null;
-  label: string | null;
+    title: string | null;
+    description: string | null;
+    label: string | null;
+}
+
+interface ChartResponse {
+    title: string | null;
+    xAxis: string[] | number[];
+    series: string[] | number[];
 }
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class StupidDataService {
 
     constructor(private http: HttpClient) {}
 
 
-    // ===========================================================
-    /*** Current Module Menu Filter Name from base-navbae - start ***/
+    /*** 
+     *  Analytics API call 
+     *  to get report data
+     *  using report id
+     * 
+     * ***/
+    private nltGetReportDataUrl = 'legacy/index.php?module=pd_analytics&action=getReportData&sugar_body_only=true';
+    private nltGetReportDataObject = new BehaviorSubject<any>(null);
+    public nltGetReportData$ = this.nltGetReportDataObject.asObservable();
+
+    nltGetReportData(id: any): Observable<any> {
+        let params = new HttpParams().set('report_id', id);
+
+        return this.http.get<any>(this.nltGetReportDataUrl, { params }).pipe(
+            tap(value => this.nltGetReportDataObject.next(value))
+        );
+    }
+
+
+    /*** 
+     *  Analytics API call 
+     *  to get all reports
+     * 
+     * ***/
+    private nltGetAllReportsUrl = 'legacy/index.php?module=pd_analytics&action=nltGetAllReports&sugar_body_only=true';
+    private nltGetAllReportsObject = new BehaviorSubject<any>(null);
+    public nltGetAllReports$ = this.nltGetAllReportsObject.asObservable();
+
+    nltGetAllReports(data: any): Observable<any> {
+        return this.http.post<any>(this.nltGetAllReportsUrl, data).pipe(
+            tap(value => this.nltGetAllReportsObject.next(value))
+        );
+    }
+
+
+    /*** 
+     * Analytics API call 
+     * for report detail 
+     * view
+     * 
+     * ***/
+    private nltViewReportUrl = 'legacy/index.php?module=pd_analytics&action=viewReport&sugar_body_only=true';
+    private nltViewReportObject = new BehaviorSubject<any>(null);
+    public nltViewReport$ = this.nltViewReportObject.asObservable();
+
+    nltViewReport(data: any): Observable<any> {
+        return this.http.post<any>(this.nltViewReportUrl, data).pipe(
+            tap(value => this.nltViewReportObject.next(value))
+        );
+    }
+
+
+    /*** 
+     * Analytics API call 
+     * to save report 
+     * 
+     * ***/
+    private nltSaveReportUrl = 'legacy/index.php?module=pd_analytics&action=saveReport&sugar_body_only=true';
+    private nltSaveReportObject = new BehaviorSubject<any>(null);
+    public nltSaveReport$ = this.nltSaveReportObject.asObservable();
+
+    nltSaveReport(data: any): Observable<any> {
+        return this.http.post<any>(this.nltSaveReportUrl, data).pipe(
+            tap(value => this.nltSaveReportObject.next(value))
+        );
+    }
+
+
+    /*** 
+     * Analytics API call 
+     * to create report 
+     * 
+     * ***/
+    private nltCreateReportUrl = 'legacy/index.php?module=pd_analytics&action=createReport&sugar_body_only=true';
+    private nltCreateReportObject = new BehaviorSubject<ChartResponse | null>(null);
+    public nltCreateReport$ = this.nltCreateReportObject.asObservable();
+
+    getNltCreateReport(data: any): Observable<ChartResponse> {
+        //data = JSON.stringify(data);
+        //let params = new HttpParams().set('data', data);
+        return this.http.post<ChartResponse>(this.nltCreateReportUrl, data).pipe(
+            tap(value => this.nltCreateReportObject.next(value))
+        );
+    }
+
+
+    /*** 
+     * Analytics API call 
+     * to get all modules 
+     * with labels 
+     * 
+     * ***/
+    private nltAllModulesUrl = 'legacy/index.php?module=pd_analytics&action=getAllModulesWithLabels&sugar_body_only=true';
+    private nltAllModulesObject = new BehaviorSubject<any[]>([]);
+    public nltAllModules$ = this.nltAllModulesObject.asObservable();
+
+    getNltAllModules(): Observable<any[]> {
+        return this.http.get<any[]>(this.nltAllModulesUrl).pipe(
+            tap(value => this.nltAllModulesObject.next(value))
+        );
+    }
+
+
+    /*** 
+     * Analytics API call 
+     * to get all fields 
+     * and labels for a module 
+     * 
+     * ***/
+    private nltModuleFieldsUrl = 'legacy/index.php?module=pd_analytics&action=getModuleFieldsAndLabels&sugar_body_only=true';
+    private nltModuleFieldsObject = new BehaviorSubject<any[]>([]);
+    public nltModuleFields$ = this.nltModuleFieldsObject.asObservable();
+
+    getNltModuleFields(moduleName: string): Observable<any[]> {
+        let params = new HttpParams().set('module_name', moduleName);
+        return this.http.get<any[]>(this.nltModuleFieldsUrl, { params }).pipe(
+            tap(value => this.nltModuleFieldsObject.next(value))
+        );
+    }
+
+    setNltModuleFields(fields: any[]) {
+        this.nltModuleFieldsObject.next(fields);
+    }
+
+
+    /*** 
+     * create new object 
+     * from analytics-right-popup 
+     * to analytics-workspace 
+     * 
+     * ***/
+    private nltNewReportSource = new BehaviorSubject<any>(null);
+    public nltNewReport$: Observable<any> = this.nltNewReportSource.asObservable();
+
+    nltNewReport(newObject: any) {
+        this.nltNewReportSource.next(newObject);
+    }
+
+
+    /*** 
+     * Package Key on 
+     * module name API 
+     * 
+     * ***/
+    private getPackageKeyUrl = 'legacy/index.php?module=Studio&action=getPackageKey&sugar_body_only=true';
+
+    private packageKeyObject = new BehaviorSubject<any[]>([]);
+    public packageKey$ = this.packageKeyObject.asObservable();
+
+    getPackageKey(moduleName: string): Observable<any[]> {
+        let params = new HttpParams().set('module_label', moduleName);
+        return this.http.get<any[]>(this.getPackageKeyUrl, { params }).pipe(
+            tap(value => this.packageKeyObject.next(value))
+        );
+    }
+
+
+    /*** 
+     * Current Module Menu 
+     * Filter Name from 
+     * base-navbae 
+     * 
+     * ***/
     private CurrentMenuNameSource = new BehaviorSubject<any>(null);  // Holds the object
     public CurrentMenuNameobject$: Observable<any> = this.CurrentMenuNameSource.asObservable(); // Stream
 
     setCurrentMenuFilterName(newObject: any) {
         this.CurrentMenuNameSource.next(newObject);
     }
-    /*** Current Module Menu Filter Name from base-navbae - end ***/
-    // =========================================================
 
 
-    // ================================
-    /*** Menu Filters API - start ***/
-
+    /*** 
+     * Menu Filters API 
+     * 
+     * ***/
     private readMenuFiltersUrl = 'legacy/index.php?module=Studio&action=readMenuFilters&sugar_body_only=true';
 
     private menuFiltersObject = new BehaviorSubject<any[]>([]);
@@ -43,13 +209,11 @@ export class StupidDataService {
         );
     }
 
-    /*** Menu Filters API - end ***/
-    // ==============================
-
     
-    // ================================
-    /*** Notifications API - start ***/
-
+    /*** 
+     * Notifications API 
+     * 
+     * ***/
     private readNotificationsUrl = 'legacy/index.php?module=Alerts&action=readNotifications&sugar_body_only=true';
 
     private notificationsSubject = new BehaviorSubject<any[]>([]);
@@ -68,13 +232,10 @@ export class StupidDataService {
     // }
 
 
-    /*** Notifications API - end ***/
-    // ==============================
-
-
-    // ========================
-    /*** Notes API - start ***/
-    
+    /*** 
+     * Notes API calls
+     * 
+     * ***/
     private createNoteUrl = 'legacy/index.php?module=Notes&action=AddCustomNotes&sugar_body_only=true';
     private readNotesUrl = 'legacy/index.php?module=Notes&action=GetCustomNotes&sugar_body_only=true';
     private deleteNoteUrl = 'legacy/index.php?module=Notes&action=DeleteCustomNotes&sugar_body_only=true';
@@ -110,12 +271,12 @@ export class StupidDataService {
     //   return this.http.get(this.readNotesUrl);
     // }
 
-    /*** Notes API - end ***/
-    // ======================
 
-
-    // ===========================================================
-    /*** navbar object from base-navbae to navbar-top - start ***/
+    /*** 
+     * Navbar object from 
+     * base-navbae to navbar-top 
+     * 
+     * ***/
     private objectSource = new BehaviorSubject<any>(null);  // Holds the object
     public object$: Observable<any> = this.objectSource.asObservable(); // Stream
 
@@ -126,12 +287,13 @@ export class StupidDataService {
     getObject(): any {
         return this.objectSource.getValue();
     }
-    /*** navbar object from base-navbae to navbar-top - end ***/
-    // =========================================================
 
 
-    // =====================================================================
-    /***  recently viewed Object from base-navbar to navbar-top - start ***/
+    /*** 
+     * Recently viewed Object from 
+     * base-navbar to navbar-top 
+     * 
+     * ***/
     private recentlyViewedObjectSource = new BehaviorSubject<any>(null);
     public recentlyViewedObject$: Observable<any> = this.recentlyViewedObjectSource.asObservable();
 
@@ -142,28 +304,13 @@ export class StupidDataService {
     getRecentlyViewedObject(): any {
         return this.recentlyViewedObjectSource.getValue();
     }
-    /***  recently viewed Object from base-navbar to navbar-top - end ***/
-    // ===================================================================
 
 
-    // =================================================================
-    /*** insights Object from list-header to list-container - start ***/
-    private insightsObjectSource = new BehaviorSubject<any>(null);
-    public insightsObject$: Observable<any> = this.insightsObjectSource.asObservable();
-
-    setInsightsObject(newObject: any) {
-        this.insightsObjectSource.next(newObject);
-    }
-
-    getInsightsObject(): any {
-        return this.insightsObjectSource.getValue();
-    }
-    /*** insights Object from list-header to list-container - end ***/
-    // ===============================================================
-
-
-    // ================================================================================= 
-    /*** action buttons data from button-group.component to record.component - start ***/
+    /*** 
+     * Action buttons data from 
+     * button-group.component to record.component 
+     * 
+     * ***/
     private actionButtonsObjectSource = new BehaviorSubject<any>(null);
     public actionButtonsObject$: Observable<any> = this.actionButtonsObjectSource.asObservable();
 
@@ -174,24 +321,27 @@ export class StupidDataService {
     getActionButtonsObject(): any {
         return this.actionButtonsObjectSource.getValue();
     }
-    /*** action buttons data from button-group.component to record.component - end ***/
-    // ================================================================================
 
 
-    // ===========================================================================================
-    /*** save and cancel buttons data from button-group.component to record.component - start ***/
+    /*** 
+     * Save and cancel buttons data from 
+     * button-group.component to record.component 
+     * 
+     * ***/
     private saveCancelButtonsObjectSource = new BehaviorSubject<any>(null);
     public saveCancelButtonsObject$: Observable<any> = this.saveCancelButtonsObjectSource.asObservable();
 
     setSaveCancelButtonsObject(newObject: any) {
         this.saveCancelButtonsObjectSource.next(newObject);
     }
-    /*** save and cancel buttons data from button-group.component to record.component - end ***/
-    // =========================================================================================
 
 
-    // ===========================================================================
-    /*** Create a BehaviorSubject to store and stream the count value - start ***/
+    /*** 
+     * Create a BehaviorSubject 
+     * to store and stream 
+     * the count value 
+     * 
+     * ***/
     private countSubject = new BehaviorSubject<number>(0);
 
     // Observable that components can subscribe to
@@ -201,12 +351,15 @@ export class StupidDataService {
     updateCount(newCount: number): void {
         this.countSubject.next(newCount);
     }
-    /*** Create a BehaviorSubject to store and stream the count value - end ***/
-    // =========================================================================
 
 
-    // ===============================================================================================
-    /*** bulk action button data from bulk-action-menu.component to list-header.component - start ***/
+    /*** 
+     * Bulk action button 
+     * data from 
+     * bulk-action-menu.component 
+     * to list-header.component 
+     * 
+     * ***/
     private bulkActionButtonsObjectSource = new BehaviorSubject<any>(null);
     public bulkActionButtonsObject$: Observable<any> = this.bulkActionButtonsObjectSource.asObservable();
 
@@ -217,19 +370,20 @@ export class StupidDataService {
     getBulkActionsObject(): any {
         return this.bulkActionButtonsObjectSource.getValue();
     }
-    /*** bulk action button data from bulk-action-menu.component to list-header.component - end ***/
-    // =============================================================================================
 
 
-    // ===========================================================================================
-    /*** save and cancel buttons data from button-group.component to record.component - start ***/
+    /*** 
+     * save and cancel 
+     * buttons data from 
+     * button-group.component 
+     * to record.component
+     * 
+     * ***/
     private saveButtonObjectSource = new BehaviorSubject<any>(null);
     public saveButtonObject$: Observable<any> = this.saveButtonObjectSource.asObservable();
 
     setSaveButtonObject(newObject: any) {
         this.saveButtonObjectSource.next(newObject);
     }
-    /*** save and cancel buttons data from button-group.component to record.component - end ***/
-    // =========================================================================================
 
 }

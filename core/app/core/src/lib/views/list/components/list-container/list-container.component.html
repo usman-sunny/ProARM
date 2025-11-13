@@ -31,7 +31,7 @@
     <div class="ngx-cont-main">
         <div class="row">
             <ng-container *ngIf="!swapWidgets || (swapWidgets && !displayWidgets)">
-                <div [ngClass]="{ 'col-lg-12': !isInsightsEnabled?.isEnabled }"
+                <div [ngClass]="{ 'col-lg-12': !displayWidgets }"
                     class="col-lg-9"
                 >
                     <scrm-table [config]="tableConfig"></scrm-table>
@@ -39,9 +39,8 @@
             </ng-container>
 
 
-            <!-- <ng-container *ngIf="sidebarWidgetConfig.widgetsEnabled"> -->
-            <ng-container *ngIf="isInsightsEnabled?.isEnabled">
-                <!-- <ng-container *ngIf="!swapWidgets || (swapWidgets && displayWidgets)"> -->
+            <ng-container *ngIf="sidebarWidgetConfig.widgetsEnabled">
+            <ng-container *ngIf="!swapWidgets || (swapWidgets && displayWidgets)">
                 <div [style.display]="widgetDisplayType"
                     [class.mt-0]="swapWidgets"
                     class="col-lg-3 list-widget-container pl-0">
@@ -53,7 +52,7 @@
                         </scrm-sidebar-widget>
                     </div>
                 </div>
-                <!-- </ng-container> -->
+            </ng-container>
             </ng-container>
 
 

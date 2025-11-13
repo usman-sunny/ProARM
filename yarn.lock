@@ -7538,6 +7538,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"echarts@npm:^5":
+  version: 5.6.0
+  resolution: "echarts@npm:5.6.0"
+  dependencies:
+    tslib: "npm:2.3.0"
+    zrender: "npm:5.6.1"
+  checksum: 10c0/6d6a2ee88534d1ff0433e935c542237b9896de1c94959f47ebc7e0e9da26f59bf11c91ed6fc135b62ad2786c779ee12bc536fa481e60532dad5b6a2f5167e9ea
+  languageName: node
+  linkType: hard
+
 "ee-first@npm:1.1.1":
   version: 1.1.1
   resolution: "ee-first@npm:1.1.1"
@@ -11467,6 +11477,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ngx-echarts@npm:18":
+  version: 18.0.0
+  resolution: "ngx-echarts@npm:18.0.0"
+  dependencies:
+    tslib: "npm:^2.3.0"
+  peerDependencies:
+    echarts: ">=5.0.0"
+  checksum: 10c0/60f3d8ec857f4b9a770de73fb37c57ace94a63e9ce3667a0552d6c0ac9eb5706293d2a63cd938187029fcf58dca50eedfdbe5ca11363fed87e54aec15b6402d7
+  languageName: node
+  linkType: hard
+
 "nice-napi@npm:^1.0.2":
   version: 1.0.2
   resolution: "nice-napi@npm:1.0.2"
@@ -14228,6 +14249,7 @@ __metadata:
     barrelsby: "npm:^2.8.1"
     bootstrap: "npm:^5.3.3"
     bootstrap-css-only: "npm:^4.4.1"
+    echarts: "npm:^5"
     eslint: "npm:^9.12.0"
     eslint-import-resolver-alias: "npm:^1.1.2"
     eslint-import-resolver-typescript: "npm:^3.6.3"
@@ -14256,6 +14278,7 @@ __metadata:
     ng-packagr: "npm:^18.2.1"
     ngx-build-plus: "npm:18.0.0"
     ngx-chips: "npm:^3.0.0"
+    ngx-echarts: "npm:18"
     object-hash: "npm:^3.0.0"
     primeng: "npm:^17.18.11"
     rxjs: "npm:^7.8.1"
@@ -14569,6 +14592,13 @@ __metadata:
     minimist: "npm:^1.2.6"
     strip-bom: "npm:^3.0.0"
   checksum: 10c0/09a5877402d082bb1134930c10249edeebc0211f36150c35e1c542e5b91f1047b1ccf7da1e59babca1ef1f014c525510f4f870de7c9bda470c73bb4e2721b3ea
+  languageName: node
+  linkType: hard
+
+"tslib@npm:2.3.0":
+  version: 2.3.0
+  resolution: "tslib@npm:2.3.0"
+  checksum: 10c0/a845aed84e7e7dbb4c774582da60d7030ea39d67307250442d35c4c5dd77e4b44007098c37dd079e100029c76055f2a362734b8442ba828f8cc934f15ed9be61
   languageName: node
   linkType: hard
 
@@ -15641,5 +15671,14 @@ __metadata:
   version: 0.14.10
   resolution: "zone.js@npm:0.14.10"
   checksum: 10c0/61283d152cb1eff899bae61621dccd572aa9f47e0c60c04b249bf86b43e3e4ba627bf6dba371b725023a4f302f39e554d7bf2d25bbf40c869c6c52f774b17e8b
+  languageName: node
+  linkType: hard
+
+"zrender@npm:5.6.1":
+  version: 5.6.1
+  resolution: "zrender@npm:5.6.1"
+  dependencies:
+    tslib: "npm:2.3.0"
+  checksum: 10c0/dc1cc570054640cbd8fbb7b92e6252f225319522bfe3e8dc8bf02cc02d414e00a4c8d0a6f89bfc9d96e5e9511fdca94dd3d06bf53690df2b2f12b0fc560ac307
   languageName: node
   linkType: hard

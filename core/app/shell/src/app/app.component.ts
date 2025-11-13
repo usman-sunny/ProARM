@@ -108,4 +108,9 @@ export class AppComponent {
             }
         });
     }
+
+    get isAnalyticsRoute(): boolean {
+        const currentUrl = this.router.url;
+        return currentUrl && (currentUrl.includes('/pd_analytics') || currentUrl.includes('/pd_collections'));
+    }
 }

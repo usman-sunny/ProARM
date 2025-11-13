@@ -1,0 +1,66 @@
+scrm-view-report {
+    flex: 1;
+}
+
+.view-report-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .nlt-report-dview-head {
+        display: flex;
+        justify-content: space-between;
+        padding: 14px;
+
+        .nlt-report-dview-title {
+            font-weight: 550;
+            font-size: 1.4em;
+        }
+
+    }
+
+    .nlt-reports-view-chart-area {
+        flex: 1;
+
+        .nlt-reports-dview-chart {
+            height: 100% !important;
+        }
+    }
+
+}
+
+.nlt-report-dview-btn-group {
+    display: flex;
+    gap: 1em;
+
+    .nlt-report-dview-delete-btn {
+        border: 1px solid;
+        border-radius: 4px;
+        height: 2em;
+        width: 5em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+            cursor: pointer;
+            background-color: #EEEEEE;
+        }
+    }
+
+    .nlt-report-dview-edit-btn {
+        border-radius: 4px;
+        height: 2em;
+        width: 5em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #449596;
+        color: #FFFFFF;
+
+        &:hover {
+            cursor: pointer;
+            background-color: #346f70;
+        }
+    }
+}

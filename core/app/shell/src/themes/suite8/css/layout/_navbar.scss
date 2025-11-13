@@ -284,6 +284,10 @@ a.nav-link-nongrouped.dropdown-toggle::after {
   width: 7.5rem;
 }
 
+.hide-base-navbar {
+  display: none !important;
+}
+
 .navbar-expand-md {
   flex-direction: column;
 

@@ -417,6 +417,10 @@ td.cdk-column-checkbox {
           font-weight: 400;
           color: #3D3E5C;
         }
+
+        &.active {
+          border-color: #54A5A7;
+        }
       }
     }
 

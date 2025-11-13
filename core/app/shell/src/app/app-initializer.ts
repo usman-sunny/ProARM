@@ -49,7 +49,13 @@ import {
     LogoutComponent,
     TwoFactorAuthGuard,
     AdminPanelComponent,
-    TwoFactorComponent
+    TwoFactorComponent,
+    AnalyticsComponent,
+    AnalyticsWorkspaceComponent,
+    AnalyticsWorkspaceBodyComponent,
+    AnalyticsCreateDashboardComponent,
+    AnalyticsCreateReportComponent,
+    ViewReportComponent,
 } from 'core';
 import {take} from 'rxjs/operators';
 
@@ -186,36 +192,127 @@ export class AppInit {
                     });
                     routes.push(loggedOutConfig);
 
+                    // Add '/pd_analytics' route for analytics component
+                    /*routes.push({
+                        path: 'pd_analytics',
+                        component: AnalyticsComponent,
+                        canActivate: [AuthGuard],
+                        runGuardsAndResolvers: 'always',
+                        resolve: {
+                            metadata: BaseMetadataResolver
+                        },
+                        data: {
+                            reuseRoute: false,
+                            checkSession: true,
+                            load: {
+                                navigation: true,
+                                preferences: true,
+                                languageStrings: ['appStrings', 'appListStrings', 'modStrings']
+                            }
+                        }
+                    });*/
+
                     Object.keys(configRoutes).forEach(routeName => {
                         if (configRoutes[routeName].index) {
-                            routes.push({
-                                path: routeName,
-                                component: ListComponent,
-                                canActivate: [AuthGuard],
-                                runGuardsAndResolvers: 'always',
-                                resolve: {
-                                    metadata: BaseModuleResolver
-                                },
-                                data: {
-                                    reuseRoute: false,
-                                    checkSession: true,
-                                    module: routeName
-                                }
-                            });
-                            routes.push({
-                                path: routeName + '/index',
-                                component: ListComponent,
-                                canActivate: [AuthGuard],
-                                runGuardsAndResolvers: 'always',
-                                resolve: {
-                                    metadata: BaseModuleResolver
-                                },
-                                data: {
-                                    reuseRoute: false,
-                                    checkSession: true,
-                                    module: routeName
-                                }
-                            });
+
+                            if (routeName === 'pd_analytics') {
+                                routes.push({
+                                    path: routeName,
+                                    component: AnalyticsComponent,
+                                    canActivate: [AuthGuard],
+                                    runGuardsAndResolvers: 'always',
+                                    resolve: {
+                                        metadata: BaseModuleResolver
+                                    },
+                                    data: {
+                                        reuseRoute: false,
+                                        checkSession: true,
+                                        module: routeName
+                                    }
+                                });
+                                routes.push({
+                                    path: routeName + '/index',
+                                    component: AnalyticsComponent,
+                                    canActivate: [AuthGuard],
+                                    runGuardsAndResolvers: 'always',
+                                    resolve: {
+                                        metadata: BaseModuleResolver
+                                    },
+                                    data: {
+                                        reuseRoute: false,
+                                        checkSession: true,
+                                        module: routeName
+                                    }
+                                });
+                            } else if (routeName === 'pd_collections') {
+                                routes.push({
+                                    path: routeName,
+                                    component: AnalyticsWorkspaceComponent,
+                                    children: [
+                                        {path: '', component: AnalyticsWorkspaceBodyComponent},
+                                        {path: 'createreport', component: AnalyticsCreateReportComponent},
+                                        {path: ':id/view', component: ViewReportComponent},
+                                        {path: ':id/edit', component: AnalyticsCreateReportComponent},
+                                    ],
+                                    canActivate: [AuthGuard],
+                                    runGuardsAndResolvers: 'always',
+                                    resolve: {
+                                        metadata: BaseModuleResolver
+                                    },
+                                    data: {
+                                        reuseRoute: false,
+                                        checkSession: true,
+                                        module: routeName
+                                    }
+                                });
+                                routes.push({
+                                    path: routeName + '/index',
+                                    component: AnalyticsWorkspaceComponent,
+                                    children: [
+                                        {path: '', component: AnalyticsWorkspaceBodyComponent},
+                                        {path: 'createreport', component: AnalyticsCreateReportComponent},
+                                    ],
+                                    canActivate: [AuthGuard],
+                                    runGuardsAndResolvers: 'always',
+                                    resolve: {
+                                        metadata: BaseModuleResolver
+                                    },
+                                    data: {
+                                        reuseRoute: false,
+                                        checkSession: true,
+                                        module: routeName
+                                    }
+                                });
+                            } else {
+                                routes.push({
+                                    path: routeName,
+                                    component: ListComponent,
+                                    canActivate: [AuthGuard],
+                                    runGuardsAndResolvers: 'always',
+                                    resolve: {
+                                        metadata: BaseModuleResolver
+                                    },
+                                    data: {
+                                        reuseRoute: false,
+                                        checkSession: true,
+                                        module: routeName
+                                    }
+                                });
+                                routes.push({
+                                    path: routeName + '/index',
+                                    component: ListComponent,
+                                    canActivate: [AuthGuard],
+                                    runGuardsAndResolvers: 'always',
+                                    resolve: {
+                                        metadata: BaseModuleResolver
+                                    },
+                                    data: {
+                                        reuseRoute: false,
+                                        checkSession: true,
+                                        module: routeName
+                                    }
+                                });
+                            }
                         }
 
                         if (configRoutes[routeName].list) {

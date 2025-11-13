@@ -41,6 +41,7 @@ import {onError} from '@apollo/client/link/error';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {
+    AnalyticsModule,
     AppStateStore,
     AuthService,
     BaseRouteService,
@@ -86,6 +87,7 @@ export const initializeApp = (appInitService: AppInit) => (): Promise<any> => ap
     imports: [
         BrowserModule,
         AppRoutingModule,
+        AnalyticsModule,
         FooterUiModule,
         NavbarUiModule,
         MessageUiModule,

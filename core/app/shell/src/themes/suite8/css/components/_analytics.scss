@@ -1,0 +1,545 @@
+/* Analytics Component Styles */
+.analytics-component {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: #ffffff;
+
+  .analytics-content-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0px 150px;
+  }
+
+  // Header Section
+  .analytics-header {
+    height: 3rem;
+    padding-left: 10px;
+    display: flex;
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .header-left {
+        display: flex;
+        align-items: center;
+
+        .back-button {
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 16px;
+          border-radius: 8px;
+          
+          &:hover {
+            cursor: pointer;
+          }
+          
+          svg {
+            width: 20px;
+            height: 20px;
+          }
+        }
+
+        .analytics-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          
+          svg {
+            width: 26px !important;
+            height: 26px !important;
+          }
+        }
+
+        .analytics-title {
+          color: black;
+          margin: 0;
+          font-size: 1.3rem;
+          font-weight: 300;
+        } 
+      }
+    }
+  }
+
+  // Tabs Navigation
+  .tabs-navigation {
+    padding: 0px 150px;
+    background-color: #eeeeee;
+
+    .navigation-tabs {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 2px;
+
+      .navigation-item {
+        width: 122px;
+        position: relative;
+
+        &.active {
+          background-color: #dedede;
+          .navigation-link {
+            color: black;
+          }
+        }
+
+        .navigation-link {
+          text-align: center;
+          display: block;
+          padding: 1rem 0;
+          color: #808080;
+          text-decoration: none;
+          font-size: 16px;
+          font-weight: 400;
+          position: relative;
+          cursor: pointer;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: #ffffff;
+          }
+        }
+      }
+    }
+  }
+
+  // Search Section
+  .search-section {
+    height: 70px;
+    display: flex;
+    align-items: center;
+
+    .nltcs-favourites-btn {
+      width: 32px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      padding: 5px;
+      background-color: #ffffff;
+      border: 1px solid #ccd4eb;
+      border-radius: 3px;
+
+      &:hover {
+        cursor: pointer;
+        background-color: #e5e5e5;
+      }
+
+      svg {
+        width: 1.3em !important;
+        height: 1.3em !important;
+      }
+    }
+
+    .search-container {
+      position: relative;
+      width: 250px;
+      height: 29px;
+
+      .search-input {
+        width: 100%;
+        height: 100%;
+        padding: 0px 32px 0px 8px;
+        border: 1px solid #999999;
+        border-radius: 3px;
+        font-size: 0.8rem;
+        transition: all 0.2s ease;
+
+        &::placeholder {
+          color: #808080;
+        }
+
+        &:focus {
+          outline: none;
+          border-color: #5e72e4;
+        }
+      }
+
+      .search-button {
+        position: absolute;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        padding: 0px !important;
+        background-color: #FFFFFF;
+
+        &:active,
+        &:focus {
+          border: none !important;
+          outline: none !important;
+        }
+
+        svg {
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+  }
+
+  // Analytics Content Body
+  .nltcs-hp-body {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+
+    .nltcs-card {
+      width: 291px;
+      height: 253px;
+      background-color: #ffffff;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      transition: box-shadow 0.5s;
+
+      &:hover {
+        box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        border-color: blue;
+      }
+
+      .nltcs-card-header {
+        display: flex;
+        padding: 15px 15px 0px 15px;
+
+        .nltcs-header-left {
+          width: 12.5rem;
+          display: flex;
+          flex-direction: column;
+
+          .nltcs-header-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 16px;
+            color: #000000;
+            font-weight: normal;
+          }
+  
+          .nltcs-header-time {
+            color: #666666;
+            font-size: 13px;
+            font-weight: normal;
+          }
+
+        }
+
+        .nltcs-header-right {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .nltcs-header-favourite {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+
+            &:hover {
+              cursor: pointer;
+              background-color: #e5e5e5;
+            }
+
+            svg {
+              width: 1.3em !important;
+              height: 1.3em !important;
+            }
+          }
+
+          .nltcs-header-edit {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+
+            &:hover {
+              cursor: pointer;
+              background-color: #e5e5e5;
+            }
+          }
+        }
+  
+      }
+
+      .nltcs-card-body-image {
+        padding: 7px 15px 5px 15px;
+
+        .nltcs-cb-image-container {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .nltcs-card-footer {
+        padding: 0px 15px 5px 15px;
+
+        .nltcs-footer-text {
+          font-size: 13px;
+          color: #666666;
+          font-weight: normal;
+        }
+      }
+  
+    }
+  }
+
+
+
+  // Content Area
+  // .analytics-content {
+  //   flex: 1;
+  //   padding: 2rem 0rem;
+
+  //   .tab-content {
+  //     .workspaces-grid {
+  //       display: grid;
+  //       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  //       gap: 1.5rem;
+
+  //       .workspace-card {
+  //         background-color: #ffffff;
+  //         border-radius: 8px;
+  //         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  //         overflow: hidden;
+  //         transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  //         &:hover {
+  //           transform: translateY(-2px);
+  //           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  //         }
+
+  //         .card-header {
+  //           display: flex;
+  //           align-items: center;
+  //           justify-content: space-between;
+  //           padding: 1rem 1.25rem;
+  //           border-bottom: 1px solid #f0f0f0;
+
+  //           .workspace-title {
+  //             margin: 0;
+  //             font-size: 1rem;
+  //             font-weight: 600;
+  //             color: #1a1a1a;
+  //           }
+
+  //           .card-menu-btn {
+  //             background: none;
+  //             border: none;
+  //             padding: 0.25rem;
+  //             cursor: pointer;
+  //             color: #808080;
+  //             border-radius: 4px;
+  //             transition: background-color 0.2s ease;
+
+  //             &:hover {
+  //               background-color: #f0f0f0;
+  //             }
+
+  //             svg {
+  //               width: 20px;
+  //               height: 20px;
+  //             }
+  //           }
+  //         }
+
+  //         .card-body {
+  //           padding: 2rem;
+  //           display: flex;
+  //           align-items: center;
+  //           justify-content: center;
+  //           min-height: 150px;
+
+  //           .workspace-icon {
+  //             &.database-icon {
+  //               svg {
+  //                 width: 64px;
+  //                 height: 64px;
+  //                 color: #5e72e4;
+  //                 stroke-width: 1.5;
+  //               }
+  //             }
+
+  //             &.chart-icon {
+  //               .chart-bars {
+  //                 display: flex;
+  //                 align-items: flex-end;
+  //                 gap: 0.5rem;
+  //                 height: 64px;
+
+  //                 .bar {
+  //                   width: 12px;
+  //                   background-color: #5e72e4;
+  //                   border-radius: 2px;
+
+  //                   &.bar-1 { height: 40%; }
+  //                   &.bar-2 { height: 70%; }
+  //                   &.bar-3 { height: 100%; }
+  //                   &.bar-4 { height: 60%; }
+  //                 }
+  //               }
+  //             }
+  //           }
+  //         }
+
+  //         .card-footer {
+  //           display: flex;
+  //           align-items: center;
+  //           justify-content: space-between;
+  //           padding: 1rem 1.25rem;
+  //           background-color: #f8f9fa;
+  //           border-top: 1px solid #f0f0f0;
+
+  //           .workspace-meta {
+  //             font-size: 0.75rem;
+  //             color: #666666;
+  //           }
+
+  //           .workspace-owner {
+  //             font-size: 0.75rem;
+  //             color: #666666;
+  //           }
+  //         }
+  //       }
+  //     }
+
+  //     .empty-state {
+  //       display: flex;
+  //       align-items: center;
+  //       justify-content: center;
+  //       min-height: 300px;
+  //       color: #808080;
+  //       font-size: 1rem;
+  //     }
+  //   }
+  // }
+
+  // Responsive design
+  // @media (max-width: 768px) {
+  //   .analytics-header {
+  //     padding: 1rem;
+
+  //     .header-content {
+  //       .header-left {
+  //         .analytics-title {
+  //           font-size: 1.25rem;
+  //         }
+
+          
+  //       }
+  //     }
+  //   }
+
+  //   .search-section {
+  //     padding: 1rem;
+  //   }
+
+  //   .tabs-navigation {
+  //     padding: 0 1rem;
+  //     overflow-x: auto;
+  //     -webkit-overflow-scrolling: touch;
+
+  //     .nav-tabs {
+  //       gap: 1.5rem;
+  //     }
+  //   }
+
+  //   .analytics-content {
+  //     padding: 1rem;
+
+  //     .tab-content {
+  //       .workspaces-grid {
+  //         grid-template-columns: 1fr;
+  //         gap: 1rem;
+  //       }
+  //     }
+  //   }
+  // }
+
+  // Dark theme adjustments for SuiteCRM
+  // @media (prefers-color-scheme: light) {
+  //   background-color: #f5f5f5;
+  //   color: #333333;
+
+  //   .analytics-header {
+  //     background-color: #ffffff;
+  //     border-bottom-color: #e0e0e0;
+
+  //     .header-content {
+  //       .header-left {
+  //         .back-button {
+  //           color: #333333;
+  //           border-color: #e0e0e0;
+            
+  //           &:hover {
+  //             background-color: #f0f0f0;
+  //             border-color: #5e72e4;
+  //           }
+  //         }
+          
+  //         .analytics-title {
+  //           color: #333333;
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   .search-section {
+  //     background-color: #f5f5f5;
+
+  //     .search-container {
+  //       .search-input {
+  //         background-color: #ffffff;
+  //         border-color: #e0e0e0;
+  //         color: #333333;
+
+  //         &:focus {
+  //           border-color: #5e72e4;
+  //           background-color: #ffffff;
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   .tabs-navigation {
+  //     background-color: #f5f5f5;
+  //     border-bottom-color: #e0e0e0;
+
+  //     .nav-tabs {
+  //       .nav-item {
+  //         &.active {
+  //           .nav-link {
+  //             color: #333333;
+  //           }
+  //         }
+
+  //         .nav-link {
+  //           color: #666666;
+
+  //           &:hover {
+  //             color: #333333;
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   .analytics-content {
+  //     background-color: #f5f5f5;
+  //   }
+  // }
+
+}

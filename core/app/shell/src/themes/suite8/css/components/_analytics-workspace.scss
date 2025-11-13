@@ -1,0 +1,237 @@
+.analytics-workspace-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.analytics-workspace-body-1 {
+    width: 100%;
+    display: flex;
+    flex: 1;
+    min-height: 0;
+
+    .analytics-workspace-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+
+        .nlt-workspace-header {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 50px;
+
+            .nlt-workspace-header-top {
+                width: 100%;
+
+                .nlt-ws-header-title {
+                    font-size: 1.3em;
+                    font-weight: 550;
+                    color: black;
+                }
+            }
+
+            .nlt-workspace-header-bottom {
+                width: 100%;
+                display: flex;
+
+                // Search Section and star button
+                .nlt-workspace-search-section {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+
+                    .ntl-ws-search-container {
+                        position: relative;
+                        width: 250px;
+                        height: 29px;
+
+                        .ntl-ws-search-input {
+                            width: 100%;
+                            height: 100%;
+                            padding: 0px 32px 0px 8px;
+                            border: 1px solid #999999;
+                            border-radius: 3px;
+                            font-size: 0.8rem;
+                            transition: all 0.2s ease;
+
+                            &::placeholder {
+                                color: #808080;
+                            }
+
+                            &:focus {
+                                outline: none;
+                                border-color: #5e72e4;
+                            }
+                        }
+
+                        .ntl-ws-search-button {
+                            position: absolute;
+                            right: 0.5rem;
+                            top: 40%;
+                            transform: translateY(-50%);
+                            cursor: pointer;
+                            padding: 0px !important;
+                            background-color: #FFFFFF;
+
+                            &:active,
+                            &:focus {
+                                border: none !important;
+                                outline: none !important;
+                            }
+
+                            svg {
+                                width: 14px;
+                                height: 14px;
+                            }
+                        }
+                    }
+
+                    .ntl-ws-favourites-btn {
+                        width: 32px;
+                        height: 30px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-right: 10px;
+                        padding: 5px;
+                        background-color: #ffffff;
+                        border: 1px solid #ccd4eb;
+                        border-radius: 3px;
+
+                        &:hover {
+                            cursor: pointer;
+                            background-color: #e5e5e5;
+                        }
+
+                        svg {
+                            width: 1.3em !important;
+                            height: 1.3em !important;
+                        }
+                    }
+                }
+            }
+        }
+
+        .nlt-ws-body-1 {
+            flex: 1;
+            display: flex;
+            padding: 0 50px;
+            flex-wrap: wrap;
+            align-content: flex-start;
+
+            .nlt-ws-card {
+                width: 311px;
+                height: 271px;
+                display: flex;
+                flex-direction: column;
+                background-color: #ffffff;
+                border: 1px solid #e5e5e5;
+                border-radius: 8px;
+                margin: 5px;
+                transition: box-shadow 0.5s;
+          
+                &:hover {
+                    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+                    cursor: pointer;
+                    border-color: blue;
+                }
+          
+                .nlt-ws-card-header {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 15px 15px 0px 15px;
+          
+                    .nlt-ws-header-left {
+                        width: 12.5rem;
+                        display: flex;
+                        flex-direction: column;
+          
+                        .nlt-ws-header-title {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            font-size: 16px;
+                            color: #000000;
+                            font-weight: normal;
+                        }
+                
+                        .nlt-ws-header-time {
+                            color: #666666;
+                            font-size: 13px;
+                            font-weight: normal;
+                        }
+                    }
+          
+                    .nlt-ws-header-right {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: 2em;
+            
+                        .nlt-ws-header-favourite {
+                            width: 30px;
+                            height: 30px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 4px;
+            
+                            &:hover {
+                                cursor: pointer;
+                                background-color: #e5e5e5;
+                            }
+                
+                            svg {
+                                width: 1.3em !important;
+                                height: 1.3em !important;
+                            }
+                        }
+          
+                        .nlt-ws-header-edit {
+                        width: 30px;
+                        height: 30px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 4px;
+            
+                            &:hover {
+                                cursor: pointer;
+                                background-color: #e5e5e5;
+                            }
+                        }
+                    }
+                }
+          
+                .nlt-ws-card-body-image {
+                    padding: 7px 15px 5px 15px;
+                    height: 100%;
+            
+                    .nlt-ws-cb-image-container {
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        svg {
+                            width: 4em !important;
+                            height: 4em !important;
+                        }
+                    }
+                }
+            
+            }
+        }
+
+
+    }
+}
+
+nlt-create-report {
+    flex: 1;   /* This makes the whole component take remaining space */
+    display: flex;  /* so its .nlt-reports-main can flex inside if needed */
+}

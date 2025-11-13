@@ -40,6 +40,7 @@ import {SavedFilter} from '../../../../store/saved-filters/saved-filter.model';
 
 import {StupidDataService} from '../../../../services/stupid-data/stupid-data.service';
 import {boolean} from 'mathjs';
+import {ButtonInterface} from '../../../../common/components/button/button.model';
 
 @Component({
     selector: 'scrm-list-header',
@@ -55,15 +56,14 @@ export class ListHeaderComponent implements OnInit, OnDestroy {
     protected subs: Subscription[] = [];
     filterBtn = false;
     navbar: any;
+    insightsButton: ButtonInterface;
+    currentMenuName: any;
+    // packageKey: any = null;
 
     // Global search properties
     searchText: string = '';
     private searchSubject = new Subject<string>();
     private searchDebounceTime = 500; // milliseconds
-
-    insightsBtn: { [key: string]: any } = {
-        isEnabled: false,
-    };
 
     count: number = 0;
     private countSubscription: Subscription;
@@ -86,6 +86,8 @@ export class ListHeaderComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        // this.packageKey = null;
+
         this.listStore.actionPanel$.subscribe(actionPanel => {
             this.actionPanel = actionPanel;
             if (this.actionPanel === 'recordPanel') {
@@ -102,8 +104,6 @@ export class ListHeaderComponent implements OnInit, OnDestroy {
         this.subs.push(this.quickFilters.enabled$.subscribe(enabled => {
             this.enableQuickFilters = isTrue(enabled ?? false);
         }))
-
-        this.stupidDataService.setInsightsObject(this.insightsBtn);
 
         // Subscribe to the count$ observable from the stupidDataService
         this.countSubscription = this.stupidDataService.count$.subscribe(
@@ -131,6 +131,21 @@ export class ListHeaderComponent implements OnInit, OnDestroy {
             })
         );
 
+        this.subs.push(this.stupidDataService.CurrentMenuNameobject$.subscribe(value => {
+            this.currentMenuName = value;
+        }));
+
+        this.insightsButton = this.getInsightsButton();
+
+        // this.stupidDataService.getPackageKey(this.navbar?.current?.link?.label).subscribe();
+        // this.subs.push(this.stupidDataService.packageKey$.subscribe(value => {
+        //     if (value['package_key']) {
+        //         this.packageKey = value['package_key'];
+        //     } else {
+        //         this.packageKey = null;
+        //     }
+        // }));
+
     }
 
     ngOnDestroy(): void {
@@ -139,14 +154,11 @@ export class ListHeaderComponent implements OnInit, OnDestroy {
             this.countSubscription.unsubscribe();
         }
         this.recordPanelConfig = null;
+        // this.packageKey = null;
     }
 
     toggleFilters(): void {
         this.filterBtn = !this.filterBtn;
-    }
-
-    toggleInsights(): void {
-       this.insightsBtn.isEnabled = !this.insightsBtn.isEnabled;
     }
 
     click(click: Function): void {
@@ -263,6 +275,33 @@ export class ListHeaderComponent implements OnInit, OnDestroy {
             console.error('Error resetting filters:', error);
             this.listStore.resetFilters(true);
         }
+    }
+
+    getInsightsButton(): ButtonInterface {
+
+        return {
+            label: this.listStore.appStrings.LBL_INSIGHTS || '',
+            klass: {
+                active: this.listStore.showSidebarWidgets
+            },
+            icon: 'pie',
+            onClick: (): void => {
+                this.listStore.showSidebarWidgets = !this.listStore.showSidebarWidgets;
+            }
+        };
+    }
+
+    /**
+     * Get clean module name without package prefix
+     * @returns Clean module name (e.g., 'sports')
+     */
+    getCleanModuleName(): string {
+        const fullModuleName: string = this.listStore.getModuleName();
+        const underscoreIndex = fullModuleName.indexOf('_');
+        if (underscoreIndex !== -1) {
+            return fullModuleName.substring(underscoreIndex + 1);
+        }
+        return fullModuleName;
     }
 
 }

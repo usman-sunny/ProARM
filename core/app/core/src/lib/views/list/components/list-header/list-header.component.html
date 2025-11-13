@@ -31,7 +31,10 @@
         <div class="list-head-main">
 
             <div class="lh-left-box">
-                <div (click)="toggleInsights()" class="lh-insights-btn">
+                <div *ngIf="listStore?.widgets" 
+                    (click)="click(insightsButton?.onClick)" 
+                    class="lh-insights-btn"
+                >
                     <div class="lh-insights-icon">
                         <scrm-image image="lvh-insights"></scrm-image>
                     </div>
@@ -54,7 +57,12 @@
                                 <div class="lh-drop-body">
                                     <a [routerLink]="item?.link?.route" [queryParams]="item?.link?.params" class="lh-bd-text"><div>Files</div></a>
                                     <div class="lh-break-row"></div>
-                                    <a [routerLink]="'/ai_generate/synthetic_data'" [queryParams]="{module_name: navbar?.current?.module}" class="lh-bd-text"><div>Synthetic Data Generator</div></a>
+                                    <a [routerLink]="'/ai_generate/synthetic_data'" 
+                                       [queryParams]="{module_name: getCleanModuleName(), module_key: navbar?.current?.module, package_name: currentMenuName}" 
+                                       class="lh-bd-text"
+                                    >
+                                        <div>Synthetic Data Generator</div>
+                                    </a>
                                 </div>  
                             </div>
                         </div>

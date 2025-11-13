@@ -62,8 +62,6 @@ export class ListContainerComponent implements OnInit, OnDestroy {
     sidebarWidgetConfig: any;
     widgetDisplayType: string = 'none';
 
-    isInsightsEnabled: any;
-
     protected subs: Subscription[] = [];
 
     constructor(
@@ -102,11 +100,6 @@ export class ListContainerComponent implements OnInit, OnDestroy {
             this.swapWidgets = swap;
         }));
 
-        // recentlyviewed object from base navbar component through stupid data service
-        this.stupidDataService.insightsObject$.subscribe(value => {
-            this.isInsightsEnabled = value;
-            //console.log('insightsObject 6754 from stupid service:', value);
-        });
     }
 
     ngOnDestroy() {
