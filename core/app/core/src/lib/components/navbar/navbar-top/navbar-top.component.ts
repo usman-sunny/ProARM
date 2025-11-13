@@ -1,16 +1,17 @@
-import { Component, OnInit, EventEmitter, Output  } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { AuthService } from '../../../services/auth/auth.service';
 import { StupidDataService } from '../../../services/stupid-data/stupid-data.service';
 import { SystemConfigStore } from '../../../store/system-config/system-config.store';
 import { GlobalSearch } from "../../../services/navigation/global-search/global-search.service";
 import { FormControl, FormGroup, Validators } from '@angular/forms'; 
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'scrm-navbar-top',
   templateUrl: './navbar-top.component.html',
   styleUrls: []
 })
-export class NavbarTopComponent implements OnInit {
+export class NavbarTopComponent implements OnInit, OnDestroy {
 
     isUserLoggedIn: boolean = false;
     navbar: any;
@@ -21,6 +22,8 @@ export class NavbarTopComponent implements OnInit {
     currentMenuName: string;
 
     @Output() togglePanel = new EventEmitter<string>();
+
+    private subs: Subscription[] = [];
   
     constructor(
         private authService: AuthService,
@@ -30,33 +33,37 @@ export class NavbarTopComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.authService.isUserLoggedIn.subscribe(status => {
+        this.subs.push(this.authService.isUserLoggedIn.subscribe(status => {
             this.isUserLoggedIn = status;
-        });
+        }));
 
         // nabvar object from base navbar component through stupid data service
-        this.stupidData.object$.subscribe(navbar => {
+        this.subs.push(this.stupidData.object$.subscribe(navbar => {
             if (navbar) {
                 this.navbar = navbar;
                 //console.log('Navbar from stupid service:', navbar);
             }
-        });
+        }));
 
         // recentlyviewed object from base navbar component through stupid data service
-        this.stupidData.recentlyViewedObject$.subscribe(rc_viewd => {
+        this.subs.push(this.stupidData.recentlyViewedObject$.subscribe(rc_viewd => {
             this.recentlyViewed = rc_viewd;
             //console.log('rc_viewed from stupid service:', rc_viewd);
-        });
+        }));
 
         this.searchForm = new FormGroup({
             searchTerm: new FormControl('', Validators.required),
         });
 
-        this.stupidData.CurrentMenuNameobject$.subscribe(currentMenuName => {
+        this.subs.push(this.stupidData.CurrentMenuNameobject$.subscribe(currentMenuName => {
             this.currentMenuName = currentMenuName;
-        });
+        }));
 
         this.searchBoxExpanded = false;
+    }
+
+    ngOnDestroy(): void {
+        this.subs.forEach(sub => sub.unsubscribe());
     }
   
     toggleRightPanel(name: string) {

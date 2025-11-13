@@ -15,6 +15,13 @@ export class RightPanelComponent implements OnInit, OnDestroy {
     isVisible: boolean = false;
     isUserLoggedIn: boolean;
 
+    isFilterMenuVisible: boolean = false;
+    isFilterSectionVisible: boolean = false;
+    isFilterSubMenuVisible: boolean = false;
+    isFilterSubMenuSubMenuVisible: boolean = false;
+
+    isChecked: boolean;
+
     $name: string = "";
     id: any;
     title: any;
@@ -24,7 +31,7 @@ export class RightPanelComponent implements OnInit, OnDestroy {
     isReadonly: boolean = false;
     navbar: any = null;
     off_set: number = 0;
-    
+
     labels: string[] = [
         'Personal',
         'Farming',
@@ -181,5 +188,27 @@ export class RightPanelComponent implements OnInit, OnDestroy {
     closePanel() {
         this.isVisible = false;
     }
-    
+
+    toggleFilterMenu() {
+        if (this.isFilterMenuVisible) {
+            this.isFilterMenuVisible = false;
+            this.isFilterSubMenuVisible = false;
+            this.isFilterSubMenuSubMenuVisible = false;
+        } else {
+            this.isFilterMenuVisible = true;
+        }
+        //this.isFilterMenuVisible = !this.isFilterMenuVisible;
+    }
+
+    toggleFilterSection(): void {
+        this.isFilterSectionVisible = !this.isFilterSectionVisible;
+    }
+
+    toggleFilterSubMenu(): void {
+        this.isFilterSubMenuVisible = !this.isFilterSubMenuVisible;
+    }
+
+    toggleFilterSubMenuSubMenu(): void {
+        this.isFilterSubMenuSubMenuVisible = !this.isFilterSubMenuSubMenuVisible;
+    }
 }

@@ -16,7 +16,7 @@
                 </div>
         
                 <div class="rp-filter-btn">
-                    <scrm-image image="tlines"></scrm-image>
+                    <scrm-image image="tlines-black"></scrm-image>
                 </div>
             </div>
 
@@ -88,9 +88,11 @@
     </ng-container>
     <!-- Notes End -->
 
+
     <!-- Notifications -->
     <ng-container *ngIf="$name === 'notification'">
         <div class="rp-head">
+
             <div class="rp-head-top">
                 <div (click)="closePanel()" class="rp-close-btn">
                     <scrm-image image="darrows"></scrm-image>
@@ -101,11 +103,103 @@
                     <input class="rp-search-input" type="text" placeholder="Search">
                 </div>
         
-                <div class="rp-filter-btn">
-                    <scrm-image image="tlines"></scrm-image>
+                <div
+                    (click)="toggleFilterSection()"
+                    class="rp-filter-btn"
+                    [ngClass]="{'rp-filter-btn-active': isFilterSectionVisible}"
+                >
+                    <scrm-image [image]="isFilterSectionVisible ? 'tlines-green' : 'tlines-black'"></scrm-image>
                 </div>
             </div>
 
+            <!-- Filter Section -->
+            <div *ngIf="isFilterSectionVisible" class="rp-head-middle">
+                <div class="rp-hm-filter-title">Filter</div>
+                <div class="rp-hm-break-row"></div>
+
+                <!-- Sort by -->
+                <div class="rp-hm-sort-title">Sort by</div>
+
+                <div 
+                    (click)="toggleFilterMenu()" 
+                    class="rp-hm-filter-select"
+                    [ngClass]="{'rp-hm-filter-select-active': isFilterMenuVisible}"
+                >
+                    <div *ngIf="!isChecked" class="rp-hm-filter-select-text">
+                        Select one or more
+                    </div>
+
+                    <div *ngIf="isChecked" class="rp-hm-filter-badge">
+                        <div class="rp-hm-badge-icon">
+                            <scrm-image image="cstm-cross"></scrm-image>
+                        </div>
+                        <div class="rp-hm-badge-text">Category</div>
+                    </div>
+                    
+                    <div class="rp-hm-filter-select-arrow">
+                        <scrm-image [image]="isFilterMenuVisible ? 'cstm-drop-arrow-up' : 'cstm-drop-arrow-down'"></scrm-image>
+                    </div>
+                </div>
+                
+                <div *ngIf="isFilterMenuVisible" class="rp-hm-filter-select-menu">
+                    <div 
+                        (click)="toggleFilterSubMenu()" 
+                        class="rp-hm-filter-select-menu-item"
+                    >
+                        <input type="checkbox" [(ngModel)]="isChecked">
+                        Category
+                    </div>
+
+                    <div class="rp-hm-filter-select-menu-hr"></div>
+
+                    <div 
+                        class="rp-hm-filter-select-menu-item"
+                    >
+                        <input type="checkbox">
+                        Time
+                    </div>
+
+                    <div class="rp-hm-filter-select-menu-hr"></div>
+
+                    <div 
+                        class="rp-hm-filter-select-menu-item"
+                    >
+                        <input type="checkbox">
+                        Status
+                    </div>
+                </div>
+
+                <!-- Sub Menu - Category - which is static for the moment but in the future will be dynamic -->
+                <ng-container *ngIf="isFilterSubMenuVisible">
+                    <div class="rp-hm-sort-title-scnd">Category</div>
+
+                    <div 
+                        (click)="toggleFilterSubMenuSubMenu()"
+                        class="rp-hm-filter-select-scnd"
+                        [ngClass]="{'rp-hm-filter-select-scnd-active': isFilterSubMenuSubMenuVisible}"
+                    >
+                        <div class="rp-hm-filter-select-text-scnd">
+                            Select one or more
+                        </div>
+                        <div class="rp-hm-filter-select-arrow-scnd">
+                            <scrm-image [image]="isFilterSubMenuSubMenuVisible ? 'cstm-drop-arrow-up' : 'cstm-drop-arrow-down'"></scrm-image>
+                        </div>
+                    </div>
+                    
+                    <div *ngIf="isFilterSubMenuSubMenuVisible" class="rp-hm-filter-select-menu-scnd">
+                        <div class="rp-hm-filter-select-menu-item-scnd"><input type="checkbox">Ticket</div>
+                        <div class="rp-hm-filter-select-menu-hr"></div>
+                        <div class="rp-hm-filter-select-menu-item-scnd"><input type="checkbox">Message</div>
+                        <div class="rp-hm-filter-select-menu-hr"></div>
+                        <div class="rp-hm-filter-select-menu-item-scnd"><input type="checkbox">Timer</div>
+                        <div class="rp-hm-filter-select-menu-hr"></div>
+                        <div class="rp-hm-filter-select-menu-item-scnd"><input type="checkbox">News</div>
+                    </div>
+                </ng-container>
+
+            </div>
+
+            <!-- Notification Title - which is at the wrong position in html layout - needs to be fixed -->
             <div class="rp-head-bottom">
                 <div class="rp-hb-text">Notifications</div>
             </div>

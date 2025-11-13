@@ -27,7 +27,7 @@
 -->
 <!-- Start of main navbar section -->
 <ng-container *ngIf="this.isUserLoggedIn && !mobileNavbar">
-<div *ngIf="(vm$ | async) as vm" class="top-panel fixed-top" [ngClass]="{'ln-collapsed': !ln_open}" >
+<div *ngIf="(vm$ | async) as vm" class="top-panel fixed-top" [ngClass]="{'ln-collapsed': !ln_open, 'hide-base-navbar': navbar?.current?.module == 'pd_analytics' || navbar?.current?.module == 'pd_collections'}" >
     
         <div class="collapse-section">
             <div *ngIf="ln_open" class="collapse-heading">ProARM</div>
