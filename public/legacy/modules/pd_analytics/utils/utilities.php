@@ -74,7 +74,7 @@ function getModuleFieldsAndLabels($moduleName) {
 }
 
 
-function generateReportQuery($module, $xAxisField, $xAxisAggregate, $yAxisField, $yAxisAggregate, $title = "Sales Report") {
+function generateReportQuery($module, $xAxisField, $xAxisAggregate, $yAxisField, $yAxisAggregate, $title = "Sales Report", $whereFilters = "") {
     global $db, $log; // Assuming SuiteCRM DB connection and logging are initialized
 
     // Log the start of the function execution
@@ -92,7 +92,7 @@ function generateReportQuery($module, $xAxisField, $xAxisAggregate, $yAxisField,
     if (strtolower($xAxisAggregate) === 'actual' && in_array(strtolower($xAxisField), $dateFields)) {
         $xAxisField = "DATE(`$xAxisField`)";
     }
-    $log->fatal("Generated SQL Query1: $query");
+    //$log->fatal("Generated SQL Query1: $query");
 
     // Initialize query parts for x-axis
     $xAggregate = match (strtolower($xAxisAggregate)) {
@@ -102,7 +102,7 @@ function generateReportQuery($module, $xAxisField, $xAxisAggregate, $yAxisField,
         'actual' => "$xAxisField AS x_value",
         default => "$xAxisField AS x_value"
     };
-    $log->fatal("Generated SQL Query2: $query");
+    //$log->fatal("Generated SQL Query2: $query");
 
     // Initialize query parts for y-axis
     $yAggregate = match (strtolower($yAxisAggregate)) {
@@ -120,6 +120,11 @@ function generateReportQuery($module, $xAxisField, $xAxisAggregate, $yAxisField,
         WHERE $xAxisField IS NOT NULL AND `$yAxisField` IS NOT NULL
     ";
     $log->fatal("Generated SQL Query3: $query");
+
+    if(!empty($whereFilters)){
+        $query .= " AND $whereFilters";
+        $log->fatal("Generated SQL Query4 after filters: $query");
+    }
 
     // Grouping and ordering logic
     $query .= " GROUP BY $xAxisField ORDER BY $xAxisField ASC";

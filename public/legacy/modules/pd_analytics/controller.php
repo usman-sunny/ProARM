@@ -855,14 +855,435 @@ class pd_analyticsController extends SugarController {
         $moduleName = $_GET['module_name'];
         $fields = getModuleFieldsAndLabels($moduleName);
 
+        // Get the bean to access field definitions for type information
+        $bean = BeanFactory::getBean($moduleName);
+        if (!$bean) {
+            echo json_encode([]);
+            exit();
+        }
+
         $finalFields = [];
 
         foreach ($fields as $label => $name) {
-            $finalFields[] = ['name' => (string)$name, 'label' => (string)$label];
+            // Get field type from field definitions
+            $fieldType = $this->categorizeFieldType($bean, $name);
+            $finalFields[] = [
+                'name' => (string)$name, 
+                'label' => (string)$label,
+                'type' => $fieldType
+            ];
         }
 
-        //$GLOBALS['log']->fatal("In blblbl out: " . print_r($finalFields, 1));
+        $GLOBALS['log']->fatal("blblbl finalFields: " . print_r($finalFields, 1));
         echo json_encode($finalFields);
         exit();
     }
+
+    /**
+     * Categorize field type into number, text, or date
+     */
+    private function categorizeFieldType($bean, $fieldName) {
+        if (!isset($bean->field_defs[$fieldName])) {
+            return 'text'; // Default to text if field definition not found
+        }
+
+        $fieldDef = $bean->field_defs[$fieldName];
+        $type = isset($fieldDef['type']) ? strtolower($fieldDef['type']) : '';
+
+        // Date types
+        if (in_array($type, ['date', 'datetime', 'datetimecombo', 'datecombo'])) {
+            return 'date';
+        }
+
+        // number types
+        if (in_array($type, ['int', 'integer', 'float', 'double', 'decimal', 'currency', 'currency_id', 'phone'])) {
+            return 'number';
+        }
+
+        // Default to text for all other types (varchar, text, name, enum, etc.)
+        return 'text';
+    }
+
+
+    public function action_createReport() {
+        // Read raw JSON body
+        $raw = file_get_contents('php://input');
+        //$GLOBALS['log']->fatal("Raw body: " . $raw);
+
+        $values = json_decode($raw, true);
+        //$GLOBALS['log']->fatal("log 6754 data: " . print_r($values, 1));
+
+        // $module = $data['moduleName'];    // Module name
+        // $bean->name = $data['graphName'];
+        // $xAxisField = $data['x-axis']; // Field to group by
+        // $xAxisAggregate = $data['x-axis-aggregate']; // Not processed for grouping
+        // $yAxisField = $data['y-axis']; // Field to count
+        // $yAxisAggregate = $data['y-axis-aggregate']; // Aggregate option
+        // $title = $data['graphName'];
+
+        // $data = array(
+        //     'moduleName' => 'Leads',
+        //     'x-axis' => 'lead_source',
+        //     'x-axis-aggregate' => 'actual',
+        //     'y-axis' => 'lead_source',
+        //     'y-axis-aggregate' => 'count',
+        //     'graphName' => 'Leads',
+        // );
+
+        $data = $values;
+        
+        $module = $data['moduleName'];
+        $xAxisField = $data['x-axis'];
+        $xAxisAggregate = $data['x-axis-aggregate'];
+        $yAxisField = $data['y-axis'];
+        $yAxisAggregate = $data['y-axis-aggregate'];
+        $title = $data['graphType'];
+        $filters = $data['filters'];
+
+        $query = "";
+
+        
+        $whereFilters = $this->buildFiltersWhere($module, $filters);
+        //$GLOBALS['log']->fatal("log 6754 whereFilters: " . print_r($whereFilters, 1));
+        
+        $query = generateReportQuery($module, $xAxisField, $xAxisAggregate, $yAxisField, $yAxisAggregate, $title, $whereFilters);
+        //$GLOBALS['log']->fatal("generateReportQuery function output: " . print_r($query,1));
+
+        if(!empty($query)){
+            $chartData = getChartData(html_entity_decode($query));
+            $response = $chartData;
+        }
+        else{
+            $response['success'] = false;
+            $response['message'] = "Error generating report";
+        }
+
+        echo $response;
+        exit;
+    }
+
+
+    public function action_saveReport() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        //$GLOBALS['log']->fatal("log 6754 In data: " . print_r($data, 1));
+
+        $module = $data['moduleName'];
+        $title = $data['reportName'];
+        $xAxisField = $data['x-axis'];
+        $xAxisAggregate = $data['x-axis-aggregate'];
+        $yAxisField = $data['y-axis'];
+        $yAxisAggregate = $data['y-axis-aggregate'];
+        $graphType = $data['graphType'];
+        $id = $data['id'];
+
+        $result = generateReportQuery($module, $xAxisField, $xAxisAggregate, $yAxisField, $yAxisAggregate, $title);
+        //$GLOBALS['log']->fatal("log 6754 generateReportQuery function output: " . print_r($result, 1));
+
+        if(!empty($id)){
+            $reportbean = BeanFactory::getBean('pd_reports', $id);
+        }
+        else{
+            $reportbean = BeanFactory::newBean('pd_reports');
+        }
+
+        $reportbean->name = $title;
+        $reportbean->report_type = $graphType;
+        $reportbean->x_axis_field = $xAxisField;
+        $reportbean->y_axis_field = $yAxisField;
+        $reportbean->x_axis_aggregate = $xAxisAggregate;
+        $reportbean->y_axis_aggregate = $yAxisAggregate;
+        $reportbean->data_query = $result;
+        $reportbean->module_name = $module;
+
+        $report_id = $reportbean->save();
+
+        //$GLOBALS['log']->fatal("log 6754 report_id: " . print_r($report_id, 1));
+        
+        echo json_encode(["success" => true , "data_id" => $report_id]);
+        exit();
+
+    }
+
+
+    public function action_viewReport() {
+
+        $data = json_decode(file_get_contents('php://input'), true);
+        //$GLOBALS['log']->fatal("log 6754 In data: " . print_r($data, 1));
+
+        $id = $data['id'];
+        //$GLOBALS['log']->fatal("log 6754 In id: " . print_r($id, 1));
+
+        $reportbean = BeanFactory::getBean('pd_reports',$id);
+
+        $query = $reportbean->data_query;
+        $reportType = $reportbean->report_type;
+        $chartData = getChartData(html_entity_decode($query));
+        $chartData = json_decode($chartData, true);
+
+        if(!empty($chartData)){ 
+            $response['chartData'] = $chartData;
+            $response['reportType'] = $reportType;
+            $response['reportName'] = $reportbean->name;
+            $response['success'] = true;
+            echo json_encode($response);
+        }
+        else{
+            $response['success'] = false;
+            $response['message'] = "Error generating report";
+            echo json_encode($response);
+        }
+        exit();
+    }
+
+
+    public function action_nltGetAllReports() {
+        //$GLOBALS['log']->fatal("In action_nltGetAllReports");
+
+        $data = json_decode(file_get_contents('php://input'), true);
+        //$GLOBALS['log']->fatal("log 6754 In data: " . print_r($data, 1));
+
+        $collectionData = [];
+        $collectionData = getCollectionData('pd_reports', 'create_dashboard', $collectionData);
+        //$GLOBALS['log']->fatal("log 6754 In collectionData: " . print_r($collectionData, 1));
+
+        echo json_encode($collectionData);
+        exit();
+    }
+
+
+    public function action_getReportData() {
+        $reportId = $_GET['report_id'];
+
+        $reportBean = BeanFactory::getBean('pd_reports', $reportId);
+        $reportData = $reportBean->data_query;
+        $xAxisField = $reportBean->x_axis_field;
+        $xAxisAggregate = $reportBean->x_axis_aggregate;
+        $yAxisField = $reportBean->y_axis_field;
+        $yAxisAggregate = $reportBean->y_axis_aggregate;
+        $reportType = $reportBean->report_type;
+        $reportName = $reportBean->name;
+        $module = $reportBean->module_name;
+
+        $chartData = getChartData(html_entity_decode($reportData));
+        $chartData = json_decode($chartData, true);
+        
+        $moduleFields = getModuleFieldsAndLabels($module);
+
+        $moduleFields = array_flip($moduleFields);
+
+        $finalFields = [];
+
+        foreach ($moduleFields as $name => $label) {
+            $finalFields[] = ['name' => (string)$name, 'label' => (string)$label];
+        }
+        
+        $xAxis = $moduleFields[$xAxisField];
+        $yAxis = $moduleFields[$yAxisField];
+
+        $response = [
+            'moduleName' => $module,
+            'chartData' => $chartData,
+            'reportType' => $reportType,
+            'reportName' => $reportName,
+            'xAxis' => $xAxis,
+            'yAxis' => $yAxis,
+            'xAxisField' => $xAxisField,
+            'xAxisAggregate' => $xAxisAggregate,
+            'yAxisField' => $yAxisField,
+            'yAxisAggregate' => $yAxisAggregate,
+            'moduleFields' => $finalFields,
+            'success' => true
+        ];
+
+        //$GLOBALS['log']->fatal("In response: " . print_r($response, 1));
+
+        echo json_encode($response);
+        exit();
+
+    }
+
+
+    function buildFiltersWhere($module, $filters) {
+        global $db;
+        $allFieldClauses = [];
+    
+        foreach ($filters as $filter) {
+            $fieldName  = $filter['fieldName'] ?? null;
+            $fieldType  = strtolower($filter['fieldType'] ?? '');
+            $criteria   = $filter['criteria'] ?? [];
+    
+            // validate field name
+            $safeField = $fieldName;
+            if (!$safeField) {
+                $GLOBALS['log']->error("Rejected field name: " . print_r($fieldName, true));
+                continue;
+            }
+    
+            $operands = [];
+            $ops = []; // operators between operands (AND/OR)
+    
+            foreach ($criteria as $idx => $c) {
+                switch ($fieldType) {
+                    case 'text':
+                        $dvalue = $c['dvalue']  ?? '';
+                        $ivalue = $c['ivalue']  ?? '';
+                        $clause = $this->buildTextCriterion($db, $safeField, $dvalue, $ivalue);
+                        $joinOp = strtoupper(trim($c['condition'] ?? 'AND')); // default AND
+                        break;
+    
+                    case 'number':
+                        $cond      = $c['condition'] ?? ''; // Above/Below/Between
+                        $rangeFrom = $c['rangeFrom'] ?? null;
+                        $rangeTo   = $c['rangeTo']   ?? null;
+                        $clause = $this->buildNumberCriterion($db, $safeField, $cond, $rangeFrom, $rangeTo);
+                        $joinOp = 'AND'; // numeric conditions usually AND together unless specified otherwise
+                        break;
+    
+                    case 'date':
+                        $cond      = $c['condition'] ?? ''; // From/To/Between
+                        // In your payload, 'To' stores date in rangeFrom; honor that:
+                        $rangeFrom = $c['rangeFrom'] ?? null;
+                        $rangeTo   = $c['rangeTo']   ?? null;
+                        $clause = $this->buildDateCriterion($db, $safeField, $cond, $rangeFrom, $rangeTo);
+                        $joinOp = 'AND';
+                        break;
+    
+                    default:
+                        $clause = null; $joinOp = 'AND';
+                }
+    
+                if ($clause) {
+                    $operands[] = $clause;
+                    // push operator to link this item with the next item only
+                    if ($idx < (count($criteria) - 1)) {
+                        $ops[] = in_array($joinOp, ['AND','OR'], true) ? $joinOp : 'AND';
+                    }
+                }
+            }
+    
+            if (!empty($operands)) {
+                // For this field, combine its own criteria with proper precedence
+                $fieldWhere = $this->combineWithPrecedence($operands, $ops);
+                $allFieldClauses[] = $fieldWhere;
+            }
+        }
+    
+        if (empty($allFieldClauses)) return '';
+    
+        // Different fields/groups should be ANDed together overall
+        return implode(' AND ', $allFieldClauses);
+    }
+
+
+    function buildTextCriterion($db, $field, $dvalue, $ivalue) {
+        $f = "`$field`";
+        $val = $db->quote($ivalue);
+        $valLike = $db->quote('%' . $ivalue . '%');
+        $valStarts = $db->quote($ivalue . '%');
+        $valEnds = $db->quote('%' . $ivalue);
+    
+        switch (strtolower($dvalue)) {
+            case 'exactly matches':
+            case 'exactly match':
+                return "$f = '$val'";
+            case 'does not match':
+                return "$f <> '$val'";
+            case 'contain':
+            case 'contains':
+                return "$f LIKE '$valLike'";
+            case 'does not contain':
+                return "$f NOT LIKE '$valLike'";
+            case 'starts with':
+                return "$f LIKE '$valStarts'";
+            case 'does not start with':
+                return "$f NOT LIKE '$valStarts'";
+            case 'ends with':
+                return "$f LIKE '$valEnds'";
+            case 'does not end with':
+                return "$f NOT LIKE '$valEnds'";
+            default:
+                return null;
+        }
+    }
+
+
+    function buildNumberCriterion($db, $field, $cond, $rangeFrom, $rangeTo) {
+        $f = "`$field`";
+        // numeric only; coerce
+        $from = is_numeric($rangeFrom) ? (0 + $rangeFrom) : null;
+        $to   = is_numeric($rangeTo)   ? (0 + $rangeTo)   : null;
+    
+        switch (strtolower($cond)) {
+            case 'above':   // x >= from
+                if ($from === null) return null;
+                return "$f >= " . $db->quote($from);
+            case 'below':   // x < from
+                if ($from === null) return null;
+                return "$f < " . $db->quote($from);
+            case 'between': // (x > from AND x < to)
+                if ($from === null || $to === null) return null;
+                return "($f > " . $db->quote($from) . " AND $f < " . $db->quote($to) . ")";
+            default:
+                return null;
+        }
+    }
+
+
+    function buildDateCriterion($db, $field, $cond, $rangeFrom, $rangeTo) {
+        $f = "`$field`";
+        // Accept Y-m-d, and pass through as string to DB (SuiteCRM stores as datetime/date strings)
+        $from = !empty($rangeFrom) ? $db->quote($rangeFrom) : null;
+        $to   = !empty($rangeTo)   ? $db->quote($rangeTo)   : null;
+    
+        switch (strtolower($cond)) {
+            case 'from': // >= from (inclusive)
+                if ($from === null) return null;
+                return "$f >= '$from'";
+            case 'to':   // <= fromArg (inclusive). Payload uses rangeFrom for 'To' in your example.
+                if ($from === null) return null;
+                return "$f <= '$from'";
+            case 'between': // inclusive bounds if provided
+                if ($from !== null && $to !== null) return "($f >= '$from' AND $f <= '$to')";
+                if ($from !== null) return "$f >= '$from'";
+                if ($to !== null)   return "$f <= '$to'";
+                return null;
+            default:
+                return null;
+        }
+    }
+
+
+    function combineWithPrecedence(array $operands, array $operators) {
+        $finalCriteria = ''; 
+        $len = count($operators);
+        $last = $len - 1;
+        $enddingBrak = 0;
+
+        if ($len >= 1) {
+            for ($i=0; $i<$len; $i++) {
+
+                if ($operators[$i] != $operators[$i+1] && $i != $last) {
+                    $finalCriteria = $finalCriteria . $operands[$i] . ' ' . $operators[$i] . ' (';
+                    $enddingBrak += 1;
+                } else {
+                    $finalCriteria = $finalCriteria . ' ' . $operands[$i] . ' ' . $operators[$i];
+                }
+    
+                if ($i == $last) {
+                    $finalCriteria = '(' . $finalCriteria . ' ' . $operands[$i+1] . ')';
+    
+                    for ($j=0; $j<$enddingBrak; $j++) {
+                        $finalCriteria = $finalCriteria . ')';
+                    }
+                }
+            }
+        } else {
+            $finalCriteria = '(' . $operands[0] . ')';
+        }
+        
+        //$GLOBALS['log']->fatal("finalCriteria: " . print_r($finalCriteria, 1));
+
+        return $finalCriteria;
+    }
+
 }
