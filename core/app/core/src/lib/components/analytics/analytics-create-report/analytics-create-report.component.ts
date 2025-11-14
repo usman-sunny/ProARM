@@ -98,6 +98,11 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 					this.yAxisSave = this.yAxisFieldName;
 					this.yAxisAggregateSave = this.yAxisAggregate;
 
+					if (value.filters) {
+						this.filters = value.filters;
+						this.currentFilterView = this.filters[0];
+					}
+
 					this.stupidService.setNltModuleFields(this.moduleFields);
 					this.displayChart();
 				}
@@ -232,7 +237,7 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 	saveReport(): void {
 		if (this.reportName && this.xAxisSave && this.yAxisSave) {
 
-			console.log("saving report - chartType before save: ", this.chartType);
+			// console.log("saving report - chartType before save: ", this.chartType);
 			
 			const data = {
 				"id": this.id,
@@ -243,10 +248,11 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 				"y-axis": this.yAxisSave,
 				"y-axis-aggregate": this.yAxisAggregateSave,
 				"graphType": this.chartType,
+				"filters": this.filters,
 			}
 			this.stupidService.nltSaveReport(data).subscribe(value => {
 				if (value.success) {
-					console.log("report saved - data: ", value);
+					// console.log("report saved - data: ", value);
 
 					alert("Report saved successfully");
 					//this.router.navigate([`/pd_collections/${value.data_id}/view`]);

@@ -874,7 +874,7 @@ class pd_analyticsController extends SugarController {
             ];
         }
 
-        $GLOBALS['log']->fatal("blblbl finalFields: " . print_r($finalFields, 1));
+        // $GLOBALS['log']->fatal("blblbl finalFields: " . print_r($finalFields, 1));
         echo json_encode($finalFields);
         exit();
     }
@@ -922,8 +922,6 @@ class pd_analyticsController extends SugarController {
         $title = $data['graphType'];
         $filters = $data['filters'];
 
-        $query = "";
-
         $whereFilters = $this->buildFiltersWhere($module, $filters);
         //$GLOBALS['log']->fatal("log 6754 whereFilters: " . print_r($whereFilters, 1));
         
@@ -947,7 +945,8 @@ class pd_analyticsController extends SugarController {
     /***
      * api endpoint for 
      * analytics part to 
-     * save a report/graph
+     * save or update 
+     * a report/graph
      ***/
     public function action_saveReport() {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -961,8 +960,11 @@ class pd_analyticsController extends SugarController {
         $yAxisAggregate = $data['y-axis-aggregate'];
         $graphType = $data['graphType'];
         $id = $data['id'];
+        $filters = $data['filters'];
 
-        $result = generateReportQuery($module, $xAxisField, $xAxisAggregate, $yAxisField, $yAxisAggregate, $title);
+        $whereFilters = $this->buildFiltersWhere($module, $filters);
+
+        $query = generateReportQuery($module, $xAxisField, $xAxisAggregate, $yAxisField, $yAxisAggregate, $title, $whereFilters);
         //$GLOBALS['log']->fatal("log 6754 generateReportQuery function output: " . print_r($result, 1));
 
         if(!empty($id)){
@@ -978,8 +980,12 @@ class pd_analyticsController extends SugarController {
         $reportbean->y_axis_field = $yAxisField;
         $reportbean->x_axis_aggregate = $xAxisAggregate;
         $reportbean->y_axis_aggregate = $yAxisAggregate;
-        $reportbean->data_query = $result;
+        $reportbean->data_query = $query;
         $reportbean->module_name = $module;
+
+        if (!empty($filters)) {
+            $reportbean->filter_data = json_encode($filters, JSON_UNESCAPED_UNICODE);
+        }
 
         $report_id = $reportbean->save();
 
@@ -1045,7 +1051,7 @@ class pd_analyticsController extends SugarController {
     }
 
 
-    public function action_getReportData() {
+    public function action_getReportData() { 
         $reportId = $_GET['report_id'];
 
         $reportBean = BeanFactory::getBean('pd_reports', $reportId);
@@ -1057,6 +1063,10 @@ class pd_analyticsController extends SugarController {
         $reportType = $reportBean->report_type;
         $reportName = $reportBean->name;
         $module = $reportBean->module_name;
+        $filtersRaw = $reportBean->filter_data;
+
+        $filtersJson = html_entity_decode($filtersRaw, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        $filters = json_decode($filtersJson, true);
 
         $chartData = getChartData(html_entity_decode($reportData));
         $chartData = json_decode($chartData, true);
@@ -1068,7 +1078,13 @@ class pd_analyticsController extends SugarController {
         $finalFields = [];
 
         foreach ($moduleFields as $name => $label) {
-            $finalFields[] = ['name' => (string)$name, 'label' => (string)$label];
+            // Get field type from field definitions
+            $fieldType = $this->categorizeFieldType($reportBean, $name);
+            $finalFields[] = [
+                'name' => (string)$name, 
+                'label' => (string)$label,
+                'type' => $fieldType
+            ];
         }
         
         $xAxis = $moduleFields[$xAxisField];
@@ -1086,6 +1102,7 @@ class pd_analyticsController extends SugarController {
             'yAxisField' => $yAxisField,
             'yAxisAggregate' => $yAxisAggregate,
             'moduleFields' => $finalFields,
+            'filters' => $filters,
             'success' => true
         ];
 
