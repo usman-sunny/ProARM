@@ -22,7 +22,9 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 	protected subs: Subscription[] = [];
 	private chart!: ECharts;
 
-	id: string = '';
+	reportId: string = '';
+	collectionId: string = '';
+
 	moduleName: string = '';
 	columns: any[] = [];
 	moduleFields: any[] = [];
@@ -74,13 +76,12 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 
 
   	ngOnInit(): void {
+		this.reportId = this.route.snapshot.paramMap.get('reportId');
+		this.collectionId = this.route.parent?.snapshot.paramMap.get('collectionId');
 
-		this.id = this.route.snapshot.paramMap.get('id');
-
-		if (this.id) {
-			this.subs.push(this.stupidService.nltGetReportData(this.id).pipe(delay(500)).subscribe(value => {
+		if (this.reportId) {
+			this.subs.push(this.stupidService.nltGetReportData(this.reportId).pipe(delay(500)).subscribe(value => {
 				if (value) {
-					console.log("report data received:", value);
 					this.moduleName = value.moduleName;
 					this.xAxisData = value.chartData.xAxis;
 					this.yAxisData = value.chartData.series;
@@ -132,7 +133,6 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 
 
 	createChart(): void {
-		
 		if (this.xAxisFieldName && this.yAxisFieldName) {
 			
 			const data = {
@@ -236,11 +236,10 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 
 	saveReport(): void {
 		if (this.reportName && this.xAxisSave && this.yAxisSave) {
-
-			// console.log("saving report - chartType before save: ", this.chartType);
 			
 			const data = {
-				"id": this.id,
+				"id": this.reportId,
+				"collectionId": this.collectionId,
 				"moduleName": this.moduleName,
 				"reportName": this.reportName,
 				"x-axis": this.xAxisSave,
@@ -250,13 +249,11 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 				"graphType": this.chartType,
 				"filters": this.filters,
 			}
+
 			this.stupidService.nltSaveReport(data).subscribe(value => {
 				if (value.success) {
-					// console.log("report saved - data: ", value);
-
 					alert("Report saved successfully");
-					//this.router.navigate([`/pd_collections/${value.data_id}/view`]);
-					this.router.navigate(['/', 'pd_collections', value.data_id, 'view']);
+					this.router.navigate(['/pd_collections', this.collectionId, 'view', value.data_id]);
 				}
 			});
 		} else {

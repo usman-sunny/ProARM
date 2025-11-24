@@ -4,7 +4,7 @@
         <div class="nlt-report-dview-title">{{ reportName }}</div>
         <div class="nlt-report-dview-btn-group">
             <div class="nlt-report-dview-delete-btn">Delete</div>
-            <div class="nlt-report-dview-edit-btn" [routerLink]="['/pd_collections', id, 'edit']">Edit</div>
+            <div (click)="navToEditView()" class="nlt-report-dview-edit-btn">Edit</div>
         </div>
     </div>
     

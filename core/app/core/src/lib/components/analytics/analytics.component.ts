@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
+import {StupidDataService} from '../../services/stupid-data/stupid-data.service';
 
 @Component({
     selector: 'scrm-analytics',
@@ -9,19 +10,21 @@ import {Subscription} from 'rxjs';
 export class AnalyticsComponent implements OnInit, OnDestroy {
     protected subs: Subscription[] = [];
     
-    // Search functionality
     searchQuery: string = '';
-    
-    // Tab navigation
-    activeTab: string = 'workspaces';
+    activeTab: string = 'collections';
+    collectionName: string = '';
+    collectionNameError: boolean = false;
+    isCollectionPopupVisible: boolean = false;
+    collections$ = this.stupidService.nltGetCollections$;
 
     constructor(
-        private router: Router
+        private router: Router,
+        private stupidService: StupidDataService,
     ) {
     }
 
     ngOnInit(): void {
-        
+        this.listAllCollections();
     }
 
     ngOnDestroy(): void {
@@ -38,8 +41,8 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
     /**
      * Navigate back to home page
      */
-    navigateToWorkspace(): void {
-        this.router.navigate(['/pd_collections']);
+    navigateToCollection(collectionId: string): void {
+        this.router.navigate(['/pd_collections', collectionId]);
     }
 
     /**
@@ -49,5 +52,47 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
     setActiveTab(tab: string): void {
         this.activeTab = tab;
     }
+
+    /**
+     * Open collection popup
+     */
+    openCollectionPopup(): void {
+        this.isCollectionPopupVisible = true;
+    }
+
+    /**
+     * Close collection popup
+     */
+    closeCollectionPopup(): void {
+        this.isCollectionPopupVisible = false;
+        this.collectionName = '';
+        this.collectionNameError = false;
+    }
     
+    /**
+     * Create collection
+     */
+    createCollection(): void {
+        if (this.collectionName.trim() !== '') {
+            const data = {
+                collectionName: this.collectionName,
+            };
+    
+            this.stupidService.nltCreateCollection(data).subscribe(value => {
+                console.log('response createCollection value: ', value);
+            });
+    
+            this.closeCollectionPopup();
+            this.listAllCollections();
+        }
+        else {
+            this.collectionNameError = true;
+        }
+    }
+
+    listAllCollections(): void {
+        this.subs.push(this.stupidService.nltGetCollections().subscribe(value => {
+            console.log('response getCollections value: ', value);
+        }));
+    }
 } 

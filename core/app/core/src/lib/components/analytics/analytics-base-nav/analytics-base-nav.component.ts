@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {StupidDataService} from '../../../services/stupid-data/stupid-data.service';
 
@@ -10,7 +10,7 @@ import {StupidDataService} from '../../../services/stupid-data/stupid-data.servi
 export class AnalyticsBaseNavComponent implements OnInit, OnDestroy {
     protected subs: Subscription[] = [];
     
-    
+    collectionId: string = '';
     // Tab navigation
     //activeTab: string = 'workspaces';
     
@@ -25,13 +25,15 @@ export class AnalyticsBaseNavComponent implements OnInit, OnDestroy {
 
     constructor(
         private router: Router,
-        private stupidService: StupidDataService
+        private stupidService: StupidDataService,
+        private route: ActivatedRoute,
     ) {
     }
 
     ngOnInit(): void {
+        this.collectionId = this.route.snapshot.paramMap.get('collectionId');
 
-        this.subs.push(this.stupidService.nltGetAllReports({id: 1}).subscribe(data => {
+        this.subs.push(this.stupidService.nltGetAllReports({collectionId: this.collectionId}).subscribe(data => {
             this.reports = data;
         }));
 
@@ -52,27 +54,6 @@ export class AnalyticsBaseNavComponent implements OnInit, OnDestroy {
                 picture: 'cstm-nlt-ph2'
             }
         ];
-
-
-        // this.reports = [
-        //     {
-        //         id: 1,
-        //         name: 'Report A',
-        //         picture: 'cstm-nlt-reports'
-        //     },
-        //     {
-        //         id: 2,
-        //         name: 'Report B',
-        //         picture: 'cstm-nlt-reports'
-        //     },
-        //     {
-        //         id: 3,
-        //         name: 'Report C',
-        //         picture: 'cstm-nlt-reports'
-        //     }
-        // ];
-
-        //console.log("log 6754 static reports: ", this.reports);
 
         this.tables = [
             {

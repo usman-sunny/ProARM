@@ -3,7 +3,7 @@
 	<div class="nlt-right-popup-header">
 
         <div *ngFor="let item of listItems" 
-			routerLink="/pd_collections/{{item.id}}/view" 
+			routerLink="/pd_collections/{{collectionId}}/view/{{item.id}}" 
 			class="nlt-dashboard-list-item"
 		>
             <scrm-image image="cstm-nlt-reports"></scrm-image>

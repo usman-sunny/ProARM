@@ -134,9 +134,9 @@
                 transition: box-shadow 0.5s;
           
                 &:hover {
-                    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+                    box-shadow: 0 0 8px 6px rgba(0, 0, 0, 0.1);
                     cursor: pointer;
-                    border-color: blue;
+                    border-color: #449596;
                 }
           
                 .nlt-ws-card-header {

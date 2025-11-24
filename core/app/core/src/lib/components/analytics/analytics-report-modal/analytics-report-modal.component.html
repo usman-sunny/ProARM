@@ -31,7 +31,7 @@
         <div class="nlt-report-modal-footer">
             <div (click)="closeModalWindow()" class="nlt-report-modal-cancel-btn">Cancel</div>
 
-            <div routerLink="/pd_collections/createreport" 
+            <div routerLink="/pd_collections/{{collectionId}}/createreport" 
                 (click)="createNewReport()"
                 class="nlt-report-modal-ok-btn"
             >OK</div>

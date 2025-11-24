@@ -22,8 +22,8 @@
     <!-- Tabs Navigation -->
     <div class="tabs-navigation">
         <ul class="navigation-tabs">
-            <li class="navigation-item" [class.active]="activeTab === 'workspaces'">
-                <a class="navigation-link" (click)="setActiveTab('workspaces')">Workspaces</a>
+            <li class="navigation-item" [class.active]="activeTab === 'collections'">
+                <a class="navigation-link" (click)="setActiveTab('collections')">Collections</a>
             </li>
             <li class="navigation-item" [class.active]="activeTab === 'dashboards'">
                 <a class="navigation-link" (click)="setActiveTab('dashboards')">Dashboards</a>
@@ -32,6 +32,10 @@
                 <a class="navigation-link" (click)="setActiveTab('recent')">Recent Items</a>
             </li>
         </ul>
+
+        <div (click)="openCollectionPopup()" class="create-collection-btn">
+            Create Collection
+        </div>
     </div>
 
     <!-- Analytics Content Body -->
@@ -57,35 +61,62 @@
         <!-- Content Area -->
         <div class="nltcs-hp-body">
 
-            <!-- Card 1 -->
-            <div class="nltcs-card" (click)="navigateToWorkspace()">
-                <div class="nltcs-card-header">
-                    <div class="nltcs-header-left">
-                        <div class="nltcs-header-title">Workspace - 1</div>
-                        <div class="nltcs-header-time">Created: 14 days ago</div>
-                    </div>
-                    <div class="nltcs-header-right">
-                        <div class="nltcs-header-favourite">
-                            <scrm-image image="cstm_fvrt_star"></scrm-image>
+            <!-- Card for each collection -->
+            <ng-container *ngIf="(collections$ | async) as collectionsData">
+                <ng-container *ngFor="let collection of collectionsData.collections">
+                    <div class="nltcs-card" (click)="navigateToCollection(collection.id)">
+                        <div class="nltcs-card-header">
+                            <div class="nltcs-header-left">
+                                <div class="nltcs-header-title">{{collection.name}}</div>
+                                <div class="nltcs-header-time">Created: {{collection.date_entered}}</div>
+                            </div>
+                            <div class="nltcs-header-right">
+                                <div class="nltcs-header-favourite">
+                                    <scrm-image image="cstm_fvrt_star"></scrm-image>
+                                </div>
+                                <div class="nltcs-header-edit">
+                                    <scrm-image image="three_dots"></scrm-image>
+                                </div>
+                            </div>
                         </div>
-                        <div class="nltcs-header-edit">
-                            <scrm-image image="three_dots"></scrm-image>
+
+                        <div class="nltcs-card-body-image">
+                            <div class="nltcs-cb-image-container">
+                                <scrm-image image="cstm_placehoolder"></scrm-image>
+                            </div>
+                        </div>
+
+                        <div class="nltcs-card-footer">
+                            <div class="nltcs-footer-text">Owned</div>
                         </div>
                     </div>
-                </div>
-
-                <div class="nltcs-card-body-image">
-                    <div class="nltcs-cb-image-container">
-                        <scrm-image image="cstm_placehoolder"></scrm-image>
-                    </div>
-                </div>
-
-                <div class="nltcs-card-footer">
-                    <div class="nltcs-footer-text">Owned</div>
-                </div>
-            </div>
-
+                </ng-container>
+            </ng-container>
         </div>
 
+    </div>
+</div>
+
+
+<!-- Create Collection Popup -->
+<div *ngIf="isCollectionPopupVisible" class="create-collection-freeze-layer">
+    <div class="create-collection-popup-main">
+        <div class="create-collection-popup-header">
+            <div class="create-collection-title">Create New Collection</div>
+            <div (click)="closeCollectionPopup()" class="create-collection-close-btn">
+                <scrm-image image="cross"></scrm-image>
+            </div>
+        </div>
+
+        <div class="create-collection-popup-body">
+            <div class="create-collection-popup-body-title">Enter Collection Name</div>
+            <input type="text" [(ngModel)]="collectionName" class="create-collection-popup-body-input">
+            <div *ngIf="collectionNameError" class="create-collection-popup-body-error">Collection name is required</div>
+        </div>
+
+        <div class="create-collection-popup-footer">
+            <div (click)="closeCollectionPopup()" class="create-collection-cancel-btn">Cancel</div>
+            <div (click)="createCollection()" class="create-collection-ok-btn">Create</div>
+        </div>
     </div>
 </div>

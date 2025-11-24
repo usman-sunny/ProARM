@@ -22,6 +22,52 @@ export class StupidDataService {
 
     constructor(private http: HttpClient) {}
 
+    /**
+     * Analytics API call 
+     * to get collection data
+     * 
+     * ***/
+    private nltGetCollectionDataUrl = 'legacy/index.php?module=pd_analytics&action=nltGetCollectionData&sugar_body_only=true';
+    private nltGetCollectionDataObject = new BehaviorSubject<any>(null);
+    public nltGetCollectionData$ = this.nltGetCollectionDataObject.asObservable();
+    
+    nltGetCollectionData(id: any): Observable<any> {
+        let params = new HttpParams().set('collectionId', id);
+        return this.http.get<any>(this.nltGetCollectionDataUrl, { params }).pipe(
+            tap(value => this.nltGetCollectionDataObject.next(value))
+        );
+    }
+
+    /**
+     * Analytics API call 
+     * to get all collections
+     * 
+     * ***/
+    private nltGetCollectionsUrl = 'legacy/index.php?module=pd_analytics&action=getCollections&sugar_body_only=true';
+    private nltGetCollectionsObject = new BehaviorSubject<any>(null);
+    public nltGetCollections$ = this.nltGetCollectionsObject.asObservable();
+    
+    nltGetCollections(): Observable<any> {
+        return this.http.get<any>(this.nltGetCollectionsUrl).pipe(
+            tap(value => this.nltGetCollectionsObject.next(value))
+        );
+    }
+
+    /**
+     * Analytics API call 
+     * to create collection
+     * 
+     * ***/
+    private nltCreateCollectionUrl = 'legacy/index.php?module=pd_analytics&action=createCollection&sugar_body_only=true';
+    private nltCreateCollectionObject = new BehaviorSubject<any>(null);
+    public nltCreateCollection$ = this.nltCreateCollectionObject.asObservable();
+    
+    nltCreateCollection(data: any): Observable<any> {
+        return this.http.post<any>(this.nltCreateCollectionUrl, data).pipe(
+            tap(value => this.nltCreateCollectionObject.next(value))
+        );
+    }
+
 
     /*** 
      *  Analytics API call 

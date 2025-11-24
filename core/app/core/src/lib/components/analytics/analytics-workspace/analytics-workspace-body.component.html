@@ -4,7 +4,9 @@
     <div class="nlt-workspace-header">
 
         <div class="nlt-workspace-header-top">
-            <div class="nlt-ws-header-title">WorkspaceA</div>
+            <ng-container *ngIf="(collectionData$ | async) as collection">
+                <div class="nlt-ws-header-title">{{collection.collectionName}}</div>
+            </ng-container>
         </div>
 
         <div class="nlt-workspace-header-bottom">
@@ -31,30 +33,30 @@
 
     <div class="nlt-ws-body-1">
         <!-- Card 1 -->
-        <div *ngFor="let wspace of wspaces" class="nlt-ws-card">
-
-            <div class="nlt-ws-card-header">
-                <div class="nlt-ws-header-left">
-                    <div class="nlt-ws-header-title">{{wspace.name}}</div>
-                    <div class="nlt-ws-header-time">Last Modified yesterday</div>
-                </div>
-                <div class="nlt-ws-header-right">
-                    <div class="nlt-ws-header-favourite">
-                        <scrm-image image="cstm_fvrt_star"></scrm-image>
+        <ng-container *ngIf="(collectionData$ | async) as collection">
+            <div *ngFor="let card of collection.collectionData" (click)="openCard(card.id)" class="nlt-ws-card" >
+                <div class="nlt-ws-card-header">
+                    <div class="nlt-ws-header-left">
+                        <div class="nlt-ws-header-title">{{card.name}}</div>
+                        <div class="nlt-ws-header-time">Last Modified yesterday</div>
                     </div>
-                    <div class="nlt-ws-header-edit">
-                        <scrm-image image="three_dots"></scrm-image>
+                    <div class="nlt-ws-header-right">
+                        <div class="nlt-ws-header-favourite">
+                            <scrm-image image="cstm_fvrt_star"></scrm-image>
+                        </div>
+                        <div class="nlt-ws-header-edit">
+                            <scrm-image image="three_dots"></scrm-image>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nlt-ws-card-body-image">
+                    <div class="nlt-ws-cb-image-container">
+                        <scrm-image image="cstm-nlt-ph1"></scrm-image>
                     </div>
                 </div>
             </div>
-
-            <div class="nlt-ws-card-body-image">
-                <div class="nlt-ws-cb-image-container">
-                    <scrm-image image="cstm-nlt-ph1"></scrm-image>
-                </div>
-            </div>
-
-        </div>
+        </ng-container>
     </div>
 
 </div>

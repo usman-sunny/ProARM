@@ -192,26 +192,6 @@ export class AppInit {
                     });
                     routes.push(loggedOutConfig);
 
-                    // Add '/pd_analytics' route for analytics component
-                    /*routes.push({
-                        path: 'pd_analytics',
-                        component: AnalyticsComponent,
-                        canActivate: [AuthGuard],
-                        runGuardsAndResolvers: 'always',
-                        resolve: {
-                            metadata: BaseMetadataResolver
-                        },
-                        data: {
-                            reuseRoute: false,
-                            checkSession: true,
-                            load: {
-                                navigation: true,
-                                preferences: true,
-                                languageStrings: ['appStrings', 'appListStrings', 'modStrings']
-                            }
-                        }
-                    });*/
-
                     Object.keys(configRoutes).forEach(routeName => {
                         if (configRoutes[routeName].index) {
 
@@ -246,13 +226,13 @@ export class AppInit {
                                 });
                             } else if (routeName === 'pd_collections') {
                                 routes.push({
-                                    path: routeName,
+                                    path: routeName + '/:collectionId',
                                     component: AnalyticsWorkspaceComponent,
                                     children: [
                                         {path: '', component: AnalyticsWorkspaceBodyComponent},
                                         {path: 'createreport', component: AnalyticsCreateReportComponent},
-                                        {path: ':id/view', component: ViewReportComponent},
-                                        {path: ':id/edit', component: AnalyticsCreateReportComponent},
+                                        {path: 'view/:reportId', component: ViewReportComponent},
+                                        {path: 'edit/:reportId', component: AnalyticsCreateReportComponent},
                                     ],
                                     canActivate: [AuthGuard],
                                     runGuardsAndResolvers: 'always',
@@ -271,6 +251,8 @@ export class AppInit {
                                     children: [
                                         {path: '', component: AnalyticsWorkspaceBodyComponent},
                                         {path: 'createreport', component: AnalyticsCreateReportComponent},
+                                        {path: 'view/:reportId', component: ViewReportComponent},
+                                        {path: 'edit/:reportId', component: AnalyticsCreateReportComponent},
                                     ],
                                     canActivate: [AuthGuard],
                                     runGuardsAndResolvers: 'always',

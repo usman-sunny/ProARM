@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Router } from '@angular/router';
-import { StupidDataService } from '../../../services/stupid-data/stupid-data.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -16,14 +15,14 @@ export class AnalyticsRightPopupComponent implements OnInit {
 
     isMiniPopupVisible: boolean = false;
     isReportModalVisible: boolean = false;
+    collectionId: string = '';
 
     constructor(
-        private router: Router,
-        private stupidService: StupidDataService
+        private route: ActivatedRoute,
     ) { }
 
     ngOnInit(): void {
-
+        this.collectionId = this.route.snapshot.paramMap.get('collectionId');
     }
 
     toggleMiniPopup(): void {

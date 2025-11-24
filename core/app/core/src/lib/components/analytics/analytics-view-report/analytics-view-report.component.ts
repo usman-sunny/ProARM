@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StupidDataService } from '../../../services/stupid-data/stupid-data.service';
 import type { ECharts, EChartsOption, SeriesOption  } from 'echarts';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'scrm-view-report',
     templateUrl: './analytics-view-report.component.html'
 })
 export class ViewReportComponent implements OnInit {
-    id: string;
+    collectionId: string = '';
+    reportId: string = '';
     private chart!: ECharts;
     xAxisData: any[] = [];
     yAxisData: any[] = [];
@@ -30,11 +32,14 @@ export class ViewReportComponent implements OnInit {
     constructor(
         private stupidService: StupidDataService,
         private route: ActivatedRoute,
+        private router: Router,
     ) { }
 
     ngOnInit(): void {
-        this.id = this.route.snapshot.paramMap.get('id');
-        this.stupidService.nltViewReport({ id: this.id }).subscribe(value => {
+        this.collectionId = this.route.parent?.snapshot.paramMap.get('collectionId');
+        this.reportId = this.route.snapshot.paramMap.get('reportId');
+        console.log("showing child  id: ", this.reportId);
+        this.stupidService.nltViewReport({ id: this.reportId }).subscribe(value => {
             if (value) {
                 this.xAxisData = value?.chartData?.xAxis || [];
                 this.yAxisData = value?.chartData?.series || [];
@@ -101,6 +106,10 @@ export class ViewReportComponent implements OnInit {
         if (this.xAxisData && this.yAxisData && this.xAxisData.length > 0) {
             this.displayChart();
         }
+    }
+
+    navToEditView(): void {
+        this.router.navigate(['/pd_collections', this.collectionId, 'edit', this.reportId]);
     }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { StupidDataService } from '../../../services/stupid-data/stupid-data.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'scrm-analytics-report-modal',
@@ -7,6 +8,7 @@ import { StupidDataService } from '../../../services/stupid-data/stupid-data.ser
 })
 export class AnalyticsReportModalComponent implements OnInit {
 
+    collectionId: string = '';
     @Output() closeModal = new EventEmitter<void>();
 
     modules$ = this.stupidService.nltAllModules$;
@@ -15,11 +17,13 @@ export class AnalyticsReportModalComponent implements OnInit {
 
     constructor(
         private stupidService: StupidDataService,
+        private route: ActivatedRoute,
     ) { }
 
     ngOnInit(): void {
-
+        this.collectionId = this.route.snapshot.paramMap.get('collectionId');
         this.stupidService.getNltAllModules().subscribe();
+        
     }
 
     createNewReport(): void {
