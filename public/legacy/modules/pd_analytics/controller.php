@@ -950,7 +950,7 @@ class pd_analyticsController extends SugarController {
      ***/
     public function action_saveReport() {
         $data = json_decode(file_get_contents('php://input'), true);
-        //$GLOBALS['log']->fatal("log 6754 In data: " . print_r($data, 1));
+        $GLOBALS['log']->fatal("log 6754 In data: " . print_r($data, 1));
 
         $module = $data['moduleName'];
         $title = $data['reportName'];
@@ -961,6 +961,7 @@ class pd_analyticsController extends SugarController {
         $graphType = $data['graphType'];
         $id = $data['id'];
         $filters = $data['filters'];
+        $collectionId = $data['collectionId'];
 
         $whereFilters = $this->buildFiltersWhere($module, $filters);
 
@@ -982,6 +983,7 @@ class pd_analyticsController extends SugarController {
         $reportbean->y_axis_aggregate = $yAxisAggregate;
         $reportbean->data_query = $query;
         $reportbean->module_name = $module;
+        $reportbean->collection_id = $collectionId;
 
         if (!empty($filters)) {
             $reportbean->filter_data = json_encode($filters, JSON_UNESCAPED_UNICODE);
@@ -1040,10 +1042,11 @@ class pd_analyticsController extends SugarController {
      ***/
     public function action_nltGetAllReports() {
         $data = json_decode(file_get_contents('php://input'), true);
-        //$GLOBALS['log']->fatal("log 6754 In data: " . print_r($data, 1));
+        // $GLOBALS['log']->fatal("log 6754 data: " . print_r($data, 1));
+        $collectionId = $data['collectionId'];
 
         $collectionData = [];
-        $collectionData = getCollectionData('pd_reports', 'create_dashboard', $collectionData);
+        $collectionData = getCollectionData('pd_reports', $collectionId, $collectionData);
         //$GLOBALS['log']->fatal("log 6754 In collectionData: " . print_r($collectionData, 1));
 
         echo json_encode($collectionData);
@@ -1292,6 +1295,73 @@ class pd_analyticsController extends SugarController {
         //$GLOBALS['log']->fatal("finalCriteria: " . print_r($finalCriteria, 1));
 
         return $finalCriteria;
+    }
+
+
+    public function action_createCollection() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $GLOBALS['log']->fatal("log 6754 In data: " . print_r($data, 1));
+
+        $collectionName = $data['collectionName'];
+        $moduleName = 'pd_collections';
+        
+        $bean = BeanFactory::newBean($moduleName);
+        $bean->name = $collectionName;
+        $collectionID = $bean->save();
+
+        //global $current_user;
+        // $collectionRes = manageUserWorkspacePreference($current_user->id, $collectionID);
+        //$GLOBALS['log']->fatal("in createCollection current_user->id: ".print_r($current_user->id, 1));
+        
+        $response['success'] = true;
+        $response['collectionID'] = $collectionID;
+        echo json_encode($response);
+        exit();
+    }
+
+
+    public function action_getCollections() {
+        $GLOBALS['log']->fatal("log 6754 In getCollections");
+
+        global $current_user;
+        global $db;
+
+        $data = json_decode(file_get_contents('php://input'), true);
+        $GLOBALS['log']->fatal("log 6754 In data: " . print_r($data, 1));
+
+        $query = "SELECT id, name, date_entered FROM pd_collections Where deleted = 0 AND created_by = " . $db->quoted($current_user->id);
+        $result = $db->query($query);
+        $collections = [];
+        while($row = $db->fetchByAssoc($result)){
+            $collections[] = $row;
+        }
+
+        $GLOBALS['log']->fatal("log 6754 In collections: " . print_r($collections, 1));
+
+        $response['success'] = true;
+        $response['collections'] = $collections;
+        echo json_encode($response);
+        exit();
+    }
+
+    public function action_nltGetCollectionData() {
+        global $db;
+        $collectionData = [];
+        $collectionId = $_GET['collectionId'];
+ 
+        $query = "SELECT name FROM pd_collections WHERE id = " . $db->quoted($collectionId);
+        $result = $db->query($query);
+        $row = $db->fetchByAssoc($result);
+        $collectionName = $row['name'];
+
+        $collectionData = getCollectionData('pd_reports', $collectionId, $collectionData);
+
+        $response['collectionName'] = $collectionName;
+        $response['collectionData'] = $collectionData;
+
+        // $GLOBALS['log']->fatal("log 6754 in nltGetCollectionData response: " . print_r($response, 1));
+        echo json_encode($response);
+        exit();
     }
 
 }
