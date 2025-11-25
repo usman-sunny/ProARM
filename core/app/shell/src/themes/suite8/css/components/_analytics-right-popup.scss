@@ -229,18 +229,6 @@
 
             .nlt-report-modal-dropdown-menu {
                 display: flex;
-
-                .nlt-rm-dropdown-menu-item {
-                    font-family: "Inter", sans-serif;
-                    font-size: 13px;
-                    font-weight: 400;
-                    color: #404040;
-
-                    &:hover {
-                        cursor: pointer;
-                        background-color: #E0F1F2;
-                    }
-                }
             }
         }
 
@@ -260,8 +248,7 @@
 
         .nlt-report-modal-dropdown-menu {
             width: 100%;
-            height: 8em;
-            overflow-y: auto;
+            height: 15rem;
             position: absolute;
             top: 100%;
             left: 0;
@@ -272,10 +259,84 @@
             padding: 0.5em;
             gap: 0.5em;
             background-color: #FFFFFF;
+
+            .nlt-rm-dropdown-menu-box {
+                flex: 1;
+                overflow: auto;
+            }
+
+            .nlt-rm-dropdown-menu-item {
+                height: 1.5rem;
+                display: flex;
+                align-items: center;
+                padding-left: 1rem;
+                font-family: "Inter", sans-serif;
+                font-size: 13px;
+                font-weight: 400;
+                color: #404040;
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: #E0F1F2;
+                }
+            }
         }
     }
 }
 
+.nlt-rm-dm-search {
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f2f2f2;
+
+    .nlt-rm-dm-search-container {
+        position: relative;
+        width: 250px;
+        height: 29px;
+
+        .nlt-rm-dm-search-input {
+            width: 100%;
+            height: 100%;
+            padding: 0px 32px 0px 8px;
+            border: 1px solid #999999;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+
+            &::placeholder {
+                color: #808080;
+            }
+
+            &:focus {
+                outline: none;
+                border-color: #5e72e4;
+            }
+        }
+
+        .nlt-rm-dm-search-button {
+            position: absolute;
+            right: 0.5rem;
+            top: 40%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            padding: 0px !important;
+            background-color: #FFFFFF;
+
+            &:active,
+            &:focus {
+                border: none !important;
+                outline: none !important;
+            }
+
+            svg {
+                width: 14px;
+                height: 14px;
+            }
+        }
+    }
+}
 
 .nlt-report-modal-footer {
     width: 100%;

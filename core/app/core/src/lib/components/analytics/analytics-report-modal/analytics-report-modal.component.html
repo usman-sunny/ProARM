@@ -16,13 +16,31 @@
                     {{ selectedModuleLabel || 'Select Module' }}
                     <scrm-image image="chevron-down"></scrm-image>
                 </div>
-                <div *ngIf="modules$ | async as modules" class="nlt-report-modal-dropdown-menu">
-                    <div *ngFor="let module of modules" 
-                        class="nlt-rm-dropdown-menu-item"
-                        (click)="selectModule(module.name, module.label)"
-                    >
-                        {{ module.label }}
-                    </div>                      
+                <div *ngIf="filteredModules$ | async as modules" class="nlt-report-modal-dropdown-menu">
+                    <!-- Search Bar -->
+                    <div class="nlt-rm-dm-search">
+                        <div class="nlt-rm-dm-search-container">
+                            <input type="text" 
+                                class="nlt-rm-dm-search-input" 
+                                placeholder="Search" 
+                                [(ngModel)]="searchModule"
+                                (input)="searchModules()"
+                            >
+                            <button class="nlt-rm-dm-search-button">
+                                <scrm-image image="search_t"></scrm-image>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modules List -->
+                    <div class="nlt-rm-dropdown-menu-box">
+                        <div *ngFor="let module of modules" 
+                            class="nlt-rm-dropdown-menu-item"
+                            (click)="selectModule(module.name, module.label)"
+                        >
+                            {{ module.label }}
+                        </div>
+                    </div>
                 </div>
             </div>
 
