@@ -1054,7 +1054,7 @@ class pd_analyticsController extends SugarController {
     }
 
 
-    public function action_getReportData() { 
+    public function action_getReportData() {
         $reportId = $_GET['report_id'];
 
         $reportBean = BeanFactory::getBean('pd_reports', $reportId);
@@ -1073,16 +1073,16 @@ class pd_analyticsController extends SugarController {
 
         $chartData = getChartData(html_entity_decode($reportData));
         $chartData = json_decode($chartData, true);
+
+        $moduleBean = BeanFactory::getBean($module);
         
         $moduleFields = getModuleFieldsAndLabels($module);
-
         $moduleFields = array_flip($moduleFields);
 
         $finalFields = [];
 
         foreach ($moduleFields as $name => $label) {
-            // Get field type from field definitions
-            $fieldType = $this->categorizeFieldType($reportBean, $name);
+            $fieldType = $this->categorizeFieldType($moduleBean, $name);
             $finalFields[] = [
                 'name' => (string)$name, 
                 'label' => (string)$label,
@@ -1093,6 +1093,9 @@ class pd_analyticsController extends SugarController {
         $xAxis = $moduleFields[$xAxisField];
         $yAxis = $moduleFields[$yAxisField];
 
+        $xAxisFieldType = $this->categorizeFieldType($moduleBean, $xAxisField);
+        $yAxisFieldType = $this->categorizeFieldType($moduleBean, $yAxisField);
+
         $response = [
             'moduleName' => $module,
             'chartData' => $chartData,
@@ -1102,8 +1105,10 @@ class pd_analyticsController extends SugarController {
             'yAxis' => $yAxis,
             'xAxisField' => $xAxisField,
             'xAxisAggregate' => $xAxisAggregate,
+            'xAxisFieldType' => $xAxisFieldType,
             'yAxisField' => $yAxisField,
             'yAxisAggregate' => $yAxisAggregate,
+            'yAxisFieldType' => $yAxisFieldType,
             'moduleFields' => $finalFields,
             'filters' => $filters,
             'success' => true

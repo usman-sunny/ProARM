@@ -35,12 +35,14 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 
 	xAxis = '';
 	xAxisFieldName = '';
+	xAxisFieldType = '';
 	xAxisAggregate = 'actual';
 	xAxisSave = '';
 	xAxisAggregateSave = '';
 
 	yAxis = '';
 	yAxisFieldName = '' ;
+	yAxisFieldType = '';
 	yAxisAggregate = 'actual';
 	yAxisSave = '';
 	yAxisAggregateSave = '';
@@ -92,8 +94,10 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 					this.yAxis = value.yAxis;
 					this.xAxisFieldName = value.xAxisField;
 					this.xAxisAggregate = value.xAxisAggregate;
+					this.xAxisFieldType = value.xAxisFieldType;
 					this.yAxisFieldName = value.yAxisField;
 					this.yAxisAggregate = value.yAxisAggregate;
+					this.yAxisFieldType = value.yAxisFieldType;
 					this.xAxisSave = this.xAxisFieldName;
 					this.xAxisAggregateSave = this.xAxisAggregate;
 					this.yAxisSave = this.yAxisFieldName;
@@ -374,11 +378,10 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 	
 	// When starting the drag on the column item:
 	onDragStart(ev: DragEvent, fieldLabel: string, fieldName: string, fieldType: string) {
-
 		const payload = { fieldLabel, fieldName, fieldType };
 
 		ev.dataTransfer?.setData('payload', JSON.stringify(payload));
-	    ev.dataTransfer?.setData('text/plain', fieldLabel);
+	    //ev.dataTransfer?.setData('text/plain', fieldLabel);
 		if (ev.dataTransfer) {
 			ev.dataTransfer.effectAllowed = 'copy';
 			ev.dataTransfer.dropEffect = 'copy';
@@ -401,6 +404,7 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 			const payloadObj = JSON.parse(payload);
 			this[field] = payloadObj.fieldLabel;
 			this[fieldName] = payloadObj.fieldName;
+			this[field + 'FieldType'] = payloadObj.fieldType;
 		}
 	
 		// const text = ev.dataTransfer?.getData('text/plain')?.trim();

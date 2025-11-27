@@ -125,6 +125,10 @@
                                         <div class="nlt-drop-ground-menu">
                                             <div class="nlt-drop-ground-menu-item" (click)="xAxisAggregate = 'count'">Count</div>
                                             <div class="nlt-drop-ground-menu-item" (click)="xAxisAggregate = 'actual'">Actual Values</div>
+                                            @if (xAxisFieldType === 'number') {
+                                                <div class="nlt-drop-ground-menu-item" (click)="xAxisAggregate = 'sum'">Sum</div>
+                                                <div class="nlt-drop-ground-menu-item" (click)="xAxisAggregate = 'average'">Average</div>
+                                            }
                                         </div>
                                     </div>
 
@@ -161,6 +165,11 @@
                                         <div class="nlt-drop-ground-menu">
                                             <div class="nlt-drop-ground-menu-item" (click)="yAxisAggregate = 'count'">Count</div>
                                             <div class="nlt-drop-ground-menu-item" (click)="yAxisAggregate = 'actual'">Actual Values</div>
+                                            
+                                            @if (yAxisFieldType === 'number') {
+                                                <div class="nlt-drop-ground-menu-item" (click)="yAxisAggregate = 'sum'">Sum</div>
+                                                <div class="nlt-drop-ground-menu-item" (click)="yAxisAggregate = 'average'">Average</div>
+                                            }
                                         </div>
                                     </div>
 
