@@ -235,6 +235,10 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 
 	removeItem(item: 'xAxis' | 'yAxis' | 'color' | 'text' | 'size') {
 		this[item] = '';
+		this[item + 'FieldName'] = '';
+		this[item + 'FieldType'] = '';
+		this[item + 'Aggregate'] = 'actual';
+		this[item + 'AggregateSave'] = '';
 	}
 
 
@@ -397,7 +401,7 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 
 	onDropToSlot(ev: DragEvent, field: 'xAxis' | 'yAxis' | 'color' | 'text' | 'size', fieldName: string) {
 		ev.preventDefault();
-		//(ev.currentTarget as HTMLElement).classList.remove('drag-over');
+		this.removeItem(field);
 
 		const payload = ev.dataTransfer?.getData('payload');
 		if (payload) {
@@ -410,7 +414,7 @@ export class AnalyticsCreateReportComponent implements OnInit, OnDestroy {
 		// const text = ev.dataTransfer?.getData('text/plain')?.trim();
 		// if (!text) return;
 	
-		// this[field] = text; // REPLACE behavior
+		// this[field] = text;
 	}
 
 
