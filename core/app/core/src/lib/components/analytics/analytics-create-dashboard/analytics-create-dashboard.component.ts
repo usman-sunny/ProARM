@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { StupidDataService } from '../../../services/stupid-data/stupid-data.service';
-import { ActivatedRoute } from '@angular/router';
-import { map, Observable, Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map, Observable, Subscription, tap } from 'rxjs';
 import { CdkDragDrop, CdkDragMove, CdkDragEnd } from '@angular/cdk/drag-drop';
 import type { ECharts, EChartsOption, SeriesOption } from 'echarts';
 import { buildEChartsOptions } from '../build-echarts-options';
@@ -50,6 +50,7 @@ export class AnalyticsCreateDashboardComponent implements OnInit, OnDestroy {
     constructor(
         private stupidService: StupidDataService,
         private route: ActivatedRoute,
+        private router: Router,
     ) { }
 
     ngOnInit(): void {
@@ -67,6 +68,21 @@ export class AnalyticsCreateDashboardComponent implements OnInit, OnDestroy {
                         }))
                     )
                 );
+            
+            if (this.dashboardId) {
+                this.stupidService.nltGetDashboardData(this.dashboardId).pipe(
+                    tap(data => {
+                        this.dashboardName = data.dashboardName;
+
+                        const layoutData = data.layoutData;
+
+                        this.canvasReports = layoutData.map(r => ({
+                            ...r,
+                            options: buildEChartsOptions(r),
+                        }));
+                    })
+                ).subscribe();
+            }
         }
     }
 
@@ -128,11 +144,6 @@ export class AnalyticsCreateDashboardComponent implements OnInit, OnDestroy {
     }
 
     saveDashboard(): void {
-        console.log('saveDashboard');
-        console.log('canvasReports', this.canvasReports);
-        console.log('dashboardName', this.dashboardName);
-
-
         const layoutData = this.canvasReports.map(report => ({
             reportId: report.id,
             x: report.x,
@@ -148,10 +159,11 @@ export class AnalyticsCreateDashboardComponent implements OnInit, OnDestroy {
             layoutData: layoutData,
         };
 
-        console.log('data in saveDashboard after refining: ', data);
-
         this.stupidService.nltSaveDashboard(data).subscribe((response: any) => {
-            console.log('response in saveDashboard', response);
+            if (response.success) {
+                this.dashboardId = response.dashboardId;
+                this.router.navigate(['/pd_collections', this.collectionId, 'viewdashboard', this.dashboardId]);
+            }
         });
     }
 

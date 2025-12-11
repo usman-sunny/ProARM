@@ -1,0 +1,33 @@
+<div class="nlt-view-dashboard-container">
+
+    <ng-container *ngIf="dashboardData$ | async as dashboardData">
+        <div class="nlt-dashboard-dview-head">
+            <div class="nlt-dashboard-dview-title">{{ dashboardName }}</div>
+            <div class="nlt-dashboard-dview-btn-group">
+                <div class="nlt-dashboard-dview-delete-btn">Delete</div>
+                <div (click)="navToEditView()" class="nlt-dashboard-dview-edit-btn">Edit</div>
+            </div>
+        </div>
+        
+        <div class="nlt-dashboard-view-content-area">
+
+            <div *ngFor="let report of dashboardData"
+                class="nlt-vd-body-item"
+                [style.left.px]="report.x"
+                [style.top.px]="report.y"
+                [style.width.px]="report.width"
+                [style.height.px]="report.height"
+            >
+                <div class="nlt-vd-report-title">{{report.name}}</div>
+                <div class="nlt-vd-chart-area">
+                    <div echarts 
+                         [options]="report.options" 
+                         class="nlt-vd-chart-actual">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </ng-container>
+</div>

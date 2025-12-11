@@ -56,6 +56,7 @@ import {
     AnalyticsCreateDashboardComponent,
     AnalyticsCreateReportComponent,
     ViewReportComponent,
+    AnalyticsViewDashboardComponent,
 } from 'core';
 import {take} from 'rxjs/operators';
 
@@ -234,6 +235,8 @@ export class AppInit {
                                         {path: 'view/:reportId', component: ViewReportComponent},
                                         {path: 'edit/:reportId', component: AnalyticsCreateReportComponent},
                                         {path: 'createdashboard', component: AnalyticsCreateDashboardComponent},
+                                        {path: 'viewdashboard/:dashboardId', component: AnalyticsViewDashboardComponent},
+                                        {path: 'editdashboard/:dashboardId', component: AnalyticsCreateDashboardComponent},
                                     ],
                                     canActivate: [AuthGuard],
                                     runGuardsAndResolvers: 'always',

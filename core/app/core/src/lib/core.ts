@@ -749,5 +749,6 @@ export * from './components/analytics/analytics-create-report/analytics-create-r
 export * from './components/analytics/analytics-report-modal/analytics-report-modal.component';
 export * from './components/analytics/analytics-view-report/analytics-view-report.component';
 export * from './components/analytics/analytics-chart/analytics-chart.component';
+export * from './components/analytics/analytics-view-dashboard/analytics-view-dashboard.component';
 
 // Custom Components - End

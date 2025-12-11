@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {Subscription} from 'rxjs';
+import {Subscription, tap} from 'rxjs';
 import {StupidDataService} from '../../../services/stupid-data/stupid-data.service';
 
 @Component({
@@ -37,23 +37,11 @@ export class AnalyticsBaseNavComponent implements OnInit, OnDestroy {
             this.reports = data;
         }));
 
-        this.dashboards = [
-            {
-                id: 1,
-                name: 'Dashboard A',
-                picture: 'cstm-nlt-ph2'
-            },
-            {
-                id: 2,
-                name: 'Dashboard B',
-                picture: 'cstm-nlt-ph2'
-            },
-            {
-                id: 3,
-                name: 'Dashboard C',
-                picture: 'cstm-nlt-ph2'
-            }
-        ];
+        this.subs.push(this.stupidService.nltGetAllDashboards(this.collectionId).pipe(
+            tap((data: any[]) => {
+                this.dashboards = data;
+            })
+        ).subscribe());
 
         this.tables = [
             {

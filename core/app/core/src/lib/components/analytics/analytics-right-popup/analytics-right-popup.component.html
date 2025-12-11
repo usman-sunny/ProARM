@@ -2,13 +2,25 @@
 
 	<div class="nlt-right-popup-header">
 
-        <div *ngFor="let item of listItems" 
-			routerLink="/pd_collections/{{collectionId}}/view/{{item.id}}" 
-			class="nlt-dashboard-list-item"
-		>
-            <scrm-image image="cstm-nlt-reports"></scrm-image>
-            <div class="nlt-dashboard-list-text">{{item.name}}</div>
-        </div>
+		<ng-container *ngIf="popupType === 'reports'">
+			<div *ngFor="let item of listItems" 
+				routerLink="/pd_collections/{{collectionId}}/view/{{item.id}}" 
+				class="nlt-dashboard-list-item"
+			>
+				<scrm-image image="cstm-nlt-reports"></scrm-image>
+				<div class="nlt-dashboard-list-text">{{item.name}}</div>
+			</div>
+		</ng-container>
+
+		<ng-container *ngIf="popupType === 'dashboards'">
+			<div *ngFor="let item of listItems" 
+				routerLink="/pd_collections/{{collectionId}}/viewdashboard/{{item.id}}" 
+				class="nlt-dashboard-list-item"
+			>
+				<scrm-image image="cstm-nlt-dashboards"></scrm-image>
+				<div class="nlt-dashboard-list-text">{{item.name}}</div>
+			</div>
+		</ng-container>
 
 	</div>
 

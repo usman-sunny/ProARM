@@ -17,6 +17,7 @@ import {AnalyticsCreateReportComponent} from './analytics-create-report/analytic
 import {AnalyticsReportModalComponent} from './analytics-report-modal/analytics-report-modal.component';
 import {ViewReportComponent} from './analytics-view-report/analytics-view-report.component';
 import {AnalyticsChartComponent} from './analytics-chart/analytics-chart.component';
+import {AnalyticsViewDashboardComponent} from './analytics-view-dashboard/analytics-view-dashboard.component';
 import {ImageModule} from '../image/image.module';
 
 @NgModule({
@@ -32,6 +33,7 @@ import {ImageModule} from '../image/image.module';
         AnalyticsReportModalComponent,
         ViewReportComponent,
         AnalyticsChartComponent,
+        AnalyticsViewDashboardComponent,
     ],
     exports: [
         AnalyticsComponent, 
@@ -45,6 +47,7 @@ import {ImageModule} from '../image/image.module';
         AnalyticsReportModalComponent,
         ViewReportComponent,
         AnalyticsChartComponent,
+        AnalyticsViewDashboardComponent,
     ],
     imports: [
         CommonModule,

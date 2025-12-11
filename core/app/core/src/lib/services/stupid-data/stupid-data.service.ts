@@ -24,6 +24,38 @@ export class StupidDataService {
 
     /**
      * Analytics API call 
+     * to get all dashboards
+     * 
+     * ***/
+    private nltGetAllDashboardsUrl = 'legacy/index.php?module=pd_analytics&action=nltGetAllDashboards&sugar_body_only=true';
+    private nltGetAllDashboardsObject = new BehaviorSubject<any>(null);
+    public nltGetAllDashboards$ = this.nltGetAllDashboardsObject.asObservable();
+    
+    nltGetAllDashboards(collectionId: string): Observable<any> {
+        let params = new HttpParams().set('collectionId', collectionId);
+        return this.http.get<any>(this.nltGetAllDashboardsUrl, { params }).pipe(
+            tap(value => this.nltGetAllDashboardsObject.next(value))
+        );
+    }
+
+    /**
+     * Analytics API call 
+     * to get dashboard data
+     * 
+     * ***/
+    private nltGetDashboardDataUrl = 'legacy/index.php?module=pd_analytics&action=nltGetDashboardData&sugar_body_only=true';
+    private nltGetDashboardDataObject = new BehaviorSubject<any>(null);
+    public nltGetDashboardData$ = this.nltGetDashboardDataObject.asObservable();
+    
+    nltGetDashboardData(id: string): Observable<any> {
+        let params = new HttpParams().set('dashboard_id', id);
+        return this.http.get<any>(this.nltGetDashboardDataUrl, { params }).pipe(
+            tap(value => this.nltGetDashboardDataObject.next(value))
+        );
+    }
+
+    /**
+     * Analytics API call 
      * to save dashboard
      * 
      * ***/

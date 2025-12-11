@@ -1042,14 +1042,133 @@ class pd_analyticsController extends SugarController {
      ***/
     public function action_nltGetAllReports() {
         $data = json_decode(file_get_contents('php://input'), true);
-        // $GLOBALS['log']->fatal("log 6754 data: " . print_r($data, 1));
         $collectionId = $data['collectionId'];
 
         $collectionData = [];
         $collectionData = getCollectionData('pd_reports', $collectionId, $collectionData);
-        //$GLOBALS['log']->fatal("log 6754 In collectionData: " . print_r($collectionData, 1));
 
-        echo json_encode($collectionData);
+        foreach ($collectionData as &$report) {
+            $query = $report['data_query'];
+            $chartData = getChartData(html_entity_decode($query));
+            $chartData = json_decode($chartData, true);
+            $report['chartData'] = $chartData;
+        }
+
+        $cleanReports = array_map(fn($r) => [
+            'id'    => $r['id'],
+            'name'        => $r['name'],
+            'reportType' => $r['report_type'],
+            'filterData' => $r['filter_data'],
+            'chartData'   => $r['chartData'],
+        ], $collectionData);
+
+        echo json_encode($cleanReports);
+        exit();
+    }
+
+
+    /**
+     * api endpoint for 
+     * analytics part to 
+     * save a dashboard
+     * 
+     * ***/
+    public function action_nltSaveDashboard() {
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $collectionId = $data['collectionId'];
+        $dashboardName = $data['dashboardName'];
+        $dashboardId = $data['dashboardId'];
+        $layoutData = $data['layoutData'];
+
+        if(!empty($dashboardId)){
+            $dashboardBean = BeanFactory::getBean('pd_dashboard', $dashboardId);
+        }
+        else{
+            $dashboardBean = BeanFactory::newBean('pd_dashboard');
+        }
+
+        $dashboardBean->name = $dashboardName;
+        $dashboardBean->layout_data = json_encode($layoutData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $dashboardBean->collection_id = $collectionId;
+        $dashboardId = $dashboardBean->save();
+
+        echo json_encode(["success" => true , "dashboardId" => $dashboardId]);
+        exit();
+    }
+
+
+    /**
+     * api endpoint for 
+     * analytics part to 
+     * get dashboard data
+     * 
+     * ***/
+    public function action_nltGetDashboardData() {
+        $dashboardId = $_GET['dashboard_id'];
+
+        $dashboardBean = BeanFactory::getBean('pd_dashboard', $dashboardId);
+        $dashboardName = $dashboardBean->name;
+        $layoutJson = html_entity_decode($dashboardBean->layout_data, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        $layoutData = json_decode($layoutJson, true) ?? [];
+
+        $finalLayoutData = [];
+
+        foreach ($layoutData as $item) {
+            $reportId = $item['reportId'];
+            $reportBean = BeanFactory::getBean('pd_reports', $reportId);
+            $reportData = $reportBean->data_query;
+            $chartData = getChartData(html_entity_decode($reportData));
+            $chartData = json_decode($chartData, true);
+
+            $finalLayoutData[] = [
+                'id' => $reportId,
+                'chartData' => $chartData,
+                'name' => $reportBean->name,
+                'reportType' => $reportBean->report_type,
+                'width' => $item['width'],
+                'height' => $item['height'],
+                'x' => $item['x'],
+                'y' => $item['y'],
+                'filterData' => '',
+            ];
+        }
+
+        $response = [
+            'dashboardName' => $dashboardName,
+            'layoutData' => $finalLayoutData,
+        ];
+
+        echo json_encode($response);
+        exit();
+    }
+
+
+    /**
+     * api endpoint for 
+     * analytics part to 
+     * get all dashboards
+     * 
+     * ***/
+    public function action_nltGetAllDashboards() {
+        $collectionId = $_GET['collectionId'];
+        $dashboardData = [];
+
+        //$dashboardData = getCollectionData('pd_dashboard', $collectionId, $dashboardData);
+
+        global $db;
+        $sql = "SELECT * FROM pd_dashboard WHERE deleted = 0 AND collection_id = " . $db->quoted($collectionId);
+        $result = $db->query($sql);
+        while($row = $db->fetchByAssoc($result)){
+            $dashboardData[] = $row;
+        }
+
+        $cleanDashboards = array_map(fn($d) => [
+            'id' => $d['id'],
+            'name' => $d['name'],
+        ], $dashboardData);
+        
+        echo json_encode($cleanDashboards);
         exit();
     }
 
@@ -1349,7 +1468,7 @@ class pd_analyticsController extends SugarController {
         exit();
     }
 
-    public function action_nltGetCollectionData() {
+    public function action_nltGetCollectionData() { 
         global $db;
         $collectionData = [];
         $collectionId = $_GET['collectionId'];
@@ -1364,7 +1483,7 @@ class pd_analyticsController extends SugarController {
         $response['collectionName'] = $collectionName;
         $response['collectionData'] = $collectionData;
 
-        // $GLOBALS['log']->fatal("log 6754 in nltGetCollectionData response: " . print_r($response, 1));
+        $GLOBALS['log']->fatal("log 6754 in nltGetCollectionData response: " . print_r($response, 1));
         echo json_encode($response);
         exit();
     }
