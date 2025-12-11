@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -19,6 +19,7 @@ export class AnalyticsRightPopupComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
+        private router: Router,
     ) { }
 
     ngOnInit(): void {
@@ -28,6 +29,9 @@ export class AnalyticsRightPopupComponent implements OnInit {
     toggleMiniPopup(): void {
         if (this.popupType === 'reports') {
             this.isMiniPopupVisible = !this.isMiniPopupVisible;
+        }
+        if (this.popupType === 'dashboards') {
+            this.router.navigate(['/pd_collections', this.collectionId, 'createdashboard']);
         }
     }
 

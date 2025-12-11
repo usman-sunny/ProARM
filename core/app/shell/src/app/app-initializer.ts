@@ -233,6 +233,7 @@ export class AppInit {
                                         {path: 'createreport', component: AnalyticsCreateReportComponent},
                                         {path: 'view/:reportId', component: ViewReportComponent},
                                         {path: 'edit/:reportId', component: AnalyticsCreateReportComponent},
+                                        {path: 'createdashboard', component: AnalyticsCreateDashboardComponent},
                                     ],
                                     canActivate: [AuthGuard],
                                     runGuardsAndResolvers: 'always',

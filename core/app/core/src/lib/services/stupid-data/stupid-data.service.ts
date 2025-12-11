@@ -24,6 +24,21 @@ export class StupidDataService {
 
     /**
      * Analytics API call 
+     * to save dashboard
+     * 
+     * ***/
+    private nltSaveDashboardUrl = 'legacy/index.php?module=pd_analytics&action=nltSaveDashboard&sugar_body_only=true';
+    private nltSaveDashboardObject = new BehaviorSubject<any>(null);
+    public nltSaveDashboard$ = this.nltSaveDashboardObject.asObservable();
+    
+    nltSaveDashboard(data: any): Observable<any> {
+        return this.http.post<any>(this.nltSaveDashboardUrl, data).pipe(
+            tap(value => this.nltSaveDashboardObject.next(value))
+        );
+    }
+
+    /**
+     * Analytics API call 
      * to get collection data
      * 
      * ***/

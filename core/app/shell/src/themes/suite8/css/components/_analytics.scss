@@ -212,6 +212,7 @@
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    overflow-y: auto;
 
     .nltcs-card {
       width: 291px;

@@ -1,7 +1,98 @@
-<div class="create-dashboard-container">
+<div class="nlt-create-dashboard-container">
 
-    <div>
-        <p>createDashboard works!</p>
+    <div class="nlt-cd-left-box">
+        <div class="nlt-cd-bar-one">
+            <div class="nlt-cd-bar-item">
+                <div>
+                    <scrm-image image="cstm-nlt-reports"></scrm-image>
+                </div>
+                <div class="nlt-cd-bar-item-text">Reports</div>
+            </div>
+        </div>
+
+        <!-- fields selection area - left side -->
+        <div class="nlt-cd-bar-two">
+            <div class="nlt-cd-top-text">Drag and Drop the Reports</div>
+
+            <ng-container *ngIf="reports$ | async as availableReports">
+                <div class="nlt-cd-content-items"
+                    cdkDropList
+                    [cdkDropListData]="availableReports"
+                    id="paletteList"
+                    [cdkDropListConnectedTo]="['canvasList']"
+                >
+                    
+                    <div *ngFor="let report of availableReports" 
+                        class="nlt-cd-content-item"
+                        cdkDrag
+                        [cdkDragData]="report"
+                    >
+                        <div>
+                            <scrm-image image="cstm-nlt-pie-2"></scrm-image>
+                        </div>
+                        <div class="nlt-cd-content-item-text">{{report.name}}</div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
     </div>
 
+    <div class="nlt-cd-body-main">
+        
+        <!-- dashboard name input, save button, and more button -->
+        <div class="nlt-cd-body-header">
+            <input class="nlt-cd-custom-input" type="text" placeholder="Untitled" [(ngModel)]="dashboardName">
+
+            <div (click)="saveDashboard()" class="nlt-cd-save-btn">
+                <scrm-image image="cstm-nlt-save"></scrm-image>
+                <div class="nlt-cd-save-btn-text">Save</div>
+            </div>
+
+            <div class="nlt-cd-more-btn">
+                <scrm-image image="three_dots"></scrm-image>
+            </div>
+        </div>
+
+        <div class="nlt-cd-body-canvas"
+            #canvas
+            cdkDropList
+            id="canvasList"
+            [cdkDropListConnectedTo]="['paletteList']"
+            (cdkDropListDropped)="dropOnCanvas($event)"
+        >
+            <!-- <div class="nlt-cd-body-placeholder">Drag and drop reports here</div> -->
+
+            <div *ngFor="let report of canvasReports"
+                class="nlt-cd-body-item widget"
+                cdkDrag
+                [cdkDragBoundary]="canvas"
+                [style.left.px]="report.x"
+                [style.top.px]="report.y"
+                [style.width.px]="report.width"
+                [style.height.px]="report.height"
+                (cdkDragEnded)="onReportDragEnd($event, report)"
+            >
+                <div class="nlt-cd-report-title">{{report.name}}</div>
+                <div class="nlt-cd-chart-area">
+                    <div echarts 
+                         [options]="report.options" 
+                         class="nlt-cd-chart-actual" 
+                         (chartInit)="onChartInit($event, report)">
+                    </div>
+                </div>
+
+                <!-- right handle -->
+                <div class="resize-handle-right"
+                     (mousedown)="startHorizontalResize($event, report)">
+                </div>
+
+                <!-- bottom handle -->
+                <div class="resize-handle-bottom"
+                     (mousedown)="startVerticalResize($event, report)">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </div>
