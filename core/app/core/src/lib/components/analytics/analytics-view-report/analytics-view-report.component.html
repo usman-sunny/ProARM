@@ -1,14 +1,16 @@
 <div class="view-report-container">
 
-    <div class="nlt-report-dview-head">
-        <div class="nlt-report-dview-title">{{ reportName }}</div>
-        <div class="nlt-report-dview-btn-group">
-            <div class="nlt-report-dview-delete-btn">Delete</div>
-            <div (click)="navToEditView()" class="nlt-report-dview-edit-btn">Edit</div>
+    <ng-container *ngIf="report$ | async">
+        <div class="nlt-report-dview-head">
+            <div class="nlt-report-dview-title">{{ reportName }}</div>
+            <div class="nlt-report-dview-btn-group">
+                <div class="nlt-report-dview-delete-btn">Delete</div>
+                <div (click)="navToEditView()" class="nlt-report-dview-edit-btn">Edit</div>
+            </div>
         </div>
-    </div>
-    
-    <div class="nlt-reports-view-chart-area">
-        <div echarts [options]="chartOptions" (chartInit)="onChartInit($event)" class="nlt-reports-dview-chart"></div>
-    </div>
+        
+        <div class="nlt-reports-view-chart-area">
+            <div echarts [options]="chartOptions" (chartInit)="onChartInit($event)" class="nlt-reports-dview-chart"></div>
+        </div>
+    </ng-container>
 </div>

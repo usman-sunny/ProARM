@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { StupidDataService } from '../../../services/stupid-data/stupid-data.service';
 import type { ECharts, EChartsOption, SeriesOption  } from 'echarts';
 import { Router } from '@angular/router';
+import { Observable, tap } from 'rxjs';
 
 @Component({
     selector: 'scrm-view-report',
@@ -16,6 +17,7 @@ export class ViewReportComponent implements OnInit {
     yAxisData: any[] = [];
     chartType: string = '';
     reportName: string = '';
+    report$!: Observable<any[]>;
 
     chartOptions: EChartsOption = {
         tooltip: {},
@@ -38,20 +40,15 @@ export class ViewReportComponent implements OnInit {
     ngOnInit(): void {
         this.collectionId = this.route.parent?.snapshot.paramMap.get('collectionId');
         this.reportId = this.route.snapshot.paramMap.get('reportId');
-        console.log("showing child  id: ", this.reportId);
-        this.stupidService.nltViewReport({ id: this.reportId }).subscribe(value => {
-            if (value) {
+
+        this.report$ = this.stupidService.nltViewReport({ id: this.reportId }).pipe(
+            tap(value => {
                 this.xAxisData = value?.chartData?.xAxis || [];
                 this.yAxisData = value?.chartData?.series || [];
                 this.chartType = value?.reportType || 'bar';
                 this.reportName = value?.reportName || '';
-
-                // This displayChart() is called when the chart is saved
-                if (this.chart) {
-                    this.displayChart();
-                }
-            }
-        });
+            })
+        );
     }
 
     displayChart() {
@@ -102,7 +99,7 @@ export class ViewReportComponent implements OnInit {
     onChartInit(ec: ECharts) {
 		this.chart = ec;
         
-        // this displayChart() is called when page reloads
+        // this displayChart() is called when chart is initialized
         if (this.xAxisData && this.yAxisData && this.xAxisData.length > 0) {
             this.displayChart();
         }
