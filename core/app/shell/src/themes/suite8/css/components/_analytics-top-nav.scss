@@ -84,6 +84,8 @@
             left: 0px;
             top: 32px;
             z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
 
             .ntl-workspaces-dropdown-item {
                 width: 270px;

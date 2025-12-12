@@ -13,13 +13,19 @@
         <!-- Workspaces Dropdown -->
         <div class="ntl-workspaces-dropdown">
             <div class="ntl-workspaces-dropdown-btn">
-                <div class="ntl-workspaces-text">Collection A</div>
+                <div class="ntl-workspaces-text">{{activeCollection?.name}}</div>
                 <scrm-image image="cstm-nlt-arrow"></scrm-image>
             </div>
-            <div class="ntl-workspaces-dropdown-content">
-                <div class="ntl-workspaces-dropdown-item">Collection A</div>
-                <div class="ntl-workspaces-dropdown-item">Collection B</div>
-            </div>
+            <ng-container *ngIf="collections$ | async as collectionsData">
+                <div class="ntl-workspaces-dropdown-content">
+                    <div *ngFor="let collection of collectionsData.collections"
+                         class="ntl-workspaces-dropdown-item"
+                         [routerLink]="['/pd_collections', collection.id]"
+                    >
+                        {{collection.name}}
+                    </div>
+                </div>
+            </ng-container>
         </div>
         
     </div>

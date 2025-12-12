@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {Subscription} from 'rxjs';
+import {Router, ActivatedRoute} from '@angular/router';
+import {Observable, Subscription, tap} from 'rxjs';
+import {StupidDataService} from '../../../services/stupid-data/stupid-data.service';
 
 @Component({
     selector: 'scrm-analytics-top-nav',
@@ -8,21 +9,29 @@ import {Subscription} from 'rxjs';
 })
 export class AnalyticsTopNavComponent implements OnInit, OnDestroy {
     protected subs: Subscription[] = [];
-    
-    // Search functionality
     searchQuery: string = '';
-    
-    // Tab navigation
     activeTab: string = 'workspaces';
-    
+    collectionId: string = '';
+    activeCollection: any = null;
+    collections$!: Observable<any>;
 
     constructor(
-        private router: Router
+        private router: Router,
+        private stupidService: StupidDataService,
+        private route: ActivatedRoute,
     ) {
     }
 
     ngOnInit(): void {
-        
+        this.collectionId = this.route.snapshot.paramMap.get('collectionId');
+
+        this.collections$ = this.stupidService.nltGetCollections().pipe(
+            tap(data => {
+                this.activeCollection = data.collections.find(
+                    collection => collection.id === this.collectionId
+                );
+            })
+        );
     }
 
     ngOnDestroy(): void {
@@ -43,8 +52,5 @@ export class AnalyticsTopNavComponent implements OnInit, OnDestroy {
     setActiveTab(tab: string): void {
         this.activeTab = tab;
     }
-    
-    
-  
-    
+
 }
