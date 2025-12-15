@@ -22,6 +22,53 @@ export class StupidDataService {
 
     constructor(private http: HttpClient) {}
 
+
+
+    /**
+     * Analytics API call 
+     * to delete a collection
+     * 
+     * ***/
+    private nltDeleteCollectionUrl = 'legacy/index.php?module=pd_analytics&action=nltDeleteCollection&sugar_body_only=true';
+    private nltDeleteCollectionObject = new BehaviorSubject<any>(null);
+    public nltDeleteCollection$ = this.nltDeleteCollectionObject.asObservable();
+    
+    nltDeleteCollection(data: any): Observable<any> {
+        return this.http.post<any>(this.nltDeleteCollectionUrl, data).pipe(
+            tap(value => this.nltDeleteCollectionObject.next(value))
+        );
+    }
+
+    /**
+     * Analytics API call 
+     * to delete a dashboard
+     * 
+     * ***/
+    private nltDeleteDashboardUrl = 'legacy/index.php?module=pd_analytics&action=nltDeleteDashboard&sugar_body_only=true';
+    private nltDeleteDashboardObject = new BehaviorSubject<any>(null);
+    public nltDeleteDashboard$ = this.nltDeleteDashboardObject.asObservable();
+    
+    nltDeleteDashboard(data: any): Observable<any> {
+        return this.http.post<any>(this.nltDeleteDashboardUrl, data).pipe(
+            tap(value => this.nltDeleteDashboardObject.next(value))
+        );
+    }
+
+    /**
+     * Analytics API call 
+     * to delete a report
+     * 
+     * ***/
+    private nltDeleteReportUrl = 'legacy/index.php?module=pd_analytics&action=nltDeleteReport&sugar_body_only=true';
+    private nltDeleteReportObject = new BehaviorSubject<any>(null);
+    public nltDeleteReport$ = this.nltDeleteReportObject.asObservable();
+    
+    nltDeleteReport(data: any): Observable<any> {
+        return this.http.post<any>(this.nltDeleteReportUrl, data).pipe(
+            tap(value => this.nltDeleteReportObject.next(value))
+        );
+    }
+
     /**
      * Analytics API call 
      * to get all dashboards

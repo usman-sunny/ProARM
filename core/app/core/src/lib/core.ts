@@ -750,5 +750,6 @@ export * from './components/analytics/analytics-report-modal/analytics-report-mo
 export * from './components/analytics/analytics-view-report/analytics-view-report.component';
 export * from './components/analytics/analytics-chart/analytics-chart.component';
 export * from './components/analytics/analytics-view-dashboard/analytics-view-dashboard.component';
+export * from './components/analytics/analytics-delete-modal/analytics-delete-modal.component';
 
 // Custom Components - End

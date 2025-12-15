@@ -1070,6 +1070,61 @@ class pd_analyticsController extends SugarController {
     /**
      * api endpoint for 
      * analytics part to 
+     * delete a report
+     * 
+     * ***/
+    public function action_nltDeleteReport() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $reportId = $data['report_id'];
+        global $db;
+        $sql = "DELETE FROM pd_reports WHERE id = " . $db->quoted($reportId);
+        $result = $db->query($sql);
+        echo json_encode(["success" => true]);
+        exit();
+    }
+
+
+    /**
+     * api endpoint for 
+     * analytics part to 
+     * delete a dashboard
+     * 
+     * ***/
+    public function action_nltDeleteDashboard() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $dashboardId = $data['dashboard_id'];
+        global $db;
+        $sql = "DELETE FROM pd_dashboard WHERE id = " . $db->quoted($dashboardId);
+        $result = $db->query($sql);
+        echo json_encode(["success" => true]);
+        exit();
+    }
+
+
+    /**
+     * api endpoint for 
+     * analytics part to 
+     * delete a collection
+     * 
+     * ***/
+    public function action_nltDeleteCollection() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $collectionId = $data['collection_id'];
+        global $db;
+        $sql = "DELETE FROM pd_dashboard WHERE collection_id = " . $db->quoted($collectionId);
+        $result = $db->query($sql);
+        $sql = "DELETE FROM pd_reports WHERE collection_id = " . $db->quoted($collectionId);
+        $result = $db->query($sql);
+        $sql = "DELETE FROM pd_collections WHERE id = " . $db->quoted($collectionId);
+        $result = $db->query($sql);
+        echo json_encode(["success" => true]);
+        exit();
+    }
+
+
+    /**
+     * api endpoint for 
+     * analytics part to 
      * save a dashboard
      * 
      * ***/

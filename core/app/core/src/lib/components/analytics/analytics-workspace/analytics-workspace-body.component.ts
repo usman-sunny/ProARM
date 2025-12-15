@@ -11,6 +11,8 @@ export class AnalyticsWorkspaceBodyComponent implements OnInit, OnDestroy {
     protected subs: Subscription[] = [];
     collectionId: string = '';
     collectionData$ = this.stupidService.nltGetCollectionData$;
+    isDeleteModalVisible: boolean = false;
+    reportId: string = '';
     //collectionName: string = '';
     //wspaces: any[] = [];
 
@@ -42,6 +44,22 @@ export class AnalyticsWorkspaceBodyComponent implements OnInit, OnDestroy {
 
     openCard(cardId: string): void {
         this.router.navigate(['/pd_collections', this.collectionId, 'view', cardId]);
+    }
+
+    openDeleteModal(event: Event, id: string): void {
+        event.stopPropagation();
+        this.reportId = id;
+        this.isDeleteModalVisible = true;
+    }
+
+    closeDeleteModal(): void {
+        this.isDeleteModalVisible = false;
+        this.reportId = '';
+    }
+
+    editReport(event: Event, id: string): void {
+        event.stopPropagation();
+        this.router.navigate(['/pd_collections', this.collectionId, 'edit', id]);
     }
 
 }

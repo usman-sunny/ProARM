@@ -74,8 +74,17 @@
                                 <div class="nltcs-header-favourite">
                                     <scrm-image image="cstm_fvrt_star"></scrm-image>
                                 </div>
-                                <div class="nltcs-header-edit">
-                                    <scrm-image image="three_dots"></scrm-image>
+                                
+                                <!-- edit/delete Dropdown -->
+                                <div class="ntl-collection-dropdown">
+                                    <div class="ntl-collection-dropdown-btn">
+                                        <scrm-image image="three_dots"></scrm-image>
+                                    </div>
+
+                                    <div class="ntl-collection-dropdown-content">
+                                        <div class="ntl-collection-dropdown-item">Edit</div>
+                                        <div (click)="openDeleteModal($event, collection.id)" class="ntl-collection-dropdown-item">Delete</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -120,3 +129,9 @@
         </div>
     </div>
 </div>
+
+<scrm-analytics-delete-modal *ngIf="isDeleteModalVisible" 
+                             (closeModal)="closeDeleteModal()"
+                             [deleteId]="collectionId"
+                             [deleteType]="'collection'">
+</scrm-analytics-delete-modal>

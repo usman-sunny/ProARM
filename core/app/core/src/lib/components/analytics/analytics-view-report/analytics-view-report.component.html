@@ -4,7 +4,7 @@
         <div class="nlt-report-dview-head">
             <div class="nlt-report-dview-title">{{ reportName }}</div>
             <div class="nlt-report-dview-btn-group">
-                <div class="nlt-report-dview-delete-btn">Delete</div>
+                <div (click)="openDeleteModal()" class="nlt-report-dview-delete-btn">Delete</div>
                 <div (click)="navToEditView()" class="nlt-report-dview-edit-btn">Edit</div>
             </div>
         </div>
@@ -14,3 +14,10 @@
         </div>
     </ng-container>
 </div>
+
+
+<scrm-analytics-delete-modal *ngIf="isDeleteModalVisible" 
+                             (closeModal)="closeDeleteModal()"
+                             [deleteId]="reportId"
+                             [deleteType]="'report'">
+</scrm-analytics-delete-modal>

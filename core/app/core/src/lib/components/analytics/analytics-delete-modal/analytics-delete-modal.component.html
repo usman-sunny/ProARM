@@ -1,0 +1,22 @@
+<div class="nlt-delete-modal-freeze-layer">
+    <div class="nlt-delete-modal-main">
+
+        <div class="nlt-delete-modal-header">
+            <div class="nlt-delete-modal-title">Delete</div>
+            <div (click)="closeModalWindow()" class="nlt-delete-modal-close-btn">
+                <scrm-image image="cross"></scrm-image>
+            </div>
+        </div>
+
+        <div class="nlt-delete-modal-body">
+            <div class="nlt-delete-modal-inner-text">Are you sure you want to delete this {{deleteType}}?</div>
+        </div>
+
+        <div class="nlt-delete-modal-footer">
+            <div (click)="closeModalWindow()" class="nlt-delete-modal-cancel-btn">Cancel</div>
+
+            <div (click)="delete()" class="nlt-delete-modal-ok-btn">OK</div>
+        </div>
+
+    </div>
+</div>

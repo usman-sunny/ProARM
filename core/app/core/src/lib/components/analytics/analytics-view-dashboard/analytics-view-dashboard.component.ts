@@ -14,6 +14,7 @@ export class AnalyticsViewDashboardComponent implements OnInit {
     dashboardName: string = '';
     dashboardData$!: Observable<any[]>;
     collectionId: string = '';
+    isDeleteModalVisible: boolean = false;
 
     constructor(
         private stupidService: StupidDataService,
@@ -44,5 +45,13 @@ export class AnalyticsViewDashboardComponent implements OnInit {
 
     navToEditView(): void {
         this.router.navigate(['/pd_collections', this.collectionId, 'editdashboard', this.dashboardId]);
+    }
+
+    openDeleteModal(): void {
+        this.isDeleteModalVisible = true;
+    }
+
+    closeDeleteModal(): void {
+        this.isDeleteModalVisible = false;
     }
 }

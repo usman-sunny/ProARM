@@ -18,6 +18,7 @@ export class ViewReportComponent implements OnInit {
     chartType: string = '';
     reportName: string = '';
     report$!: Observable<any[]>;
+    isDeleteModalVisible: boolean = false;
 
     chartOptions: EChartsOption = {
         tooltip: {},
@@ -107,6 +108,14 @@ export class ViewReportComponent implements OnInit {
 
     navToEditView(): void {
         this.router.navigate(['/pd_collections', this.collectionId, 'edit', this.reportId]);
+    }
+
+    openDeleteModal(): void {
+        this.isDeleteModalVisible = true;
+    }
+
+    closeDeleteModal(): void {
+        this.isDeleteModalVisible = false;
     }
 
 }

@@ -16,6 +16,8 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
     collectionNameError: boolean = false;
     isCollectionPopupVisible: boolean = false;
     collections$ = this.stupidService.nltGetCollections$;
+    isDeleteModalVisible: boolean = false;
+    collectionId: string = '';
 
     constructor(
         private router: Router,
@@ -94,5 +96,16 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
         this.subs.push(this.stupidService.nltGetCollections().subscribe(value => {
             console.log('response getCollections value: ', value);
         }));
+    }
+
+    openDeleteModal(event: Event, id: string): void {
+        event.stopPropagation();
+        this.collectionId = id;
+        this.isDeleteModalVisible = true;
+    }
+
+    closeDeleteModal(): void {
+        this.isDeleteModalVisible = false;
+        this.collectionId = '';
     }
 } 
