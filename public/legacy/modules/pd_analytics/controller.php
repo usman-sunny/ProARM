@@ -1227,6 +1227,23 @@ class pd_analyticsController extends SugarController {
         exit();
     }
 
+    /**
+     * Analytics API call endpoint
+     * analytics part to 
+     * edit a collection name
+     * 
+     * ***/
+    public function action_nltEditCollection() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $collectionId = $data['collection_id'];
+        $collectionName = $data['collection_name'];
+        global $db;
+        $sql = "UPDATE pd_collections SET name = " . $db->quoted($collectionName) . " WHERE id = " . $db->quoted($collectionId);
+        $result = $db->query($sql);
+        echo json_encode(["success" => true]);
+        exit();
+    }
+
 
     public function action_getReportData() {
         $reportId = $_GET['report_id'];

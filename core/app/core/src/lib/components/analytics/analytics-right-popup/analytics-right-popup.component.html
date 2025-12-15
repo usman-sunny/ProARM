@@ -1,109 +1,110 @@
 <div class="nlt-right-popup">
+	<div class="nlt-right-popup-inside">
 
-	<div class="nlt-right-popup-header">
+		<div class="nlt-right-popup-header">
 
-		<ng-container *ngIf="popupType === 'reports'">
-			<div *ngFor="let item of listItems" 
-				routerLink="/pd_collections/{{collectionId}}/view/{{item.id}}" 
-				class="nlt-dashboard-list-item"
-			>
-				<scrm-image image="cstm-nlt-reports"></scrm-image>
-				<div class="nlt-dashboard-list-text">{{item.name}}</div>
-			</div>
-		</ng-container>
+			<ng-container *ngIf="popupType === 'reports'">
+				<div *ngFor="let item of listItems" 
+					routerLink="/pd_collections/{{collectionId}}/view/{{item.id}}" 
+					class="nlt-dashboard-list-item"
+				>
+					<scrm-image image="cstm-nlt-reports"></scrm-image>
+					<div class="nlt-dashboard-list-text">{{item.name}}</div>
+				</div>
+			</ng-container>
 
-		<ng-container *ngIf="popupType === 'dashboards'">
-			<div *ngFor="let item of listItems" 
-				routerLink="/pd_collections/{{collectionId}}/viewdashboard/{{item.id}}" 
-				class="nlt-dashboard-list-item"
-			>
-				<scrm-image image="cstm-nlt-dashboards"></scrm-image>
-				<div class="nlt-dashboard-list-text">{{item.name}}</div>
-			</div>
-		</ng-container>
+			<ng-container *ngIf="popupType === 'dashboards'">
+				<div *ngFor="let item of listItems" 
+					routerLink="/pd_collections/{{collectionId}}/viewdashboard/{{item.id}}" 
+					class="nlt-dashboard-list-item"
+				>
+					<scrm-image image="cstm-nlt-dashboards"></scrm-image>
+					<div class="nlt-dashboard-list-text">{{item.name}}</div>
+				</div>
+			</ng-container>
 
-	</div>
-
-	<div class="nlt-popup-btn" (click)="toggleMiniPopup()">
-		
-		<div class="nlt-popup-btn-icon">
-			<scrm-image image="cstm-nlt-plus"></scrm-image>
 		</div>
 
-		<div class="nlt-popup-btn-text">
-			Create New {{ popupType }}
-		</div>
+		<div class="nlt-popup-btn" (click)="toggleMiniPopup()">
 			
-	</div>
+			<div class="nlt-popup-btn-icon">
+				<scrm-image image="cstm-nlt-plus"></scrm-image>
+			</div>
 
+			<div class="nlt-popup-btn-text">
+				Create New {{ popupType }}
+			</div>
+				
+		</div>
+
+		<!-- Mini Popup Menu -->
+		<div *ngIf="popupType === 'reports' && isMiniPopupVisible" class="nlt-mini-popup-menu">
+			<div class="nlt-mini-popup-title">Create New Reports</div>
+
+			<div class="nlt-mini-popup-items">
+
+				<div (click)="openReportModal('chart')" class="nlt-mini-popup-item">
+					<div class="nlt-mini-popup-item-icon">
+						<scrm-image image="cstm-nlt-reports"></scrm-image>
+					</div>
+					<div class="nlt-mini-popup-item-text">
+						<div class="nlt-mini-popup-text-title">Chart View</div>
+						<div class="nlt-mini-popup-text-body">
+							Chart View allows you to create 
+							a graphical view using different 
+							types of charts.
+						</div>
+					</div>
+				</div>
+
+				<!-- <div (click)="openReportModal('pivot')" class="nlt-mini-popup-item">
+					<div class="nlt-mini-popup-item-icon">
+						<scrm-image image="cstm-nlt-ph1"></scrm-image>
+					</div>
+					<div class="nlt-mini-popup-item-text">
+						<div class="nlt-mini-popup-text-title">Pivot View</div>
+						<div class="nlt-mini-popup-text-body">
+							Pivot View allows you to view 
+							data summarized in a grid both 
+							in horizontal and vertical columns.
+						</div>
+					</div>
+				</div>
+
+				<div (click)="openReportModal('summary')" class="nlt-mini-popup-item">
+					<div class="nlt-mini-popup-item-icon">
+						<scrm-image image="cstm-nlt-ph2"></scrm-image>
+					</div>
+					<div class="nlt-mini-popup-item-text">
+						<div class="nlt-mini-popup-text-title">Summary View</div>
+						<div class="nlt-mini-popup-text-body">
+							Summary View allows you to view 
+							data with grouping and data 
+							summaries.
+						</div>
+					</div>
+				</div>
+
+				<div (click)="openReportModal('tabular')" class="nlt-mini-popup-item">
+					<div class="nlt-mini-popup-item-icon">
+						<scrm-image image="cstm-nlt-ph3"></scrm-image>
+					</div>
+					<div class="nlt-mini-popup-item-text">
+						<div class="nlt-mini-popup-text-title">Tabular View</div>
+						<div class="nlt-mini-popup-text-body">
+							Tabular View provides you a way 
+							to list your values in a simple 
+							tabular format.
+						</div>
+					</div>
+				</div> -->
+
+			</div>
+		</div>
+		<!-- Mini Popup Menu - End -->
+
+    </div>
 </div>
-
-
-<!-- Mini Popup Menu -->
-<div *ngIf="popupType === 'reports' && isMiniPopupVisible" class="nlt-mini-popup-menu">
-	<div class="nlt-mini-popup-title">Create New Reports</div>
-
-	<div class="nlt-mini-popup-items">
-
-		<div (click)="openReportModal('chart')" class="nlt-mini-popup-item">
-			<div class="nlt-mini-popup-item-icon">
-				<scrm-image image="cstm-nlt-reports"></scrm-image>
-			</div>
-			<div class="nlt-mini-popup-item-text">
-				<div class="nlt-mini-popup-text-title">Chart View</div>
-				<div class="nlt-mini-popup-text-body">
-					Chart View allows you to create 
-					a graphical view using different 
-					types of charts.
-				</div>
-			</div>
-		</div>
-
-		<div (click)="openReportModal('pivot')" class="nlt-mini-popup-item">
-			<div class="nlt-mini-popup-item-icon">
-				<scrm-image image="cstm-nlt-ph1"></scrm-image>
-			</div>
-			<div class="nlt-mini-popup-item-text">
-				<div class="nlt-mini-popup-text-title">Pivot View</div>
-				<div class="nlt-mini-popup-text-body">
-					Pivot View allows you to view 
-					data summarized in a grid both 
-					in horizontal and vertical columns.
-				</div>
-			</div>
-		</div>
-
-		<div (click)="openReportModal('summary')" class="nlt-mini-popup-item">
-			<div class="nlt-mini-popup-item-icon">
-				<scrm-image image="cstm-nlt-ph2"></scrm-image>
-			</div>
-			<div class="nlt-mini-popup-item-text">
-				<div class="nlt-mini-popup-text-title">Summary View</div>
-				<div class="nlt-mini-popup-text-body">
-					Summary View allows you to view 
-					data with grouping and data 
-					summaries.
-				</div>
-			</div>
-		</div>
-
-		<div (click)="openReportModal('tabular')" class="nlt-mini-popup-item">
-			<div class="nlt-mini-popup-item-icon">
-				<scrm-image image="cstm-nlt-ph3"></scrm-image>
-			</div>
-			<div class="nlt-mini-popup-item-text">
-				<div class="nlt-mini-popup-text-title">Tabular View</div>
-				<div class="nlt-mini-popup-text-body">
-					Tabular View provides you a way 
-					to list your values in a simple 
-					tabular format.
-				</div>
-			</div>
-		</div>
-
-	</div>
-</div>
-<!-- Mini Popup Menu - End -->
 
 
 <!-- Report Modal Window -->

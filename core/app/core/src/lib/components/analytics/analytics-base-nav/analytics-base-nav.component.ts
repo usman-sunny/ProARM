@@ -16,6 +16,8 @@ export class AnalyticsBaseNavComponent implements OnInit, OnDestroy {
     
     popupType: string = '';
     isPopupVisible: boolean = false;
+    isQuickCreatePopupVisible: boolean = false;
+    isReportModalVisible: boolean = false;
 
     listItems: any[] = [];
     dashboards: any[] = [];
@@ -87,13 +89,32 @@ export class AnalyticsBaseNavComponent implements OnInit, OnDestroy {
             this.popupType = type;
             this.isPopupVisible = true;
         }
-        
+
+        this.isQuickCreatePopupVisible = false;
         // this.isPopupVisible = !this.isPopupVisible;
     }
 
     closeRightPopup(): void {
         this.isPopupVisible = false;
         this.popupType = '';
+    }
+
+    toggleQuickCreatePopup(): void {
+        this.isQuickCreatePopupVisible = !this.isQuickCreatePopupVisible;
+        this.closeRightPopup();
+    }
+
+    openQuickCreateViews(type: string): void {
+        if (type === 'reports') {
+            this.isReportModalVisible = true;
+        } else if (type === 'dashboards') {
+            this.router.navigate(['/pd_collections', this.collectionId, 'createdashboard']);
+        }
+        this.isQuickCreatePopupVisible = false;
+    }
+
+    closeReportModal(): void {
+        this.isReportModalVisible = false;
     }
 
 }

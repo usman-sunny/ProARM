@@ -45,3 +45,75 @@
     }
 
 }
+
+.nlt-quick-create-popup {
+    width: 18.75rem;
+    height: 18rem;
+    background-color: #FFFFFF;
+    border: 1px solid #ECEDEE;
+    border-radius: 0.5rem;
+    padding: 10px 4px;
+    position: absolute;
+    top: 56px;
+    left: 78px;
+    z-index: 1200;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .nlt-cc-popup-title {
+        font-family: "Inter", sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        color: #333333;
+        padding-left: 18px;
+    }
+
+    .nlt-cc-popup-items {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .nlt-cc-popup-item {
+        display: flex;
+        padding: 10px 20px;
+        border-radius: 8px;
+        
+        &:hover {
+            background-color: #F4F7F6;
+            cursor: pointer;
+        }
+
+        .nlt-cc-popup-item-icon {
+            margin-right: 0.5rem;
+            
+            svg {
+                width: 1.75rem !important;
+                height: 1.75rem !important;
+            }
+        }
+
+
+        .nlt-cc-popup-item-text {
+            display: flex;
+            flex-direction: column;
+
+            .nlt-cc-popup-text-title {
+                font-family: "Inter", sans-serif;
+                font-size: 13px;
+                font-weight: 500;
+                color: #000000;
+            }
+
+            .nlt-cc-popup-text-body {
+                font-family: "Inter", sans-serif;
+                font-size: 13px;
+                font-weight: 400;
+                color: #666666;
+                line-height: normal;
+            }
+        }
+    }
+
+}

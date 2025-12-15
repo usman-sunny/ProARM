@@ -22,7 +22,20 @@ export class StupidDataService {
 
     constructor(private http: HttpClient) {}
 
-
+    /**
+     * Analytics API call 
+     * to edit a collection name
+     * 
+     * ***/
+    private nltEditCollectionUrl = 'legacy/index.php?module=pd_analytics&action=nltEditCollection&sugar_body_only=true';
+    private nltEditCollectionObject = new BehaviorSubject<any>(null);
+    public nltEditCollection$ = this.nltEditCollectionObject.asObservable();
+    
+    nltEditCollection(data: any): Observable<any> {
+        return this.http.post<any>(this.nltEditCollectionUrl, data).pipe(
+            tap(value => this.nltEditCollectionObject.next(value))
+        );
+    }
 
     /**
      * Analytics API call 

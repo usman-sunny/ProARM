@@ -18,6 +18,10 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
     collections$ = this.stupidService.nltGetCollections$;
     isDeleteModalVisible: boolean = false;
     collectionId: string = '';
+    isEditCollectionModalVisible: boolean = false;
+    editCollectionId: string = '';
+    editCollectionName: string = '';
+    sameCollectionName: string = '';
 
     constructor(
         private router: Router,
@@ -107,5 +111,36 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
     closeDeleteModal(): void {
         this.isDeleteModalVisible = false;
         this.collectionId = '';
+    }
+
+    openEditCollectionModal(event: Event, id: string, name: string): void {
+        event.stopPropagation();
+        this.editCollectionId = id;
+        this.editCollectionName = name;
+        this.sameCollectionName = name;
+        this.isEditCollectionModalVisible = true;
+    }
+
+    closeEditCollectionModal(): void {
+        this.isEditCollectionModalVisible = false;
+        this.editCollectionId = '';
+        this.editCollectionName = '';
+        this.sameCollectionName = '';
+    }
+
+    editCollection(): void {
+        if (this.editCollectionName.trim() !== '' && this.editCollectionName !== this.sameCollectionName) {
+            const data = {
+                collection_id: this.editCollectionId,
+                collection_name: this.editCollectionName,
+            };
+            this.stupidService.nltEditCollection(data).subscribe();
+            this.closeEditCollectionModal();
+            this.router.navigate(['/pd_analytics']);
+        } else {
+            this.closeEditCollectionModal();
+            alert('Please enter a different collection name');
+        }
+        
     }
 } 

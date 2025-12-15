@@ -2,7 +2,7 @@
 
     <div class="nlt-base-nav-items">
 
-        <div class="nlt-base-nav-item">
+        <div (click)="toggleQuickCreatePopup()" class="nlt-base-nav-item">
             <div class="nlt-nav-plus-btn">
                 <scrm-image image="cstm-nlt-plus"></scrm-image>
             </div>
@@ -82,3 +82,45 @@
     </ng-container>
     
 </div>
+
+
+<!-- Quick Create Popup -->
+<div *ngIf="isQuickCreatePopupVisible" class="nlt-quick-create-popup">
+
+	<div class="nlt-cc-popup-title">Create New Reports/Dashboards</div>
+
+	<div class="nlt-cc-popup-items">
+
+		<div (click)="openQuickCreateViews('reports')" class="nlt-cc-popup-item">
+			<div class="nlt-cc-popup-item-icon">
+				<scrm-image image="cstm-nlt-reports"></scrm-image>
+			</div>
+			<div class="nlt-cc-popup-item-text">
+				<div class="nlt-cc-popup-text-title">Create New Report</div>
+				<div class="nlt-cc-popup-text-body">
+					Report allows you to create a new report 
+                    with different views and filters.
+				</div>
+			</div>
+		</div>
+
+		<div (click)="openQuickCreateViews('dashboards')" class="nlt-cc-popup-item">
+			<div class="nlt-cc-popup-item-icon">
+				<scrm-image image="cstm-nlt-dashboards"></scrm-image>
+			</div>
+			<div class="nlt-cc-popup-item-text">
+				<div class="nlt-cc-popup-text-title">Create New Dashboard</div>
+				<div class="nlt-cc-popup-text-body">
+					Dashboard allows you to combine multiple 
+                    reports in a single page for a 
+                    quick overview
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Report Modal Window -->
+<ng-container *ngIf="isReportModalVisible">
+	<scrm-analytics-report-modal (closeModal)="closeReportModal()"></scrm-analytics-report-modal>
+</ng-container>

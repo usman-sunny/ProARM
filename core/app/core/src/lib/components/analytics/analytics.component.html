@@ -82,7 +82,7 @@
                                     </div>
 
                                     <div class="ntl-collection-dropdown-content">
-                                        <div class="ntl-collection-dropdown-item">Edit</div>
+                                        <div (click)="openEditCollectionModal($event, collection.id, collection.name)" class="ntl-collection-dropdown-item">Edit</div>
                                         <div (click)="openDeleteModal($event, collection.id)" class="ntl-collection-dropdown-item">Delete</div>
                                     </div>
                                 </div>
@@ -135,3 +135,28 @@
                              [deleteId]="collectionId"
                              [deleteType]="'collection'">
 </scrm-analytics-delete-modal>
+
+
+<!-- edit Collection name modal -->
+<div *ngIf="isEditCollectionModalVisible" class="nlt-edit-collection-freeze-layer">
+    <div class="nlt-ec-modal-main">
+
+        <div class="nlt-ec-modal-header">
+            <div class="nlt-ec-modal-title">Edit Collection Name</div>
+            <div (click)="closeEditCollectionModal()" class="nlt-ec-modal-close-btn">
+                <scrm-image image="cross"></scrm-image>
+            </div>
+        </div>
+
+        <div class="nlt-ec-modal-body">
+            <div class="nlt-ec-modal-inner-text">Collection Name:</div>
+            <input type="text" class="nlt-ec-modal-input" [(ngModel)]="editCollectionName">
+        </div>
+
+        <div class="nlt-ec-modal-footer">
+            <div (click)="closeEditCollectionModal()" class="nlt-ec-modal-cancel-btn">Cancel</div>
+            <div (click)="editCollection()" class="nlt-ec-modal-ok-btn">OK</div>
+        </div>
+
+    </div>
+</div>
